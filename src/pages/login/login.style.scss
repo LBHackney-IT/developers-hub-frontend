@@ -1,0 +1,10 @@
+#login-page {
+  display: flex;
+  flex-flow: wrap column;
+  align-content: center;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  #login-form {
+    width: 35%;
+  }
+}

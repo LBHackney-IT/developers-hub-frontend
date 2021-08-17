@@ -1,0 +1,21 @@
+#app-footer {
+  position: relative;
+  padding: 20px 20px 20px 10px;
+  display: flex;
+  background: black;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  .footer-col {
+    text-align: center;
+    position: relative;
+    margin-top: 0px;
+    flex: 1 0;
+    a {
+      text-decoration: none;
+      color: white;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
