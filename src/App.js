@@ -25,10 +25,11 @@ const App = () => {
       const loggedIn = false;
       if (loggedIn) {
         setCurrentUser({
-          name: "Alex",
-          email: "a@gmail.com",
-          password: "aeCEHu374AUHi",
-          passwordKey: "advhieahvia"
+
+          // name: "Alex",
+          // email: "a@gmail.com",
+          // password: "aeCEHu374AUHi",
+          // passwordKey: "advhieahvia"
         })
       }
     })();
