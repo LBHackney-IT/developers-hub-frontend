@@ -84,7 +84,7 @@ const LoginPage = ({ history, currentUser: user }) => {
         <Button type="submit">Submit</Button>
       </form>
       <a
-        href="https://auth.hackney.gov.uk/auth?redirect_uri=http://localhost:3000/"
+        href="https://auth.hackney.gov.uk/auth?redirect_uri=http://localhost:3000/register"
         role="button"
         draggable="false"
         class="govuk-button lbh-button"

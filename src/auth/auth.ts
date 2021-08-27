@@ -4,10 +4,10 @@ import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { BehaviorSubject } from 'rxjs';
 
-// import { config } from '../config';
-const Authorisation = () => {
-   return (
-     <
+import { config } from '../config';
+// const Authorisation = () => {
+//    return (
+//      <
 export interface JWTPayload {
   sub: string;
   email: string;
@@ -29,6 +29,7 @@ const voidUser: AuthUser = {
   name: '',
   groups: [],
   iat: Number.NaN,
+
 };
 
 const parseToken = (): AuthUser => {
@@ -49,10 +50,10 @@ const parseToken = (): AuthUser => {
   }
 };
 
-);
-};
-/>
-};
+// );
+// };
+// />
+// };
 export const $auth = new BehaviorSubject(parseToken());
 // export default voidUser;
-export default Authorisation;
+// export default Authorisation;
