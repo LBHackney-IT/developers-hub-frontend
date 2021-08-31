@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
-import APP_PATHS from "../../APP_PATHS.js";
+// import APP_PATHS from "../../APP_PATHS.js";
 import { withRouter } from "react-router-dom";
-import { API_TABLE, API_GROUP_TABLE, API_TAG_TABLE } from "../../mock_data/API_MOCK_DATA.js";
+// import { API_TABLE, API_GROUP_TABLE, API_TAG_TABLE } from "../../mock_data/API_MOCK_DATA.js";
+import ApiPreview from "../../components/apiPreview/apiPreview.component";
 
 const ApisPage = ({ history, currentUser: user }) => {
-  if (!user) history.push(APP_PATHS.home);
+  // if (!user) history.push(APP_PATHS.home);
 
-  const [currentUser, setCurrentUser] = useState(user);
+  // const [currentUser, setCurrentUser] = useState(user);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
-  
+
   useEffect(() => {
-    fetch("https://api.swaggerhub.com/apis/Hackney?page=2&limit=10")
+    fetch("https://api.swaggerhub.com/apis/Hackney?page=0&limit=10")
       .then(res => res.json())
       .then(
         (result) => {
@@ -36,11 +37,10 @@ const ApisPage = ({ history, currentUser: user }) => {
   } else {
     return (
       <div id="apis-page" className="page">
+        <h1>All APIs</h1>
         <ul>
-          {items.map(item => (
-            <li key={item.id}>
-              {item.name}: {item.description}
-            </li>
+          {items.map((item, index) => (
+            < ApiPreview key={index} {...item} />
           ))}
         </ul>
       </div>
