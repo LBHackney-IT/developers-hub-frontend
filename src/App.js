@@ -23,7 +23,7 @@ const App = () => {
     (async () => {
       // Swap with API call after it is implemented
       const loggedIn = false;
-      if (loggedIn) {
+      if (!loggedIn) {
         setCurrentUser({
           name: "Alex",
           email: "a@gmail.com",
