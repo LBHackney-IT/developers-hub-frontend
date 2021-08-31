@@ -22,18 +22,25 @@ const App = () => {
   useEffect(() => {
     (async () => {
       // Swap with API call after it is implemented
-      const loggedIn = false;
-      if (loggedIn) {
-        setCurrentUser({
 
-          // name: "Alex",
-          // email: "a@gmail.com",
+      const loggedIn = false;
+
+      if (currentUser) {
+          setLoggedIn()
+        }
+      })
+      // if (loggedIn) {
+      //   setCurrentUser({
+      //
+      //     name: ,
+      //     email: "a@gmail.com",
           // password: "aeCEHu374AUHi",
           // passwordKey: "advhieahvia"
-        })
-      }
-    })();
-  }, []);
+        // })
+  //     // }
+ })
+ // ();
+ //  }, []);
 
   return (
     <UserContext.Provider value={currentUser}>
