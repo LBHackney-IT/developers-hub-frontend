@@ -1,10 +1,9 @@
 // Font
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
 
-// Module Styling
-@import "node_modules/lbh-frontend/lbh/base";
-@import "node_modules/lbh-frontend/lbh/core/all";
-@import "node_modules/lbh-frontend/lbh/objects/all";
+// Import LBH Frontend library
+$lbh-asset-path: "~lbh-frontend/lbh/assets";
+@import "~lbh-frontend/lbh/all";
 
 // Component Styling
 @import "./components/header/header.style.scss";
@@ -12,6 +11,7 @@
 @import "./components/form-input/form-input.style.scss";
 @import "./components/button/button.style.scss";
 @import "./components/footer/footer.style.scss";
+@import "./components/apiPreview/apiPreview.style.scss";
 
 // Page Styling
 @import "./pages/login/login.style.scss";

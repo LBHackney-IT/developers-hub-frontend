@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import UserContext from "./context/user.context.js";
-
-import './App.css';
 import { Route, Switch } from "react-router-dom";
 
 import APP_PATHS from "./APP_PATHS.js";
@@ -37,24 +35,28 @@ const App = () => {
   return (
     <React.Fragment>
       <Header currentUser={currentUser} />
-      <Switch>
-        <Route
-          exact path={APP_PATHS.home}render={ () => (
-            <HomePage currentUser={currentUser} />
-          )} />
-        <Route
-          exact path={APP_PATHS.login} render={ () => (
-            <LoginPage currentUser={currentUser} />
-          )} />
-        <Route
-          exact path={APP_PATHS.register} render={ () => (
-            <RegisterPage currentUser={currentUser} />
-          )} />
-        <Route
-          exact path={APP_PATHS.allApis} render={ () => (
-            <ApisPage currentUser={currentUser} />
-          )} />
-      </Switch>
+      <main class="lbh-main-wrapper" id="main-content" role="main">
+        <div class="lbh-container">
+          <Switch>
+            <Route
+              exact path={APP_PATHS.home}render={ () => (
+                <HomePage currentUser={currentUser} />
+              )} />
+            <Route
+              exact path={APP_PATHS.login} render={ () => (
+                <LoginPage currentUser={currentUser} />
+              )} />
+            <Route
+              exact path={APP_PATHS.register} render={ () => (
+                <RegisterPage currentUser={currentUser} />
+              )} />
+            <Route
+              exact path={APP_PATHS.allApis} render={ () => (
+                <ApisPage currentUser={currentUser} />
+              )} />
+          </Switch>
+        </div>
+      </main>
       <Footer />
     </React.Fragment>
   );

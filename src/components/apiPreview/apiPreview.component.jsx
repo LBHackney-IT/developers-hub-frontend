@@ -2,10 +2,10 @@ import React from "react";
 
 const ApiPreview = ({name, description}) => {
   return (
-    <li><p>
-      <b style={{"font-weight": "bold"}}>{name}</b>: <br/> 
-      {description}
-    </p></li>
+    <li className="apiPreview">
+      <h3>{name}</h3>
+      <p>{description}</p>
+    </li>
   );
 };
 
