@@ -1,6 +1,23 @@
-#apisList .apiPreview {
+#apisList > .apiPreview {
     padding: 10px;
     border: 1px solid rgba(173,171,171,.4);
     border-radius: 3px;
     list-style-type: none;
+
+    .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .lbh-tag {
+            margin: 0px;
+        }
+    }
+
+    .tags {
+        display: flex;
+        align-items: center;
+        .lbh-tag {
+            margin: 10px;
+        }
+    }
 }
