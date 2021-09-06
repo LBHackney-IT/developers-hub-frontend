@@ -13,7 +13,7 @@ const ApisPage = ({ history, currentUser: user }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch("https://api.swaggerhub.com/apis/Hackney?page=0&limit=10")
+    fetch("https://api.swaggerhub.com/apis/Hackney?page=0&limit=5")
       .then(res => res.json())
       .then(
         (result) => {

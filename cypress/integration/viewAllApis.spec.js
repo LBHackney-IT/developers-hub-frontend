@@ -5,8 +5,9 @@ describe("View all APIs", () => {
         cy.contains("All APIs").should('be.visible');
     });
     
-    it("View 10 APIs by default", () => {
-        const expectedCount = 10;
-        cy.get('ul').get('li').should('have.length', expectedCount);
+    it("View 5 APIs by default", () => {
+        const expectedCount = 5;
+        cy.get('ul#apisList').get('li.apiPreview').should('have.length', expectedCount);
     });
+    
 });
