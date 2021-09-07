@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 // import { API_TABLE, API_GROUP_TABLE, API_TAG_TABLE } from "../../mock_data/API_MOCK_DATA.js";
 import ApiPreview from "../../components/apiPreview/apiPreview.component";
+import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component";
 
 const ApisPage = ({ history, currentUser: user }) => {
   // if (!user) history.push(APP_PATHS.home);
@@ -37,6 +38,7 @@ const ApisPage = ({ history, currentUser: user }) => {
   } else {
     return (
       <div id="apis-page" className="page">
+        <Breadcrumbs/>
         <h1>API Catalogue</h1>
         <ul id="apisList">
           {items.map((item, index) => (

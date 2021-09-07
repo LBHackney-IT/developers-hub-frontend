@@ -3,6 +3,11 @@ import Link from "../link/link.component.jsx";
 import APP_PATHS from "../../APP_PATHS.js";
 
 const Header = ({ currentUser }) => {
+
+  const alwaysVisibleLinks = APP_PATHS.filter(appPath => appPath.alwaysVisible);
+  const signedOutLinks = APP_PATHS.filter(appPath => appPath.signedOutVisible);
+  const signedInLinks = APP_PATHS.filter(appPath => appPath.signedInVisible);
+
   return (
       <div id="header">
         <header className="lbh-header ">
@@ -59,17 +64,19 @@ const Header = ({ currentUser }) => {
                 </a>
               </h1>
               <div className="nav-items">
-                <Link className="nav-item lbh-body-m">HOME</Link>
-                <Link className="nav-item lbh-body-m" href={APP_PATHS.allApis}>APIs</Link>
-                <Link className="nav-item lbh-body-m">CONTACT US</Link>
+                { alwaysVisibleLinks.map(appPath => (
+                    <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
+                  ))
+                }
                 {
                   currentUser ? (
-                    <Link className="nav-item lbh-body-m">LOGOUT</Link>
+                    signedInLinks.map(appPath => (
+                      <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
+                    ))
                   ) : (
-                    <React.Fragment>
-                      <Link className="nav-item lbh-body-m" href={APP_PATHS.login}>LOGIN</Link>
-                      <Link className="nav-item lbh-body-m" href={APP_PATHS.register}>SIGNUP</Link>
-                    </React.Fragment>
+                    signedOutLinks.map(appPath => (
+                      <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
+                    ))
                   )
                 }
               </div>

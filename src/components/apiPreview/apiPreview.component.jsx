@@ -9,9 +9,9 @@ const ApiPreview = ({name, description}) => {
       </div>
       <p>{description}</p>
       <div className="tags">
-        <span class="govuk-tag lbh-tag lbh-tag--green">Development</span>
-        <span class="govuk-tag lbh-tag lbh-tag--green">Staging</span>
-        <span class="govuk-tag lbh-tag lbh-tag--green">Production</span>
+        <span className="govuk-tag lbh-tag lbh-tag--green">Development</span>
+        <span className="govuk-tag lbh-tag lbh-tag--green">Staging</span>
+        <span className="govuk-tag lbh-tag lbh-tag--green">Production</span>
       </div>
     </li>
   );

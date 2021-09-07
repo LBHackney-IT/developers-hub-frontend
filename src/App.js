@@ -2,17 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import UserContext from "./context/user.context.js";
 import { Route, Switch } from "react-router-dom";
 
-import APP_PATHS from "./APP_PATHS.js";
+import APP_PATHS from "./APP_PATHS";
 
 // Components
 import Header from "./components/header/header.component.jsx";
 import Footer from "./components/footer/footer.component.jsx";
 
-// Pages
-import HomePage from "./pages/home/home.page.jsx";
-import LoginPage from "./pages/login/login.page.jsx"
-import RegisterPage from "./pages/register/register.page.jsx";
-import ApisPage from "./pages/apispage/apis.page.jsx";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(useContext(UserContext));
@@ -35,25 +30,12 @@ const App = () => {
   return (
     <React.Fragment>
       <Header currentUser={currentUser} />
-      <main class="lbh-main-wrapper" id="main-content" role="main">
-        <div class="lbh-container">
+      <main className="lbh-main-wrapper" id="main-content" role="main">
+        <div className="lbh-container">
           <Switch>
-            <Route
-              exact path={APP_PATHS.home}render={ () => (
-                <HomePage currentUser={currentUser} />
-              )} />
-            <Route
-              exact path={APP_PATHS.login} render={ () => (
-                <LoginPage currentUser={currentUser} />
-              )} />
-            <Route
-              exact path={APP_PATHS.register} render={ () => (
-                <RegisterPage currentUser={currentUser} />
-              )} />
-            <Route
-              exact path={APP_PATHS.allApis} render={ () => (
-                <ApisPage currentUser={currentUser} />
-              )} />
+            {APP_PATHS.map(({ path, Component }, key) => (
+              <Route exact path={path} key={key} render={() => (<Component currentUser={currentUser} />) } />
+            ))}
           </Switch>
         </div>
       </main>
