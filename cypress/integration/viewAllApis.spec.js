@@ -1,8 +1,8 @@
 describe("View all APIs", () => {
 
     it("View title", () => {
-        cy.visit("/apis");
-        cy.contains("All APIs").should('be.visible');
+        cy.visit("/api-catalogue");
+        cy.contains("API Catalogue").should('be.visible');
     });
     
     it("View 5 APIs by default", () => {

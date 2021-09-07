@@ -37,7 +37,7 @@ const ApisPage = ({ history, currentUser: user }) => {
   } else {
     return (
       <div id="apis-page" className="page">
-        <h1>All APIs</h1>
+        <h1>API Catalogue</h1>
         <ul id="apisList">
           {items.map((item, index) => (
             < ApiPreview key={index} {...item} />

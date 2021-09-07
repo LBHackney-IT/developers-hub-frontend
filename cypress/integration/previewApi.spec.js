@@ -5,7 +5,7 @@ describe("Preview an API", () => {
         cy.fixture("allApis").then((allApis) => {
             this.apiData = allApis.apis[0];
             cy.intercept('GET', '/apis/Hackney*', allApis).as("getAllApis");
-            cy.visit("/apis");
+            cy.visit("/api-catalogue");
         });
 
     });
@@ -34,6 +34,11 @@ describe("Preview an API", () => {
             .each((tag) => {
                 expect(tag.text()).to.be.oneOf(this.apiData.tags);
             });
+    });
+
+    it("When the user clicks on an API name they are directed to the SwaggerHub page", function() {
+        cy.get(".apiPreview").find("h3").first().click();
+        expect(cy.url()).to.equal(this.apiData.properties[0].url);
     });
 
 });
