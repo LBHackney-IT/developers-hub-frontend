@@ -24,6 +24,7 @@ $lbh-asset-path: "~lbh-frontend/lbh/assets";
 #root {
   margin-top: 0px !important;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .page {

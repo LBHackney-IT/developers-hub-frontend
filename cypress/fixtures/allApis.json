@@ -8,7 +8,7 @@
         {
             "name": "Test API",
             "description": "This is a specification for the Test API that allows us to test that the site is working as expected",
-            "tags": [],
+            "tags": ["Active", "Development"],
             "properties": [
                 {
                     "type": "Swagger",
