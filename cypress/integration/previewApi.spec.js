@@ -21,10 +21,11 @@ describe("Preview an API", () => {
     });
 
     it("View active status tag", function () {
-        const expectedClass = this.apiData.tags.includes("Active") ? "lbh-tag" : "lbh-tag--grey";
+        const isPublished = this.apiData.properties.filter( property => property.type === "X-Published")[0].value.toLowerCase() == "true";
+        const expectedClass = isPublished ? "lbh-tag" : "lbh-tag--grey";
         cy.get(".apiPreview").find(".title > span.govuk-tag").first().should(($tag) => {
             const tagText = $tag.text();
-            const expectedTagText = this.apiData.tags.includes("Active") ? "Active" : "Inactive";
+            const expectedTagText = isPublished ? "Active" : "Inactive";
             expect(tagText).to.equal(expectedTagText);
         }).should('have.class', expectedClass);
     });
@@ -44,7 +45,8 @@ describe("Preview an API", () => {
 
     it("When the user clicks on an API name they are directed to the SwaggerHub page", function() {
         cy.get(".apiPreview").find("a").first().click();
-        const expectedUrl = this.apiData.properties[0].url.replace("api", "app");
+        const apiUrl = this.apiData.properties.filter( property => property.type === "Swagger")[0].url;
+        const expectedUrl = apiUrl.replace("api", "app");
         cy.url().should('include', expectedUrl);
     });
 
