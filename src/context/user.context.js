@@ -1,6 +1,4 @@
-import { createContext } from "react";
-import { useContext } from 'react';
-import { useState } from 'react';
+import { createContext, useContext, useState, useCallback } from "react";
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 
@@ -8,20 +6,31 @@ const UserContext = createContext(null);
 
 // Create Usercontext
 
-const UserProvider = ({ children }) => {
-  // get cookie
-  // decode cookie value
-  const [ user, setUser ]= useState(jwtDecode || null)
+const parseToken = () => {
+    const token = Cookies.get('hackneyToken') || null;
+    
+    try {
+      const decodedToken = jwtDecode(token);
+        return decodedToken;
+    } catch(e) {
+        return null;
+    }
+}
 
-  const logoutUser = () => {
+export const UserProvider = ({ children }) => {
+  // decode cookie value
+  const [ user, setUser ]= useState(parseToken())
+
+  const logoutUser = useCallback(() => {
     setUser(null);
     // delete cookie
-  }
+    Cookies.remove('hackneyToken');
+  }, [])
 
   return <UserContext.Provider value={{ user, logout: logoutUser }}>{children}</UserContext.Provider>;
 }
 
-const useLoggedInUser = () => {
+export const useUser = () => {
   const { user } = useContext(UserContext);
   return user;
 }

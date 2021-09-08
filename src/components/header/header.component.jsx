@@ -2,7 +2,10 @@ import React from "react";
 import Link from "../link/link.component.jsx";
 import APP_PATHS from "../../APP_PATHS.js";
 
-const Header = ({ currentUser }) => {
+import { useUser } from '../../context/user.context'
+
+const Header = () => {
+  const currentUser = useUser();
   return (
       <div id="header">
         <header className="lbh-header ">
