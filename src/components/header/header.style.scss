@@ -16,3 +16,27 @@
     }
   }
 }
+
+.lbh-header__logo-text {
+  color: white !important;
+}
+.name{
+justify-content: center;
+align-items: center;
+font-weight: bold;
+cursor:pointer;
+&:hover {
+  opacity: 0.8;
+}
+&:active {
+  opacity: 0.6;
+}
+}
+
+@media (max-width: 576px) {
+  .lbh-container {
+    flex-flow: column wrap;
+    justify-content: left;
+    align-items: left;
+  }
+}

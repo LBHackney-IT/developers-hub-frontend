@@ -1528,6 +1528,24 @@ html {
     .nav-items .nav-item:active {
       opacity: 0.6; }
 
+.lbh-header__logo-text {
+  color: white !important; }
+
+.name {
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer; }
+  .name:hover {
+    opacity: 0.8; }
+  .name:active {
+    opacity: 0.6; }
+
+@media (max-width: 576px) {
+  .lbh-container {
+    flex-flow: column wrap;
+    justify-content: left;
+    align-items: left; } }
 .govuk-hint {
   font-family: "Open Sans";
   -webkit-font-smoothing: antialiased;
@@ -2118,6 +2136,127 @@ html {
       #app-footer .footer-col a:hover {
         text-decoration: underline; }
 
+.contact-container {
+  display: flex;
+  position: relative;
+  padding: 20px 0px 10px 0px;
+  width: 90%; }
+  .contact-container .enquiries-half {
+    display: flex;
+    flex-flow: column wrap;
+    flex: 1 0;
+    align-items: center; }
+  .contact-container .feedback-half {
+    display: flex;
+    align-items: center;
+    flex-flow: column wrap;
+    flex: 1 0;
+    margin-top: 0px; }
+  .contact-container .header-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 400px;
+    border: 12px solid #00664E;
+    background-color: #f8f8f8;
+    border-radius: 50%;
+    margin-bottom: 30px; }
+  .contact-container .header-circle :hover {
+    color: #00664D;
+    cursor: pointer; }
+  .contact-container .description-container {
+    width: 70%;
+    padding: 30px;
+    border: 4px solid #00664E;
+    background-color: #f8f8f8;
+    text-align: left; }
+    .contact-container .description-container .enquiries-list {
+      padding: 10px 20px 10px 30px; }
+      .contact-container .description-container .enquiries-list li {
+        text-align: left; }
+  .contact-container .description-container :hover {
+    cursor: pointer;
+    color: #00664D; }
+
+@media (max-width: 768px) {
+  .header-circle {
+    width: 200px !important;
+    height: 200px !important; }
+
+  .enquiries-half {
+    margin-bottom: 45px;
+    width: 100%; }
+
+  .feedback-half {
+    width: 100%; }
+
+  .contact-container {
+    flex-flow: column wrap; }
+
+  .description-container {
+    width: 50%; } }
+@media (max-width: 1000px) {
+  .header-circle {
+    width: 325px !important;
+    height: 325px !important; }
+
+  .contact-container {
+    flex-flow: column wrap; } }
+.main-container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  padding: 20px 0px 20px 0px;
+  width: 70%;
+  flex-flow: column wrap; }
+
+.info-wrapper {
+  display: flex;
+  flex-flow: row wrap; }
+
+.mission-container {
+  width: 100%;
+  height: 50%;
+  border: 2px solid #00664E;
+  background-color: #f8f8f8;
+  padding: 10px;
+  margin: 10px;
+  float: left; }
+
+.mission-container :hover {
+  cursor: pointer;
+  color: #00664E; }
+
+.info-container {
+  border: 2px solid #00664E;
+  background-color: #f8f8f8;
+  padding: 10px;
+  margin: 10px;
+  flex: 1;
+  word-wrap: break-word;
+  word-break: break-word; }
+
+.info-container :hover {
+  cursor: pointer;
+  color: #00664E; }
+
+@media (max-width: 576px) {
+  .info-wrapper {
+    flex-flow: column wrap; } }
+.sidebar {
+  text-align: center;
+  margin-top: 220px; }
+  .sidebar a {
+    display: block;
+    text-decoration: none;
+    word-wrap: break-word;
+    font-size: 22px;
+    color: #00664E;
+    font-weight: bold; }
+    .sidebar a:visited {
+      color: #00523e; }
+
 #login-page {
   display: flex;
   flex-flow: wrap column;
@@ -2143,7 +2282,31 @@ html {
   margin-top: 0px !important;
   min-height: 100vh; }
 
+#contact-page {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center; }
+
 .page {
-  min-height: 500px; }
+  min-height: 100vh; }
+
+a:hover {
+  cursor: pointer; }
+
+#home-page {
+  display: flex;
+  width: 95%;
+  justify-content: center;
+  align-items: flex-start; }
+  #home-page > .main-container {
+    flex: 3; }
+  #home-page > .sidebar {
+    flex: 1; }
+
+.navigation-header {
+  padding: 20px;
+  margin-left: 90px;
+  margin-right: 90px;
+  border-bottom: 1px solid gray; }
 
 /*# sourceMappingURL=App.css.map */

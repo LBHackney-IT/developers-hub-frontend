@@ -12,6 +12,9 @@
 @import "./components/form-input/form-input.style.scss";
 @import "./components/button/button.style.scss";
 @import "./components/footer/footer.style.scss";
+@import "./components/contact-container/contact-container.style.scss";
+@import "./components/home-container/home-container.style.scss";
+@import "./components/sidebar/sidebar.style.scss";
 
 // Page Styling
 @import "./pages/login/login.style.scss";
@@ -26,6 +29,38 @@
   min-height: 100vh;
 }
 
+#contact-page {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
 .page {
-  min-height: 500px;
+  min-height: 100vh;
+}
+
+a {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#home-page {
+    display: flex;
+    width: 95%;
+    justify-content: center;
+    align-items: flex-start;
+    > .main-container {
+      flex: 3;
+    }
+    > .sidebar {
+      flex: 1;
+    }
+}
+
+.navigation-header {
+  padding: 20px;
+  margin-left: 90px;
+  margin-right: 90px;
+  border-bottom: 1px solid gray;
 }

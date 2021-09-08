@@ -15,6 +15,7 @@ import HomePage from "./pages/home/home.page.jsx";
 import LoginPage from "./pages/login/login.page.jsx"
 import RegisterPage from "./pages/register/register.page.jsx";
 import ApisPage from "./pages/apispage/apis.page.jsx";
+import ContactPage from "./pages/contact/contact.page.jsx";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(useContext(UserContext));
@@ -41,27 +42,28 @@ const App = () => {
         <Route
           exact
           path={APP_PATHS.home}
-          render={
-             () => <HomePage currentUser={currentUser} />
-          } />
+          component={HomePage}
+          />
         <Route
           exact
           path={APP_PATHS.login}
-          render={
-             () => <LoginPage currentUser={currentUser} />
-          } />
+          component={LoginPage}
+          />
         <Route
           exact
           path={APP_PATHS.register}
-          render={
-             () => <RegisterPage currentUser={currentUser} />
-          } />
+          component={RegisterPage}
+          />
         <Route
           exact
           path={APP_PATHS.allApis}
-          render={
-             () => <ApisPage currentUser={currentUser} />
-          } />
+          component={ApisPage}
+          />
+        <Route
+          exact
+          path={APP_PATHS.contact}
+          component={ContactPage}
+          />
       </Switch>
       <Footer />
     </UserContext.Provider>

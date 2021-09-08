@@ -1,6 +1,8 @@
 import React from "react";
+import APP_PATHS from "../../APP_PATHS.js";
+import { withRouter } from "react-router-dom";
 
-const Footer = () => {
+const Footer = ({ history }) => {
   return (
     <footer id="app-footer">
       <div className="footer-col">
@@ -10,10 +12,10 @@ const Footer = () => {
         <a href="https://www.hackney.gov.uk/accessibility-help">Accessibility</a>
       </div>
       <div className="footer-col">
-        <a href="https://developer.api.hackney.gov.uk/">Contact us</a>
+        <a onClick={() => history.push(APP_PATHS.contact)}>Contact us</a>
       </div>
     </footer>
   );
 };
 
-export default Footer;
+export default withRouter(Footer);

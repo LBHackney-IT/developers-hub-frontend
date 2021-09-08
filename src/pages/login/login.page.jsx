@@ -5,6 +5,7 @@ import Button from "../../components/button/button.component.jsx";
 import { withRouter } from "react-router-dom";
 import APP_PATHS from "../../APP_PATHS.js";
 import { SOCKET_ADDRESS } from "../../APP_CONFIG.js";
+import withUser from "../../HOCs/with-user.hoc.js";
 
 const LoginPage = ({ history, currentUser: user }) => {
   if (user) history.push(APP_PATHS.home);
@@ -87,4 +88,4 @@ const LoginPage = ({ history, currentUser: user }) => {
   );
 };
 
-export default withRouter(LoginPage);
+export default withUser(LoginPage);
