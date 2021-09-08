@@ -3,7 +3,7 @@ import React from "react";
 const ApiPreview = ({name, description, tags, properties}) => {
 
   const apiUrl = properties.filter( property => property.type === "Swagger")[0].url;
-  const isPublished = properties.filter( property => property.type === "X-Published")[0].value.toLowerCase() == "true";
+  const isPublished = properties.filter( property => property.type === "X-Published")[0].value.toLowerCase() === "true";
 
   return (
     <li className="apiPreview">

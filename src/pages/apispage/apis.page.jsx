@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 // import APP_PATHS from "../../APP_PATHS.js";
 import { withRouter } from "react-router-dom";
 // import { API_TABLE, API_GROUP_TABLE, API_TAG_TABLE } from "../../mock_data/API_MOCK_DATA.js";
@@ -6,6 +7,7 @@ import ApiPreview from "../../components/apiPreview/apiPreview.component";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component";
 import Error from "../../components/error/error.component"
 import Radios from "../../components/radios/radios.component";
+import Pagination from "../../components/pagination/pagination.component";
 
 const ApisPage = ({ history, currentUser: user }) => {
   // if (!user) history.push(APP_PATHS.home);
@@ -13,7 +15,8 @@ const ApisPage = ({ history, currentUser: user }) => {
   // const [currentUser, setCurrentUser] = useState(user);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [apiMetadata, setApiMetadata] = useState({});
+  const [apis, setApis] = useState([]);
   const [queryParams, setQueryParams] = useState({
     specType: "API",
     owner: "Hackney",
@@ -31,19 +34,11 @@ const ApisPage = ({ history, currentUser: user }) => {
   const resetState = () => {
     setError(null);
     setIsLoaded(false);
-    setItems([]);
+    setApis([]);
   }
 
   const updateApiFilter = (newApiFilter) => {
-    var newState = ""
-    if(newApiFilter === "All APIs"){
-      newState = "ALL";
-    } else if(newApiFilter === "Active APIs") {
-      newState = "PUBLISHED";
-    } else {
-      newState = "UNPUBLISHED";
-    }
-    setQueryParams({...queryParams, state: newState});
+    setQueryParams({...queryParams, state: newApiFilter});
   }
 
   const parseQueryParams = () => {
@@ -57,7 +52,7 @@ const ApisPage = ({ history, currentUser: user }) => {
       .then(
         (result) => {
           setIsLoaded(true);
-          setItems(result.apis);
+          setApis(result.apis);
         },
         (error) => {
           setIsLoaded(true);
@@ -79,8 +74,9 @@ const ApisPage = ({ history, currentUser: user }) => {
               <Error title="Oops! Something went wrong!" summary={error.message} /> 
               :
               <div className="lbh-container">
+                <Pagination selectedPage={1} limit={5} offset={0} totalResults={38}/>
                 <ul id="apisList">
-                  {items.map((item, index) => (
+                  {apis.map((item, index) => (
                     < ApiPreview key={index} {...item} />
                   ))}
                 </ul>

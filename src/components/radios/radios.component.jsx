@@ -2,7 +2,15 @@ import React from "react";
 
 class Radios extends React.Component {
     setValue(event) {
-        this.props.onChange(event.target.value);
+        var newApiFilter = ""
+        if(event.target.value === "All APIs"){
+            newApiFilter = "ALL";
+        } else if(event.target.value === "Active APIs") {
+            newApiFilter = "PUBLISHED";
+        } else {
+            newApiFilter = "UNPUBLISHED";
+        }
+        this.props.onChange(newApiFilter);
     }
 
     render(){
