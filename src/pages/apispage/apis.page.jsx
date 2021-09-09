@@ -15,10 +15,10 @@ const ApisPage = ({ history, currentUser: user }) => {
   // const [currentUser, setCurrentUser] = useState(user);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [apis, setApis] = useState([]);
   const [apiMetadata, setApiMetadata] = useState({
     "offset": 0
   });
-  const [apis, setApis] = useState([]);
   const [queryParams, setQueryParams] = useState({
     specType: "API",
     owner: "Hackney",
@@ -45,10 +45,8 @@ const ApisPage = ({ history, currentUser: user }) => {
     var publishedState = ""
     if(newApiFilter === "All APIs"){
       publishedState = "ALL";
-    } else if(newApiFilter === "Active APIs") {
-      publishedState = "PUBLISHED";
     } else {
-      publishedState = "UNPUBLISHED";
+      publishedState = `${newApiFilter === "Active APIs" ? "" : "UN"}PUBLISHED`
     }
     setQueryParams({...queryParams, state: publishedState, page: 0});
     // reset pagination when switching filters
@@ -58,12 +56,12 @@ const ApisPage = ({ history, currentUser: user }) => {
     setQueryParams({...queryParams, page: newPage});
   }
 
-  const parseQueryParams = () => {
-    return Object.keys(queryParams).map(key => key + '=' + queryParams[key]).join('&');
-  }
-
   useEffect(() => {
+    const parseQueryParams = () => {
+      return Object.keys(queryParams).map(key => key + '=' + queryParams[key]).join('&');
+    }
     resetState();
+    
     fetch(`https://api.swaggerhub.com/specs?${parseQueryParams()}`)
       .then(res => res.json())
       .then(
@@ -78,7 +76,6 @@ const ApisPage = ({ history, currentUser: user }) => {
         }
       )
   }, [queryParams])
-
 
   return(
     <div id="apis-page" className="page">
