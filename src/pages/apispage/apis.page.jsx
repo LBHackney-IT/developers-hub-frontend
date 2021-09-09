@@ -15,14 +15,18 @@ const ApisPage = ({ history, currentUser: user }) => {
   // const [currentUser, setCurrentUser] = useState(user);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [apiMetadata, setApiMetadata] = useState({});
+  const [apiMetadata, setApiMetadata] = useState({
+    "offset": 0
+  });
   const [apis, setApis] = useState([]);
   const [queryParams, setQueryParams] = useState({
     specType: "API",
     owner: "Hackney",
     page: 0,
     limit: 5,
-    state: "ALL"
+    state: "ALL",
+    sort: "UPDATED",
+    order: "DESC"
   });
 
   const radioData = {
@@ -46,7 +50,12 @@ const ApisPage = ({ history, currentUser: user }) => {
     } else {
       publishedState = "UNPUBLISHED";
     }
-    setQueryParams({...queryParams, state: publishedState});
+    setQueryParams({...queryParams, state: publishedState, page: 0});
+    // reset pagination when switching filters
+  }
+
+  const updatePagination = (newPage) => {
+    setQueryParams({...queryParams, page: newPage});
   }
 
   const parseQueryParams = () => {
@@ -61,6 +70,7 @@ const ApisPage = ({ history, currentUser: user }) => {
         (result) => {
           setIsLoaded(true);
           setApis(result.apis);
+          setApiMetadata(result);
         },
         (error) => {
           setIsLoaded(true);
@@ -82,7 +92,7 @@ const ApisPage = ({ history, currentUser: user }) => {
               <Error title="Oops! Something went wrong!" summary={error.message} /> 
               :
               <div className="lbh-container">
-                <Pagination selectedPage={1} limit={5} offset={0} totalResults={38}/>
+                <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
                 <ul id="apisList">
                   {apis.map((item, index) => (
                     < ApiPreview key={index} {...item} />
