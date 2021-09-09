@@ -38,7 +38,15 @@ const ApisPage = ({ history, currentUser: user }) => {
   }
 
   const updateApiFilter = (newApiFilter) => {
-    setQueryParams({...queryParams, state: newApiFilter});
+    var publishedState = ""
+    if(newApiFilter === "All APIs"){
+      publishedState = "ALL";
+    } else if(newApiFilter === "Active APIs") {
+      publishedState = "PUBLISHED";
+    } else {
+      publishedState = "UNPUBLISHED";
+    }
+    setQueryParams({...queryParams, state: publishedState});
   }
 
   const parseQueryParams = () => {
