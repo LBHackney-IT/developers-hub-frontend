@@ -4,6 +4,7 @@ import UserContext from "../../context/user.context.js";
 import Button from "../../components/button/button.component.jsx";
 import { withRouter } from "react-router-dom";
 import APP_PATHS from "../../APP_PATHS.js";
+import withUser from "../../HOCs/with-user.hoc.js";
 
 const RegisterPage = ({ history, currentUser: user }) => {
   if (user) history.push(APP_PATHS.home);
@@ -98,4 +99,4 @@ const RegisterPage = ({ history, currentUser: user }) => {
   );
 };
 
-export default withRouter(RegisterPage);
+export default withUser(RegisterPage);
