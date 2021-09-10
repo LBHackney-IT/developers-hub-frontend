@@ -60,7 +60,7 @@ const Header = ({ currentUser }) => {
               </h1>
 
               <div className="name">
-                  <h3 style={{ color: 'white', position: 'left', }}>DEVELOPERS HUB</h3>
+                  <h3 style={{ color: 'white', position: 'center', }}>DEVELOPERS HUB</h3>
               </div>
 
 
