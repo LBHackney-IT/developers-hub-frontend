@@ -84,7 +84,21 @@ const LoginPage = ({ history, currentUser: user }) => {
         <br />
         <Button type="submit">Submit</Button>
       </form>
+      <a
+        href="https://auth.hackney.gov.uk/auth?redirect_uri=http://localhost:3000/register"
+        role="button"
+        draggable="false"
+        class="govuk-button lbh-button"
+        data-module="govuk-button"
+        >
+        Google sign in
+        </a>
     </div>
+
+
+
+
+
   );
 };
 

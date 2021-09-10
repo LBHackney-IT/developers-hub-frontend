@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import UserContext from "./context/user.context.js";
+import { UserProvider } from "./context/user.context";
 
 import './App.css';
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 import APP_PATHS from "./APP_PATHS.js";
 
@@ -18,26 +18,10 @@ import ApisPage from "./pages/apispage/apis.page.jsx";
 import ContactPage from "./pages/contact/contact.page.jsx";
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState(useContext(UserContext));
-
-  useEffect(() => {
-    (async () => {
-      // Swap with API call after it is implemented
-      const loggedIn = false;
-      if (loggedIn) {
-        setCurrentUser({
-          name: "Alex",
-          email: "a@gmail.com",
-          password: "aeCEHu374AUHi",
-          passwordKey: "advhieahvia"
-        })
-      }
-    })();
-  }, []);
-
+  const currentUser = null;
   return (
-    <UserContext.Provider value={currentUser}>
-      <Header currentUser={currentUser} />
+    <UserProvider>
+      <Header />
       <Switch>
         <Route
           exact
@@ -66,7 +50,7 @@ const App = () => {
           />
       </Switch>
       <Footer />
-    </UserContext.Provider>
+    </UserProvider>
   );
 };
 
