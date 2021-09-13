@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "../link/link.component.jsx";
 import APP_PATHS from "../../APP_PATHS.js";
+import { useUser } from "../../context/user.context.js";
 
 const Header = () => {
 
