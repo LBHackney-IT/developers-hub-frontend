@@ -12,13 +12,13 @@ class Radios extends React.Component {
                 <div className="govuk-radios__item" key={index}>
                     <input
                         className="govuk-radios__input"
-                        id={this.props.formName+"-1"}
+                        id={this.props.formName+"-"+index}
                         name={this.props.formName}
                         type="radio"
                         value={radioValue}
                         defaultChecked={index === 0}
                     />
-                    <label className="govuk-label govuk-radios__label" htmlFor={this.props.formName+"-1"}>
+                    <label className="govuk-label govuk-radios__label" htmlFor={this.props.formName+"-"+index}>
                         {radioValue}
                     </label>
                 </div>

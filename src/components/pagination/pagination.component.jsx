@@ -17,7 +17,7 @@ const Pagination = ({onChange, limit, offset, totalCount}) => {
                 id={"pagination-link-"+pageNum}
                 className={`lbh-pagination__link ${pageNum === selectedPage ? "lbh-pagination__link--current" : ""}`}
                 href="#" 
-                aria-current="true"
+                aria-current={pageNum === selectedPage}
                 aria-label={`Page ${pageNum+1}`}
                 onClick={(event) => {updatePagination(event.target.id.replace("pagination-link-", ""))}}
                 >

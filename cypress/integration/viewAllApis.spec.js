@@ -1,4 +1,4 @@
-describe("View all APIs", () => {
+describe("View API Catalogue page", () => {
 
     it("View title", () => {
         cy.visit("/api-catalogue");
@@ -44,9 +44,61 @@ describe('All APIs Pagination', () => {
         testResultsSummary();        
     });
 
+    it("View a specific page", () => {
+        cy.get('#pagination-link-0').should('have.class', "lbh-pagination__link--current");
+        cy.get('#pagination-link-1').click();
+        cy.get('#pagination-link-1').should('have.class', "lbh-pagination__link--current");
+    });
+
     it('View the last page', () => {
         visitLastPageIfPossible();
         cy.get('.lbh-pagination__link').contains("Next").should('have.class', 'disabled');
-        testResultsSummary();        
+        testResultsSummary();
     });
-  })
+});
+
+describe("Filter APIs", () => {
+
+    beforeEach(function () {
+        // Stub API response
+        cy.fixture("allApis").then((allApis) => {
+            this.apiData = allApis.apis[0];
+            cy.intercept('GET', '/specs*', allApis).as("getApis");
+        });
+    });
+
+    it("View all APIs by default", () => {
+        cy.visit("/api-catalogue");
+        cy.wait('@getApis').its('request.url').should('include', 'state=ALL');
+        cy.get("#filterApis-0").should("be.checked");
+    });
+
+    it("View active APIs", () => {
+        cy.get("#filterApis-1").check();
+        cy.wait('@getApis').its('request.url').should('include', 'state=PUBLISHED');
+    });
+
+    it("View inactive APIs", () => {
+        cy.get("#filterApis-2").check();
+        cy.wait('@getApis').its('request.url').should('include', 'state=UNPUBLISHED');
+    });
+
+    it("Click on radio labels to select an API filter", () => {
+       cy.get(".govuk-radios__label").contains("Active APIs").click();
+       cy.wait('@getApis').its('request.url').should('include', 'state=PUBLISHED');
+    });
+});
+
+describe("Pagination + Filters", () => {
+    it("When switching filters, pagination is reset", () => {
+        cy.visit("/api-catalogue");
+
+        cy.get('#pagination-link-0').should('have.class', "lbh-pagination__link--current");
+        cy.get('#pagination-link-1').click();
+        cy.get('#pagination-link-1').should('have.class', "lbh-pagination__link--current");
+
+        cy.get("#filterApis-2").check();
+        cy.get('#pagination-link-1').should('not.have.class', "lbh-pagination__link--current");
+        cy.get('#pagination-link-0').should('have.class', "lbh-pagination__link--current");
+    });
+});

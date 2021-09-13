@@ -4,10 +4,9 @@ describe("Preview an API", () => {
         // Stub API response
         cy.fixture("allApis").then((allApis) => {
             this.apiData = allApis.apis[0];
-            cy.intercept('GET', '/apis/Hackney*', allApis).as("getAllApis");
+            cy.intercept('GET', '/specs*', allApis).as("getAllApis");
             cy.visit("/api-catalogue");
         });
-
     });
 
     it("View API name", function () {
