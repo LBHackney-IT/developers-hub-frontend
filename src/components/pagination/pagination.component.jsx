@@ -32,32 +32,28 @@ const Pagination = ({onChange, limit, offset, totalCount}) => {
             <div className="lbh-pagination__summary">Showing {offset+1}-{ offset+limit > totalCount ? totalCount : offset+limit} of {totalCount} result{totalCount !== 1 && "s"}</div>
             { pagesNum > 1 &&
                 <ul className="lbh-pagination">
-                    { selectedPage !== 0 &&
-                        <li className="lbh-pagination__item">
-                            <a 
-                            className="lbh-pagination__link"
-                            href="#" aria-label="Previous page"
-                            onClick={() => {updatePagination(selectedPage-1)}}
-                            >
-                                <span aria-hidden="true" role="presentation">&laquo;</span>
-                                Previous
-                            </a>
-                        </li>
-                    }
+                    <li className="lbh-pagination__item">
+                        <a 
+                        className={`lbh-pagination__link ${selectedPage === 0 ? "disabled" : ""}` }
+                        href="#" aria-label="Previous page"
+                        onClick={() => {updatePagination(selectedPage-1)}}
+                        >
+                            <span aria-hidden="true" role="presentation">&laquo;</span>
+                            Previous
+                        </a>
+                    </li>
                     {links}
-                    { selectedPage !== pagesNum-1 &&
-                        <li className="lbh-pagination__item">
-                            <a
-                            className="lbh-pagination__link" 
-                            href="#"
-                            aria-label="Next page"
-                            onClick={() => {updatePagination(selectedPage+1)}}
-                            >
-                                Next
-                                <span aria-hidden="true" role="presentation">&raquo;</span>
-                            </a>
-                        </li>
-                    }
+                    <li className="lbh-pagination__item">
+                        <a
+                        className={`lbh-pagination__link ${selectedPage === pagesNum-1 ? "disabled" : ""}` }
+                        href="#"
+                        aria-label="Next page"
+                        onClick={() => {updatePagination(selectedPage+1)}}
+                        >
+                            Next
+                            <span aria-hidden="true" role="presentation">&raquo;</span>
+                        </a>
+                    </li>
                 </ul>
             }
         </nav>
