@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 
 // import APP_PATHS from "../../APP_PATHS.js";
 import { withRouter } from "react-router-dom";
-// import { API_TABLE, API_GROUP_TABLE, API_TAG_TABLE } from "../../mock_data/API_MOCK_DATA.js";
 import ApiPreview from "../../components/apiPreview/apiPreview.component";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component";
 import Error from "../../components/error/error.component"
 import Radios from "../../components/radios/radios.component";
 import Pagination from "../../components/pagination/pagination.component";
+import { API_TABLE, API_GROUP_TABLE, API_TAG_TABLE } from "../../mock_data/API_MOCK_DATA.js";
+import withUser from "../../HOCs/with-user.hoc.js";
 
 const ApisPage = ({ history, currentUser: user }) => {
   // if (!user) history.push(APP_PATHS.home);
@@ -104,4 +105,4 @@ const ApisPage = ({ history, currentUser: user }) => {
   );
 };
 
-export default withRouter(ApisPage);
+export default withUser(ApisPage);

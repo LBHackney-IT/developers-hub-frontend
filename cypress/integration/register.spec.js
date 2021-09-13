@@ -7,13 +7,13 @@ const testUser = {
   "register-confirmpass": "pass123"
 };
 
-describe("Tests register page", () => {
-  it("Registers user", () => {
-    cy.visit("/register");
-    for (const prop in testUser) {
-      cy.get(`#${prop}`).type(testUser[prop]);
-    }
-    cy.get("button[type='submit']").click();
-    cy.url().should("include", "/");
-  });
+it("Registers user", () => {
+  cy.visit("/register");
+
+  for (const prop in testUser) {
+    cy.get(`#${prop}`).type(testUser[prop]);
+  }
+
+  cy.get("button[type='submit']").click();
+  cy.url().should("include", "/");
 });

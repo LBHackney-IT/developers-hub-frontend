@@ -5,6 +5,7 @@ import Button from "../../components/button/button.component.jsx";
 import { withRouter } from "react-router-dom";
 import APP_PATHS from "../../APP_PATHS.js";
 import { SOCKET_ADDRESS } from "../../APP_CONFIG.js";
+import withUser from "../../HOCs/with-user.hoc.js";
 
 const LoginPage = ({ history, currentUser: user }) => {
   if (user) history.push(APP_PATHS.home);
@@ -83,8 +84,22 @@ const LoginPage = ({ history, currentUser: user }) => {
         <br />
         <Button type="submit">Submit</Button>
       </form>
+      <a
+        href="https://auth.hackney.gov.uk/auth?redirect_uri=http://localhost:3000/register"
+        role="button"
+        draggable="false"
+        class="govuk-button lbh-button"
+        data-module="govuk-button"
+        >
+        Google sign in
+        </a>
     </div>
+
+
+
+
+
   );
 };
 
-export default withRouter(LoginPage);
+export default withUser(LoginPage);

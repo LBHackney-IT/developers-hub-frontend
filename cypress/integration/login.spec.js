@@ -3,7 +3,7 @@ const testUser = {
   "login-pass": "pass123"
 };
 
-describe("Tests login page", () => {
+describe("Unit Test login page", () => {
   it("Logs user in", () => {
     cy.visit("/login");
 

@@ -1,35 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
-import UserContext from "./context/user.context.js";
-import { Route, Switch } from "react-router-dom";
+import { UserProvider } from "./context/user.context";
 
-import APP_PATHS from "./APP_PATHS";
+import './App.css';
+import { Route, Switch, Redirect } from "react-router-dom";
+
+import APP_PATHS from "./APP_PATHS.js";
 
 // Components
 import Header from "./components/header/header.component.jsx";
 import Footer from "./components/footer/footer.component.jsx";
 
-
 const App = () => {
-  const [currentUser, setCurrentUser] = useState(useContext(UserContext));
-
-  useEffect(() => {
-    (async () => {
-      // Swap with API call after it is implemented
-      const loggedIn = false;
-      if (!loggedIn) {
-        setCurrentUser({
-          name: "Alex",
-          email: "a@gmail.com",
-          password: "aeCEHu374AUHi",
-          passwordKey: "advhieahvia"
-        })
-      }
-    })();
-  }, []);
-
+  const currentUser = null;
   return (
-    <React.Fragment>
-      <Header currentUser={currentUser} />
+    <UserProvider>
+      <Header />
       <main className="lbh-main-wrapper" id="main-content" role="main">
         <div className="lbh-container">
           <Switch>
@@ -40,7 +25,7 @@ const App = () => {
         </div>
       </main>
       <Footer />
-    </React.Fragment>
+    </UserProvider>
   );
 };
 
