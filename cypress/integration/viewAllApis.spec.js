@@ -9,6 +9,12 @@ describe("View API Catalogue page", () => {
         const expectedCount = 5;
         cy.get('ul#apisList').get('li.apiPreview').should('have.length', expectedCount);
     });
+
+    it("View error response if API error", () => {
+        cy.intercept('GET', '/specs*', { statusCode: 500 });
+        cy.reload();
+        cy.get(".lbh-error-summary").should('be.visible');
+    });
     
 });
 
