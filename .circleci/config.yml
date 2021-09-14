@@ -156,6 +156,7 @@ workflows:
             - cypress/run:
                 requires:
                   - install-dependencies
+                start: yarn start
             - assume-role-development:
                   context: api-assume-role-development-context
                   requires:
