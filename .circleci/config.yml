@@ -181,9 +181,9 @@ workflows:
                   type: approval
                   requires:
                       - build-deploy-development
-                filters:
-                    branches:
-                        only: master
+                  filters:
+                      branches:
+                          only: master
             - assume-role-production:
                   context: api-assume-role-production-context
                   requires:
