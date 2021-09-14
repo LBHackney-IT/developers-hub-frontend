@@ -91,7 +91,7 @@ jobs:
             - aws-cli/install
             - run:
                   name: Build
-                  command: yarn build
+                  command: CI=false yarn build
             - run:
                   name: Deploy to S3
                   command: aws s3 sync build s3://lbh-developer-hub-development.hackney.gov.uk
