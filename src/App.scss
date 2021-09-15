@@ -2,9 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
 
 // Module Styling
-@import "node_modules/lbh-frontend/lbh/base";
-@import "node_modules/lbh-frontend/lbh/core/all";
-@import "node_modules/lbh-frontend/lbh/objects/all";
+$lbh-asset-path: "~lbh-frontend/lbh/assets";
+@import "node_modules/lbh-frontend/lbh/all";
 // @import "node_modules/js-cookie/dist/js.cookie/all";
 
 // Component Styling
@@ -20,6 +19,7 @@
 // Page Styling
 @import "./pages/login/login.style.scss";
 @import "./pages/register/register.style.scss";
+@import "./pages/apipage/api.style.scss";
 
 * {
   font-family: 'Open Sans', sans-serif !important;
@@ -36,9 +36,6 @@
   justify-content: center;
 }
 
-.page {
-  min-height: 100vh;
-}
 
 a {
   &:hover {
@@ -56,6 +53,7 @@ a {
     }
     > .sidebar {
       flex: 1;
+      margin-top: 220px;
     }
 }
 

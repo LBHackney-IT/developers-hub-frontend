@@ -1,0 +1,31 @@
+
+#api-info-page {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+    > .main-container {
+      flex: 3;
+    }
+    > .sidebar {
+      flex: 1;
+      padding-left: 5em;
+    }
+}
+
+.tags {
+    span.lbh-tag{
+        margin: 0.2em;
+    }
+}
+
+.lbh-table, .lbh-caption{
+    width: 80%;
+    display: flex;
+    align-self: center;
+
+    ul { list-style-type: none; }
+    li {
+        margin: 0
+    }
+}
