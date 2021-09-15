@@ -79,6 +79,14 @@ jobs:
             - persist_to_workspace:
                   root: *workspace_root
                   paths: .
+    run-lint:
+        executor: node-executor
+        steps:
+            - *attach_workspace
+            - run:
+                name: Run linter
+                command: yarn lint
+        
     build-deploy-development:
         executor: node-executor
         environment:
@@ -153,6 +161,9 @@ workflows:
     continuous-delivery-development:
         jobs:
             - install-dependencies
+            - run-lint:
+                requires:
+                    - install-dependencies
             - cypress/run:
                 start: yarn start
                 requires:
