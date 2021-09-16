@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import FormInput from "../../components/form-input/form-input.component.jsx";
-import UserContext from "../../context/user.context.js";
+// import UserContext from "../../context/user.context.js";
 import Button from "../../components/button/button.component.jsx";
 import { withRouter } from "react-router-dom";
 import APP_PATHS from "../../APP_PATHS.js";
@@ -28,7 +28,7 @@ const LoginPage = ({ history, currentUser: user }) => {
     return responseData;
   }
 
-  const [currentUser, setCurrentUser] = useState(user);
+  // const [currentUser, setCurrentUser] = useState(user);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
