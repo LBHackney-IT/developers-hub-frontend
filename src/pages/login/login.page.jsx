@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import FormInput from "../../components/form-input/form-input.component.jsx";
 // import UserContext from "../../context/user.context.js";
 import Button from "../../components/button/button.component.jsx";
-import { withRouter } from "react-router-dom";
 import APP_PATHS from "../../APP_PATHS.js";
 import { SOCKET_ADDRESS } from "../../APP_CONFIG.js";
 import withUser from "../../HOCs/with-user.hoc.js";
@@ -88,7 +87,7 @@ const LoginPage = ({ history, currentUser: user }) => {
         href="https://auth.hackney.gov.uk/auth?redirect_uri=http://localhost:3000/register"
         role="button"
         draggable="false"
-        class="govuk-button lbh-button"
+        className="govuk-button lbh-button"
         data-module="govuk-button"
         >
         Google sign in

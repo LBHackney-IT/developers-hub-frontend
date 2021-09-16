@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
+import React from "react";
+
 const Pagination = ({onChange, limit, offset, totalCount}) => {
     
     const updatePagination = (newPage) => {
@@ -9,53 +11,33 @@ const Pagination = ({onChange, limit, offset, totalCount}) => {
     const pagesNum = Math.ceil(totalCount/limit);
     const selectedPage = offset/limit;
 
-    const links = [];
-    for(var pageNum = 0; pageNum < pagesNum; pageNum++){
-        const link = (
-            <li className="lbh-pagination__item" key={pageNum}>
-                <a 
-                id={"pagination-link-"+pageNum}
-                className={`lbh-pagination__link ${pageNum === selectedPage ? "lbh-pagination__link--current" : ""}`}
-                href="#" 
-                aria-current={pageNum === selectedPage}
-                aria-label={`Page ${pageNum+1}`}
-                onClick={(event) => {updatePagination(event.target.id.replace("pagination-link-", ""))}}
-                >
-                    {pageNum+1}
-                </a>
-            </li>);
-        links.push(link);
-    }
-
     return (
-        <nav className="lbh-pagination">
-            <div className="lbh-pagination__summary">Showing {offset+1}-{ offset+limit > totalCount ? totalCount : offset+limit} of {totalCount} result{totalCount !== 1 && "s"}</div>
+        <nav className="lbh-simple-pagination">
             { pagesNum > 1 &&
-                <ul className="lbh-pagination">
-                    <li className="lbh-pagination__item">
-                        <a 
-                        className={`lbh-pagination__link ${selectedPage === 0 ? "disabled" : ""}` }
-                        href="#" aria-label="Previous page"
-                        onClick={() => {updatePagination(selectedPage-1)}}
-                        >
-                            <span aria-hidden="true" role="presentation">&laquo;</span>
-                            Previous
-                        </a>
-                    </li>
-                    {links}
-                    <li className="lbh-pagination__item">
-                        <a
-                        className={`lbh-pagination__link ${selectedPage === pagesNum-1 ? "disabled" : ""}` }
-                        href="#"
-                        aria-label="Next page"
-                        onClick={() => {updatePagination(selectedPage+1)}}
-                        >
-                            Next
-                            <span aria-hidden="true" role="presentation">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            }
+            <React.Fragment>
+                <a 
+                    className={`lbh-simple-pagination__link lbh-simple-pagination__link--previous ${selectedPage === 0 ? "disabled" : ""}`}
+                    href="#"
+                    onClick={() => {updatePagination(selectedPage-1)}}
+                >
+                    <svg width="11" height="19" viewBox="0 0 11 19" fill="none">
+                    <path d="M10 1L2 9.5L10 18" strokeWidth="2" />
+                    </svg>
+                    Previous page
+                    <span className="lbh-simple-pagination__title previous">{selectedPage} of {pagesNum}</span>
+                </a>
+                <a
+                    className={`lbh-simple-pagination__link lbh-simple-pagination__link--next ${selectedPage === pagesNum-1 ? "disabled" : ""}`}
+                    href="#"
+                    onClick={() => {updatePagination(selectedPage+1)}}
+                >
+                    Next page
+                    <span className="lbh-simple-pagination__title next">{selectedPage+2} of {pagesNum}</span>
+                    <svg width="11" height="19" viewBox="0 0 11 19" fill="none">
+                    <path d="M1 18L9 9.5L1 1" strokeWidth="2" />
+                    </svg>
+                </a> 
+            </React.Fragment>}
         </nav>
     );
 }

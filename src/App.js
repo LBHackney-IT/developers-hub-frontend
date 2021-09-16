@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import { UserProvider } from "./context/user.context";
 
 import './App.scss';
-import { Route, Switch, Redirect } from "react-router-dom";
-
+import { Route, Switch } from "react-router-dom";
 import APP_PATHS from "./APP_PATHS.js";
 
 // Components
