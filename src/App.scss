@@ -21,8 +21,8 @@ $lbh-asset-path: "~lbh-frontend/lbh/assets";
 // Page Styling
 @import "./pages/login/login.style.scss";
 @import "./pages/register/register.style.scss";
-@import "./pages/apipage/api.style.scss";
-@import "./pages/apispage/apis.style.scss";
+@import "./pages/apiCatalogue/apiCatalogue.style.scss";
+@import "./pages/apiInformation/apiInformation.style.scss";
 
 * {
   font-family: 'Open Sans', sans-serif !important;

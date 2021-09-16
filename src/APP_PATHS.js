@@ -1,8 +1,8 @@
-import HomePage from "./pages/home/home.page.jsx";
-import LoginPage from "./pages/login/login.page.jsx";
-import RegisterPage from "./pages/register/register.page.jsx";
-import ApisPage from "./pages/apispage/apis.page.jsx";
-import ApiPage from "./pages/apipage/api.page"
+import HomePage from "./pages/home/home.page";
+import LoginPage from "./pages/login/login.page";
+import RegisterPage from "./pages/register/register.page";
+import ApiCataloguePage from "./pages/apiCatalogue/apiCatalogue.page";
+import ApiInformationPage from "./pages/apiInformation/apiInformation.page"
 import ContactPage from "./pages/contact/contact.page"
 
 const APP_PATHS = [
@@ -15,14 +15,14 @@ const APP_PATHS = [
   },
   {
     path: "/api-catalogue",
-    Component: ApisPage,
+    Component: ApiCataloguePage,
     breadcrumb: 'API Catalogue',
     headingName: 'APIS',
     alwaysVisible: true
   },
   {
     path: "/api-catalogue/api",
-    Component: ApiPage,
+    Component: ApiInformationPage,
     breadcrumb: 'API',
     alwaysVisible: false
   },

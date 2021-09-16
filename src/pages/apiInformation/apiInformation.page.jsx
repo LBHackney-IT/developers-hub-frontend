@@ -1,8 +1,9 @@
 import React from "react";
 import withUser from "../../HOCs/with-user.hoc.js";
 import Table from "../../components/table/table.component.jsx";
+import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
 
-const ApiPage = () => {
+const ApiInformationPage = () => {
     
     const ApiData = {
         name: "Test API",
@@ -29,6 +30,7 @@ const ApiPage = () => {
   return (
       <div id="api-info-page" className="lbh-container">
           <div className="sidebar">
+            <Breadcrumbs />
             <h1>{ApiData.name}</h1>
             <div className="tags">
                 <span class={`govuk-tag lbh-tag lbh-tag--${ApiData.tags.includes("Development") ? "green" : "grey"}`}>Development</span>
@@ -45,4 +47,4 @@ const ApiPage = () => {
   );
 };
 
-export default withUser(ApiPage);
+export default withUser(ApiInformationPage);
