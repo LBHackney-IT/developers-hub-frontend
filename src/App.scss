@@ -17,12 +17,17 @@ $lbh-asset-path: "~lbh-frontend/lbh/assets";
 @import "./components/contact-container/contact-container.style.scss";
 @import "./components/home-container/home-container.style.scss";
 @import "./components/sidebar/sidebar.style.scss";
+@import "./components/breadcrumbs/breadcrumbs.style.scss";
+@import "./components/select/select.style.scss";
+@import "./components/environmentTags/environmentTags.style.scss";
 
 // Page Styling
 @import "./pages/login/login.style.scss";
 @import "./pages/register/register.style.scss";
 @import "./pages/apiCatalogue/apiCatalogue.style.scss";
 @import "./pages/apiInformation/apiInformation.style.scss";
+@import "./pages/home/home.style.scss";
+@import "./pages/contact/contact.style.scss";
 
 * {
   font-family: 'Open Sans', sans-serif !important;
@@ -34,36 +39,12 @@ $lbh-asset-path: "~lbh-frontend/lbh/assets";
   overflow-x: hidden;
 }
 
-#contact-page {
-  display: flex;
-  flex-flow: row wrap;
+#main-content{
   justify-content: center;
 }
-
 
 a {
   &:hover {
     cursor: pointer;
   }
-}
-
-#home-page {
-    display: flex;
-    width: 95%;
-    justify-content: center;
-    align-items: flex-start;
-    > .main-container {
-      flex: 3;
-    }
-    > .sidebar {
-      flex: 1;
-      margin-top: 220px;
-    }
-}
-
-.navigation-header {
-  padding: 20px;
-  margin-left: 90px;
-  margin-right: 90px;
-  border-bottom: 1px solid gray;
 }

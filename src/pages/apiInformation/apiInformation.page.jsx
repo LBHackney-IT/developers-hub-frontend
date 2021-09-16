@@ -2,6 +2,8 @@ import React from "react";
 import withUser from "../../HOCs/with-user.hoc.js";
 import Table from "../../components/table/table.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
+import Select from "../../components/select/select.component.jsx";
+import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
 
 const ApiInformationPage = () => {
     
@@ -12,7 +14,6 @@ const ApiInformationPage = () => {
     }
     
     const TableData = [
-        ["Version", "Select"],
         ["Development Base URL", "https://test-api.service.hmrc.gov.uk"],
         ["Staging Base URL", "https://test-api.service.hmrc.gov.uk"],
         ["SwaggerHub Specification", "https://swaggerhub.com/apis/Hackney/abcdefg/1.0"],
@@ -27,24 +28,31 @@ const ApiInformationPage = () => {
         ],
     ];
 
-  return (
-      <div id="api-info-page" className="lbh-container">
-          <div className="sidebar">
-            <Breadcrumbs />
-            <h1>{ApiData.name}</h1>
-            <div className="tags">
-                <span class={`govuk-tag lbh-tag lbh-tag--${ApiData.tags.includes("Development") ? "green" : "grey"}`}>Development</span>
-                <span class={`govuk-tag lbh-tag lbh-tag--${ApiData.tags.includes("Staging") ? "green": "grey"}`}>Staging</span>
-                <span class={`govuk-tag lbh-tag lbh-tag--${ApiData.tags.includes("Production") ? "green": "grey"}`}>Production</span>
+
+    const changeVersion = (version) => {
+        console.log(version);
+        // placeholder
+    }
+
+    TableData.unshift(["Version", <Select name={"VersionNo"} options={["V1.0.0", "V2.0.0"]} onChange={changeVersion} />]);
+
+    return (
+        <div id="api-info-page" className="lbh-container">
+            <div className="sidebar">
+                <Breadcrumbs />
+                <h1>{ApiData.name}</h1>
+                <EnvironmentTags tags={ApiData.tags} />
+                <p className="lbh-body-m">{ApiData.description}</p>
             </div>
-            <p className="lbh-body-m">{ApiData.description}</p>
-          </div>
-          <div className="main-container table-container">
-                <span class="govuk-caption-xl lbh-caption">API Information</span>
-                <Table tableData={TableData} />
-          </div>
-      </div>
-  );
+            <div className="main-container table-container">
+                <div className="inner-container">
+                    <span className="govuk-caption-xl lbh-caption">API Information</span>
+                    <hr/>
+                    <Table tableData={TableData} />
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default withUser(ApiInformationPage);

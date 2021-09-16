@@ -3,32 +3,36 @@
     display: flex;
     max-width: 90%;
     justify-content: center;
-    align-items: flex-start;
-    align-self: center;
+    @media screen and (max-width: 1024px) { flex-flow: column; }
+
     > .main-container {
-      flex: 3;
+        flex: 3;
+        @media screen and (max-width: 1024px) { width: 100%; }
+        .inner-container{
+            width: 80%;
+            @media screen and (max-width: 1024px) { width: 100%; }
+            align-self: center;
+            > { width: 100%; }
+        }
     }
     > .sidebar {
-      flex: 1;
-      padding-left: 5em;
-      text-align: left;
+        flex: 1;
+        padding-left: 5em;
+        @media screen and (max-width: 1024px) { padding-left: 0; }
+        text-align: left;
+        h1 { margin-top: 0.5em; }
     }
 }
 
 .tags {
-    span.lbh-tag{
-        margin: 0.2em;
-    }
+    span.lbh-tag{ margin: 0.2em; }
 }
 
-.lbh-table, .lbh-caption{
-    width: 80%;
-    align-self: center;
+.lbh-table {
     table-layout: fixed;
     overflow-wrap: break-word;
+    margin-top: 0;
 
     ul { list-style-type: none; }
-    li {
-        margin: 0
-    }
+    li { margin: 0 }
 }

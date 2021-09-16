@@ -1,4 +1,5 @@
 import React from "react";
+import EnvironmentTags from "../environmentTags/environmentTags.component";
 
 const ApiPreview = ({name, description, tags, properties}) => {
 
@@ -12,11 +13,7 @@ const ApiPreview = ({name, description, tags, properties}) => {
         <span className={`govuk-tag lbh-tag${isPublished ? "" : "--grey"}`}>{ isPublished ? "Active" : "Inactive" }</span>
       </div>
       <p>{description}</p>
-      <div className="tags">
-        <span className={`govuk-tag lbh-tag lbh-tag${tags.includes("Development") ? "--green" : "--grey"}`}>Development</span>
-        <span className={`govuk-tag lbh-tag lbh-tag${tags.includes("Staging") ? "--green" : "--grey"}`}>Staging</span>
-        <span className={`govuk-tag lbh-tag lbh-tag${tags.includes("Production") ? "--green" : "--grey"}`}>Production</span>
-      </div>
+      <EnvironmentTags tags={tags} />
     </li>
   );
 };

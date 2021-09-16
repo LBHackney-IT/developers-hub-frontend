@@ -1,0 +1,20 @@
+#home-page {
+    display: flex;
+    width: 95%;
+    justify-content: center;
+    align-items: flex-start;
+    > .main-container {
+      flex: 3;
+    }
+    > .sidebar {
+      flex: 1;
+      margin-top: 220px;
+    }
+}
+
+.navigation-header {
+  padding: 20px;
+  margin-left: 90px;
+  margin-right: 90px;
+  border-bottom: 1px solid gray;
+}

@@ -4,12 +4,12 @@ const Table = ({tableData}) => {
 
     const table = [];
     tableData.forEach(row => {
-        table.push(<tr className="govuk-table__row">
+        table.push(<tr key={row} className="govuk-table__row">
         {row.map((cellContent, index) => {
             if(index === 0){
-                return <th scope="row" className="govuk-table__header">{cellContent}</th>
+                return <th key={index} scope="row" className="govuk-table__header">{cellContent}</th>
             } else {
-                return <td className="govuk-table__cell">{cellContent}</td>
+                return <td key={index} className="govuk-table__cell">{cellContent}</td>
             }
         })}
         </tr>);
