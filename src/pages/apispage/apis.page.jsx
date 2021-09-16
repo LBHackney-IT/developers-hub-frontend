@@ -79,28 +79,30 @@ const ApisPage = ({ history, currentUser: user }) => {
   }, [queryParams])
 
   return(
-    <div id="apis-page" className="page">
-        <Breadcrumbs/>
-        <h1>API Catalogue</h1>
-        <Radios onChange={updateApiFilter} {...radioData}/>
-        <hr/>
-        {
-          isLoaded ? ( 
-            error ? 
-              <Error title="Oops! Something went wrong!" summary={error.message} /> 
-              :
-              <div className="lbh-container">
-                <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
-                <ul id="apisList">
-                  {apis.map((item, index) => (
-                    < ApiPreview key={index} {...item} />
-                  ))}
-                </ul>
-              </div>
-          )
-          : 
-          <h3>Loading..</h3>
-        }
+    <div className="lbh-container">
+      <div id="apis-page" className="page">
+          <Breadcrumbs/>
+          <h1>API Catalogue</h1>
+          <Radios onChange={updateApiFilter} {...radioData}/>
+          <hr/>
+          {
+            isLoaded ? ( 
+              error ? 
+                <Error title="Oops! Something went wrong!" summary={error.message} /> 
+                :
+                <div className="lbh-container">
+                  <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
+                  <ul id="apisList">
+                    {apis.map((item, index) => (
+                      < ApiPreview key={index} {...item} />
+                    ))}
+                  </ul>
+                </div>
+            )
+            : 
+            <h3>Loading..</h3>
+          }
+      </div>
     </div>
   );
 };

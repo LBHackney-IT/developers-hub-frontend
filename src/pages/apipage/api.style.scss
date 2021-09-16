@@ -1,15 +1,17 @@
 
 #api-info-page {
     display: flex;
-    width: 100%;
+    max-width: 90%;
     justify-content: center;
     align-items: flex-start;
+    align-self: center;
     > .main-container {
       flex: 3;
     }
     > .sidebar {
       flex: 1;
       padding-left: 5em;
+      text-align: left;
     }
 }
 
@@ -21,8 +23,9 @@
 
 .lbh-table, .lbh-caption{
     width: 80%;
-    display: flex;
     align-self: center;
+    table-layout: fixed;
+    overflow-wrap: break-word;
 
     ul { list-style-type: none; }
     li {

@@ -27,7 +27,7 @@ const ApiPage = () => {
     ];
 
   return (
-      <div id="api-info-page" className="page">
+      <div id="api-info-page" className="lbh-container">
           <div className="sidebar">
             <h1>{ApiData.name}</h1>
             <div className="tags">
