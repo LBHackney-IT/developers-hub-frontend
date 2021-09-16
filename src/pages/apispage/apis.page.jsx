@@ -83,7 +83,6 @@ const ApisPage = ({ history, currentUser: user }) => {
         <Breadcrumbs/>
         <h1>API Catalogue</h1>
         <Radios onChange={updateApiFilter} {...radioData}/>
-        <hr/>
         {
           isLoaded ? ( 
             error ? 

@@ -18,6 +18,7 @@
     .tags {
         display: flex;
         align-items: center;
+        flex-flow: wrap;
         .lbh-tag {
             margin: 10px;
         }
