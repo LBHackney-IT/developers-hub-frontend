@@ -31,7 +31,7 @@ describe("Preview an API", () => {
 
     it("View environment status tags", function () {
         const expectedEnvTagsNo = 3;
-        cy.get(".apiPreview").find(".tags").first().children()
+        cy.get(".apiPreview").find(".env-tags").first().children()
             .should('have.length', expectedEnvTagsNo)
             .each((tag) => {
                 if (this.apiData.tags.includes(tag.text())){
