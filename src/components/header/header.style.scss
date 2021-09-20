@@ -1,9 +1,8 @@
 @import "node_modules/lbh-frontend/lbh/components/lbh-header/header";
 
 .nav-items {
-  display: flex;
-  align-items: center;
-  margin-top: 0px;
+  position: relative;
+  top: -15px;
   .nav-item {
     color: white !important;
     cursor: pointer;
@@ -21,13 +20,9 @@
 .lbh-header__logo-text {
   color: white !important;
 }
-.lbh-logo-and-title {
-  display: flex;
-  align-items: center;
-  flex-flow: row wrap;
-}
 .name{
-  margin-top: 0px;
+justify-content: center;
+align-items: center;
 font-weight: bold;
 cursor:pointer;
 &:hover {
