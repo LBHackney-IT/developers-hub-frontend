@@ -1,6 +1,6 @@
 describe("Example Test", () => {
 
-  it("Navbar is properly rendered", () => {
-    expect(1).to.eq(1);
-  });
-})
+    it("Example", () => {
+      expect(1).to.eq(1);
+    });
+  })

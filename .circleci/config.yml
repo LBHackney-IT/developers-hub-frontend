@@ -54,13 +54,11 @@ commands:
                       cd ./terraform/<<parameters.environment>>/
                       terraform get -update=true
                       terraform init
-
             - run:
                   name: apply
                   command: |
                       cd ./terraform/<<parameters.environment>>/
                       terraform apply -auto-approve
-
 jobs:
     install-dependencies:
         executor: node-executor
@@ -99,7 +97,7 @@ jobs:
             - aws-cli/install
             - run:
                   name: Build
-                  command: CI=false yarn build
+                  command: yarn build
             - run:
                   name: Deploy to S3
                   command: aws s3 sync build s3://lbh-developer-hub-development.hackney.gov.uk
@@ -116,7 +114,7 @@ jobs:
             - aws-cli/install
             - run:
                   name: Build
-                  command: CI=false yarn build
+                  command: yarn build
             - run:
                   name: Deploy to S3
                   command: aws s3 sync build s3://lbh-developer-hub-production.hackney.gov.uk

@@ -26,17 +26,17 @@
 .info-container {
   border: 2px solid #00664E;;
   background-color: #f8f8f8;
-  padding: 10px;
-  margin: 10px;
   flex: 1;
-  word-wrap: break-word;
-  word-break: break-word;
+  margin: 15px !important;
+  padding: 10px;
+  li {
+    margin-left: 25px;
+  }
 }
 .info-container :hover{
   cursor: pointer;
   color: #00664E;
 }
-
 
 @media (max-width: 576px) {
   .info-wrapper {
