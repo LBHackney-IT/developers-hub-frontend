@@ -44,8 +44,7 @@ describe("Preview an API", () => {
 
     it("When the user clicks on an API name they are directed to the SwaggerHub page", function() {
         cy.get(".apiPreview").find("a").first().click();
-        const apiUrl = this.apiData.properties.filter( property => property.type === "Swagger")[0].url;
-        const expectedUrl = apiUrl.replace("api", "app");
+        const expectedUrl = this.apiData.name.replaceAll(" ", "-");
         cy.url().should('include', expectedUrl);
     });
 

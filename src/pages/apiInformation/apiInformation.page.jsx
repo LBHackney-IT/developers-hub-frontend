@@ -4,11 +4,14 @@ import Table from "../../components/table/table.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
 import Select from "../../components/select/select.component.jsx";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
+import { useParams } from "react-router";
 
 const ApiInformationPage = () => {
+
+    const { apiName } = useParams();
     
     const ApiData = {
-        name: "Test API",
+        name: apiName.replaceAll("-", " "),
         description: "The default paragraph font size is 19px on large screens and 16px on small screens. A 19px body copy paragraph. This includes even more text to give a good representation of a more average length paragraph.That way you can see more than one line wrapping.",
         tags: ["Development", "Staging"]
     }

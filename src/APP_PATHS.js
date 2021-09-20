@@ -5,6 +5,10 @@ import ApiCataloguePage from "./pages/apiCatalogue/apiCatalogue.page";
 import ApiInformationPage from "./pages/apiInformation/apiInformation.page"
 import ContactPage from "./pages/contact/contact.page"
 
+const ApiNameBreadcrumb = ({ match }) => (
+  <span>{match.params.apiName.replaceAll("-", " ")}</span>
+);
+
 const APP_PATHS = [
   {
     path: "/",
@@ -21,9 +25,9 @@ const APP_PATHS = [
     alwaysVisible: true
   },
   {
-    path: "/api-catalogue/api",
+    path: "/api-catalogue/:apiName",
     Component: ApiInformationPage,
-    breadcrumb: 'API',
+    breadcrumb: ApiNameBreadcrumb,
     alwaysVisible: false
   },
   {
