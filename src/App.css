@@ -1516,8 +1516,9 @@ html {
       text-decoration: none; }
 
 .nav-items {
-  position: relative;
-  top: -15px; }
+  display: flex;
+  align-items: center;
+  margin-top: 0px; }
   .nav-items .nav-item {
     color: white !important;
     cursor: pointer;
@@ -1531,9 +1532,13 @@ html {
 .lbh-header__logo-text {
   color: white !important; }
 
-.name {
-  justify-content: center;
+.lbh-logo-and-title {
+  display: flex;
   align-items: center;
+  flex-flow: row wrap; }
+
+.name {
+  margin-top: 0px;
   font-weight: bold;
   cursor: pointer; }
   .name:hover {
@@ -2231,11 +2236,11 @@ html {
 .info-container {
   border: 2px solid #00664E;
   background-color: #f8f8f8;
-  padding: 10px;
-  margin: 10px;
   flex: 1;
-  word-wrap: break-word;
-  word-break: break-word; }
+  margin: 15px !important;
+  padding: 10px; }
+  .info-container li {
+    margin-left: 25px; }
 
 .info-container :hover {
   cursor: pointer;
@@ -2251,7 +2256,7 @@ html {
     display: block;
     text-decoration: none;
     word-wrap: break-word;
-    font-size: 22px;
+    font-size: 20px;
     color: #00664E;
     font-weight: bold; }
     .sidebar a:visited {

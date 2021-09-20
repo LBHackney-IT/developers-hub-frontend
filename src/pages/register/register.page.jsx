@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FormInput from "../../components/form-input/form-input.component.jsx";
-import UserContext from "../../context/user.context.js";
+import UserContext, { useUser } from "../../context/user.context.js";
 import Button from "../../components/button/button.component.jsx";
 import APP_PATHS from "../../APP_PATHS.js";
 import withUser from "../../HOCs/with-user.hoc.js";

@@ -15,6 +15,7 @@ const Header = () => {
         <header className="lbh-header ">
           <div className="lbh-header__main">
             <div className="lbh-container lbh-header__wrapper">
+<<<<<<< HEAD
               <div className="lbh-logo-and-title">
                 <h1 className="lbh-header__title">
                   <a href="/" className="lbh-header__title-link">
@@ -66,6 +67,16 @@ const Header = () => {
                     <span className="lbh-header__logo-text">Developers Hub</span>
                   </a>
                 </h1>
+
+                <div className="name">
+                    <h3 style={{ color: 'white', align: 'center'}}>DEVELOPERS HUB</h3>
+                </div>
+              </div>
+
+
+
+
+=======
               <h1 className="lbh-header__title">
                 <a href="/" className="lbh-header__title-link">
                   <svg
@@ -77,7 +88,7 @@ const Header = () => {
                     viewBox="0 0 208 37"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <title>Developers Hub</title>
+                    <title>Developer Hub</title>
                     <g stroke="none" fill="currentColor" fillRule="evenodd">
                       <path
                         d="M36,15.9985404 C36,9.03922642 32.0578091,3.00529101 26.2909886,0 L26.2909886,12.0328407 L9.70901142,12.0328407 L9.70901142,0 C3.94073354,3.00529101 0,9.03922642 0,15.9985404 C0,22.9607736 3.94073354,28.9961686 9.70901142,32 L9.70901142,19.9671593 L26.2909886,19.9671593 L26.2909886,32 C32.0578091,28.9961686 36,22.959314 36,15.9985404"
@@ -116,9 +127,12 @@ const Header = () => {
                   <span className="lbh-header__logo-text">Developers Hub</span>
                 </a>
               </h1>
+
               <div className="name">
-                  <h3 style={{ color: 'white', position: 'center', }}>DEVELOPERS HUB</h3>
+                  <h3 style={{ color: 'white', position: 'center', }}>DEVELOPER HUB</h3>
               </div>
+
+>>>>>>> 108da687f1a5a6a5faf16525d8e836ab8fed9e87
               <div className="nav-items">
                 { alwaysVisibleLinks.map(appPath => (
                     <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
@@ -137,7 +151,6 @@ const Header = () => {
                 }
               </div>
             </div>
-          </div>
           </div>
         </header>
       </div>
