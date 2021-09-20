@@ -31,10 +31,10 @@ module "cloudfront-production" {
   s3_bucket_arn = aws_s3_bucket.frontend-bucket-production.arn
   s3_bucket_id = aws_s3_bucket.frontend-bucket-production.id
   orginin_access_identity_desc = "Developer Hub frontend cloudfront identity"
-  cname_aliases = [""]
+  cname_aliases = ["developer-api.hackney.gov.uk"]
   environment_name = "production"
   cost_code= "B0811"
   project_name= "Developer Hub"
-  use_cloudfront_cert = true
-  # hackney_cert_arn = "arn:aws:acm:us-east-1:153306643385:certificate/71728a39-cd3e-4570-a440-e87f84ef9a0d"
+  use_cloudfront_cert = false
+  hackney_cert_arn = "arn:aws:acm:us-east-1:153306643385:certificate/71728a39-cd3e-4570-a440-e87f84ef9a0d"
 }
