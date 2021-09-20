@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import FormInput from "../../components/form-input/form-input.component.jsx";
 import UserContext, { useUser } from "../../context/user.context.js";
 import Button from "../../components/button/button.component.jsx";
+import { withRouter } from "react-router-dom";
 import APP_PATHS from "../../APP_PATHS.js";
 import withUser from "../../HOCs/with-user.hoc.js";
 
 const RegisterPage = ({ history, currentUser: user }) => {
   if (user) history.push(APP_PATHS.home);
 
-  // const [currentUser, setCurrentUser] = useState(user);
+  const [currentUser, setCurrentUser] = useState(user);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -35,7 +36,7 @@ const RegisterPage = ({ history, currentUser: user }) => {
   };
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={currentUser}>
       <div id="register-page" className="page">
         <form id="register-form" onSubmit={handleSubmit}>
           <FormInput

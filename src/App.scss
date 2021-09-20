@@ -1,9 +1,10 @@
 // Font
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
 
-// Import LBH Frontend library
-$lbh-asset-path: "~lbh-frontend/lbh/assets";
-@import "~lbh-frontend/lbh/all";
+// Module Styling
+@import "node_modules/lbh-frontend/lbh/base";
+@import "node_modules/lbh-frontend/lbh/core/all";
+@import "node_modules/lbh-frontend/lbh/objects/all";
 // @import "node_modules/js-cookie/dist/js.cookie/all";
 
 // Component Styling
@@ -12,8 +13,6 @@ $lbh-asset-path: "~lbh-frontend/lbh/assets";
 @import "./components/form-input/form-input.style.scss";
 @import "./components/button/button.style.scss";
 @import "./components/footer/footer.style.scss";
-@import "./components/apiPreview/apiPreview.style.scss";
-@import "./components/pagination/pagination.style.scss";
 @import "./components/contact-container/contact-container.style.scss";
 @import "./components/home-container/home-container.style.scss";
 @import "./components/sidebar/sidebar.style.scss";
@@ -21,7 +20,6 @@ $lbh-asset-path: "~lbh-frontend/lbh/assets";
 // Page Styling
 @import "./pages/login/login.style.scss";
 @import "./pages/register/register.style.scss";
-@import "./pages/apispage/apis.style.scss";
 
 * {
   font-family: 'Open Sans', sans-serif !important;
@@ -30,7 +28,6 @@ $lbh-asset-path: "~lbh-frontend/lbh/assets";
 #root {
   margin-top: 0px !important;
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
 #contact-page {
