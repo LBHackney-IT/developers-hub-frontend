@@ -8,7 +8,7 @@ import { SOCKET_ADDRESS } from "../../APP_CONFIG.js";
 import withUser from "../../HOCs/with-user.hoc.js";
 
 const LoginPage = ({ history, currentUser: user }) => {
-  if (user) history.push(APP_PATHS.home);
+  if (user.user) history.push(APP_PATHS.home);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -82,23 +82,17 @@ const LoginPage = ({ history, currentUser: user }) => {
           required
           onChange={handleInput} />
         <br />
-        <Button type="submit">Submit</Button>
       </form>
       <a
-        href="https://auth.hackney.gov.uk/auth?redirect_uri=http://localhost:3000/register"
         role="button"
         draggable="false"
         class="govuk-button lbh-button"
         data-module="govuk-button"
+        href="https://auth.hackney.gov.uk/auth?redirect_uri=http://localhost:3000/register"
         >
-        Google sign in
+        Sign in using Hackney.gov.uk
         </a>
     </div>
-
-
-
-
-
   );
 };
 

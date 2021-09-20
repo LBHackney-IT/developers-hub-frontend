@@ -8,12 +8,12 @@ const UserContext = createContext(null);
 
 const parseToken = () => {
     const token = Cookies.get('hackneyToken') || null;
-    
+
     try {
       const decodedToken = jwtDecode(token);
-        return decodedToken;
+      return decodedToken;
     } catch(e) {
-        return null;
+      return null;
     }
 }
 
