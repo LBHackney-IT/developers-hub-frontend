@@ -35,6 +35,7 @@ export const useUser = () => {
   return user;
 }
 
+/* eslint-disable no-unused-vars */
 const SignOut = () => {
   const { logout } = useContext(UserContext);
   return <button onClick={logout}>Logout</button>;
