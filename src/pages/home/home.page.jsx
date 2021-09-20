@@ -2,10 +2,10 @@ import React from "react";
 import HomeContainer from "../../components/home-container/home-container.jsx";
 import withUser from "../../HOCs/with-user.hoc.js";
 import Sidebar from "../../components/sidebar/sidebar.component.jsx";
-import { useUser } from "../../context/user.context.js";
+// import { useUser } from "../../context/user.context.js";
 
 const HomePage = () => {
-  const user = useUser();
+  // const user = useUser();
   return (
     <>
       <div className="navigation-header">
