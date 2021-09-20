@@ -7,7 +7,7 @@ import { SOCKET_ADDRESS } from "../../APP_CONFIG.js";
 import withUser from "../../HOCs/with-user.hoc.js";
 
 const LoginPage = ({ history, currentUser: user }) => {
-  if (user.user) history.push(APP_PATHS.home);
+  // if (user.user) history.push(APP_PATHS.home);
 
   const [formData, setFormData] = useState({
     email: "",

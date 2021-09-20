@@ -54,13 +54,11 @@ commands:
                       cd ./terraform/<<parameters.environment>>/
                       terraform get -update=true
                       terraform init
-
             - run:
                   name: apply
                   command: |
                       cd ./terraform/<<parameters.environment>>/
                       terraform apply -auto-approve
-
 jobs:
     install-dependencies:
         executor: node-executor
