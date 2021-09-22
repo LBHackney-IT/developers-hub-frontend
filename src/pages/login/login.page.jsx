@@ -81,10 +81,9 @@ const LoginPage = ({ history, currentUser: user }) => {
           required
           onChange={handleInput} />
         <br />
-        <Button type="submit">Submit</Button>
       </form>
       <a
-        href="https://auth.hackney.gov.uk/auth?redirect_uri=http://localhost:3000/register"
+        href="https://developer-api.hackney.gov.uk/"
         role="button"
         draggable="false"
         className="govuk-button lbh-button"
