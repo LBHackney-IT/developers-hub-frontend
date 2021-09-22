@@ -87,7 +87,7 @@ const LoginPage = ({ history, currentUser: user }) => {
         draggable="false"
         className="govuk-button lbh-button"
         data-module="govuk-button"
-        href="https://auth.hackney.gov.uk/auth?redirect_uri=http://localhost:3000/register"
+        href="https://developer-api.hackney.gov.uk/"
         >
         Sign in using Hackney.gov.uk
         </a>
