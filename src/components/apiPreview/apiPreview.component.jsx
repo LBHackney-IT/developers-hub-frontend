@@ -1,9 +1,10 @@
 import React from "react";
 import EnvironmentTags from "../environmentTags/environmentTags.component";
+import { parseURL } from "../../utility/utility";
 
 const ApiPreview = ({name, description, tags, properties}) => {
 
-  const apiUrl = name.replaceAll(" ", "-");
+  const apiUrl = parseURL(name);
   const isPublished = properties.filter( property => property.type === "X-Published")[0].value.toLowerCase() === "true";
 
   return (

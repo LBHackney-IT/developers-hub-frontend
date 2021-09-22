@@ -4,9 +4,10 @@ import RegisterPage from "./pages/register/register.page";
 import ApiCataloguePage from "./pages/apiCatalogue/apiCatalogue.page";
 import ApiInformationPage from "./pages/apiInformation/apiInformation.page"
 import ContactPage from "./pages/contact/contact.page"
+import { parseApiName } from "./utility/utility";
 
 const ApiNameBreadcrumb = ({ match }) => (
-  <span>{match.params.apiName.replaceAll("-", " ")}</span>
+  <span>{parseApiName(match.params.apiName)}</span>
 );
 
 const APP_PATHS = [

@@ -2,6 +2,7 @@ import React from "react";
 import { UserProvider } from "./context/user.context";
 
 import './App.scss';
+import "./utility/utility";
 import { Route, Switch } from "react-router-dom";
 import APP_PATHS from "./APP_PATHS.js";
 
