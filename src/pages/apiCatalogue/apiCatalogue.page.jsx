@@ -62,18 +62,16 @@ const ApiCataloguePage = ({ history, currentUser: user }) => {
     
     fetch(`https://api.swaggerhub.com/specs?${parseQueryParams()}`)
       .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setApis(result.apis);
-          setApiMetadata(result);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      )
-  }, [queryParams])
+      .then((result) => {
+        setApis(result.apis);
+        setApiMetadata(result);
+        setIsLoaded(true);
+      })
+      .catch((error) => {
+        setError(error);
+        setIsLoaded(true);
+      });
+  }, [queryParams]);
 
   return(
     <div className="lbh-container">

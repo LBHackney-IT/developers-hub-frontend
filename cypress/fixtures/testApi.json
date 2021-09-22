@@ -1,0 +1,371 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0",
+        "title": "Test API",
+        "description": "This is a specification for the Test API that allows us to test that the site is working as expected"
+    },
+    "paths": {
+        "/claimants": {
+            "get": {
+                "tags": [
+                    "claimant"
+                ],
+                "summary": "List all claimants",
+                "description": "Returns list of claimants who share the query search parameter",
+                "operationId": "listClaimants",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "first_name",
+                        "type": "string",
+                        "description": "first name to search by"
+                    },
+                    {
+                        "in": "query",
+                        "name": "last_name",
+                        "type": "string",
+                        "description": "last name to search by"
+                    },
+                    {
+                        "in": "query",
+                        "name": "address",
+                        "type": "string",
+                        "description": "addressLine1 to search by"
+                    },
+                    {
+                        "in": "query",
+                        "name": "postcode",
+                        "type": "string",
+                        "description": "postcode to search by"
+                    },
+                    {
+                        "in": "query",
+                        "name": "cursor",
+                        "type": "string",
+                        "description": "retrieve the next set of claimants after the cursor value - default of null"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "number",
+                        "description": "number of claimants to return - minimum of 10, a maximum of 100, and a default of 20"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/claimantsList"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid search parameter"
+                    },
+                    "404": {
+                        "description": "Claimant contact not found"
+                    }
+                }
+            }
+        },
+        "/claim/{claimId}/person/{personRef}": {
+            "get": {
+                "summary": "Find single claimant by specified IDs",
+                "description": "Returns unique record with the specified claim ID and person Ref combination",
+                "operationId": "getClaimantById",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "claimId",
+                        "required": true,
+                        "type": "number",
+                        "description": "Academy Claim Id to retrieve record by"
+                    },
+                    {
+                        "in": "path",
+                        "name": "personRef",
+                        "required": true,
+                        "type": "number",
+                        "description": "Academy Person Ref to retrieve record by"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/claimant"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid search parameter"
+                    },
+                    "404": {
+                        "description": "Claimant not found"
+                    }
+                },
+                "tags": [
+                    "claimant"
+                ]
+            }
+        },
+        "/tax-payers": {
+            "get": {
+                "tags": [
+                    "taxPayer"
+                ],
+                "summary": "List all council tax payers",
+                "description": "Returns list of council tax payers who share the query search parameter",
+                "operationId": "listTaxPayers",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "first_name",
+                        "type": "string",
+                        "description": "first name to search by"
+                    },
+                    {
+                        "in": "query",
+                        "name": "last_name",
+                        "type": "string",
+                        "description": "last name to search by"
+                    },
+                    {
+                        "in": "query",
+                        "name": "address",
+                        "type": "string",
+                        "description": "address to search by"
+                    },
+                    {
+                        "in": "query",
+                        "name": "postcode",
+                        "type": "string",
+                        "description": "postcode to search by"
+                    },
+                    {
+                        "in": "query",
+                        "name": "cursor",
+                        "type": "string",
+                        "description": "retrieve the next set of tax payers after the cursor value - default of null"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "type": "number",
+                        "description": "number of tax payers to return - minimum of 10, a maximum of 100, and a default of 20"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/taxPayersList"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid search parameter"
+                    },
+                    "404": {
+                        "description": "taxPayer contact not found"
+                    }
+                }
+            }
+        },
+        "/tax-payers/{accountRef}": {
+            "get": {
+                "summary": "Find single tax payer by account ref",
+                "description": "Returns unique record with primary key",
+                "operationId": "getTaxPayerById",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "accountRef",
+                        "required": true,
+                        "type": "number",
+                        "description": "Council Tax record to retrieve record by"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/taxPayer"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid search parameter"
+                    },
+                    "404": {
+                        "description": "Tax Payer record not found"
+                    }
+                },
+                "tags": [
+                    "taxPayer"
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "claimantsList": {
+            "type": "object",
+            "properties": {
+                "claimants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/claimant"
+                    }
+                },
+                "nextCursor": {
+                    "type": "string",
+                    "example": "31000026-34-2",
+                    "description": "Use this as the cursor query parameter to get the next page of results, if value is null then this is the last page."
+                }
+            }
+        },
+        "taxPayersList": {
+            "type": "object",
+            "properties": {
+                "taxPayers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/taxPayer"
+                    }
+                },
+                "nextCursor": {
+                    "type": "number",
+                    "example": 123456,
+                    "description": "Use this as the cursor query parameter to get the next page of results, if value is null then this is the last page."
+                }
+            }
+        },
+        "claimant": {
+            "type": "object",
+            "properties": {
+                "claimId": {
+                    "type": "number",
+                    "example": 123456
+                },
+                "checkDigit": {
+                    "type": "string",
+                    "example": "I"
+                },
+                "personRef": {
+                    "type": "number",
+                    "example": 11
+                },
+                "firstName": {
+                    "type": "string",
+                    "example": "Ciasom"
+                },
+                "lastName": {
+                    "type": "string",
+                    "example": "Tesselate"
+                },
+                "dateOfBirth": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "niNumber": {
+                    "type": "string",
+                    "example": "QQ123456C"
+                },
+                "address": {
+                    "$ref": "#/definitions/address"
+                }
+            }
+        },
+        "taxPayer": {
+            "type": "object",
+            "properties": {
+                "accountRef": {
+                    "type": "number"
+                },
+                "uprn": {
+                    "type": "string"
+                },
+                "firstName": {
+                    "type": "string",
+                    "example": "Ciasom"
+                },
+                "lastName": {
+                    "type": "string",
+                    "example": "Tesselate"
+                },
+                "emailAddresses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/emailAddress"
+                    }
+                },
+                "phoneNumbers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/phoneNumber"
+                    }
+                },
+                "address": {
+                    "$ref": "#/definitions/address"
+                }
+            }
+        },
+        "address": {
+            "type": "object",
+            "properties": {
+                "addressLine1": {
+                    "type": "string",
+                    "example": "1 Hillman Street"
+                },
+                "addressLine2": {
+                    "type": "string",
+                    "example": "Hackney"
+                },
+                "addressLine3": {
+                    "type": "string",
+                    "example": "London"
+                },
+                "addressLine4": {
+                    "type": "string",
+                    "example": "United Kingdom"
+                },
+                "postCode": {
+                    "type": "string",
+                    "example": "E8 1DY"
+                }
+            }
+        },
+        "phoneNumber": {
+            "type": "integer",
+            "example": "012345678910"
+        },
+        "emailAddress": {
+            "type": "string",
+            "format": "email"
+        }
+    },
+    "tags": [
+        {
+            "name": "Academy",
+            "description": "Contact details for Hackney Residents stored in the Academy Database"
+        },
+        {
+            "name": "Development",
+            "description": "Marks this API as available in its development enviroment."
+        }
+    ],
+    "schemes": [
+        "https"
+    ],
+    "host": "virtserver.swaggerhub.com",
+    "basePath": "/Hackney/academy-resident-information-api/1.0"
+}

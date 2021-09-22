@@ -12,7 +12,7 @@
             "properties": [
                 {
                     "type": "Swagger",
-                    "url": "https://api.swaggerhub.com/apis/Hackney/academy-resident_information_api/1.0"
+                    "url": "https://api.swaggerhub.com/apis/Hackney/test-api/1.0"
                 },
                 {
                     "type": "X-Version",

@@ -41,11 +41,4 @@ describe("Preview an API", () => {
                 }
             });
     });
-
-    it("When the user clicks on an API name they are directed to the SwaggerHub page", function() {
-        cy.get(".apiPreview").find("a").first().click();
-        const expectedUrl = this.apiData.name.replaceAll(" ", "-");
-        cy.url().should('include', expectedUrl);
-    });
-
 });

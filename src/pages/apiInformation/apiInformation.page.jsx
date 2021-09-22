@@ -1,26 +1,47 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
+import { useLocation } from "react-router";
+
 import withUser from "../../HOCs/with-user.hoc.js";
+// import { parseApiName } from "../../utility/utility.js";
+
 import Table from "../../components/table/table.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
 import Select from "../../components/select/select.component.jsx";
+import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
-import { useParams } from "react-router";
-import { parseApiName } from "../../utility/utility.js";
 
 const ApiInformationPage = () => {
 
-    const { apiName } = useParams();
+    const [error, setError] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [apiData, setApiData] = useState({});
+
+    //const { apiName } = useParams();
+    const { SwaggerLink } = useLocation().state; 
+
+    useEffect(() => {
+        fetch(SwaggerLink)
+            .then(res => res.json())
+            .then((result) => {
+                setApiData(result);
+                setIsLoaded(true);
+            })
+            .catch((error) => {
+                setError(error);
+                setIsLoaded(true);
+            })
+        }, [SwaggerLink]);
     
-    const ApiData = {
-        name: parseApiName(apiName),
-        description: "The default paragraph font size is 19px on large screens and 16px on small screens. A 19px body copy paragraph. This includes even more text to give a good representation of a more average length paragraph.That way you can see more than one line wrapping.",
-        tags: ["Development", "Staging"]
+    const changeVersion = (version) => {
+        console.log(version);
+        // placeholder
     }
-    
+
     const TableData = [
+        ["Version", <Select name={"VersionNo"} options={["V1.0.0", "V2.0.0"]} onChange={changeVersion} />],
         ["Development Base URL", "https://test-api.service.hmrc.gov.uk"],
         ["Staging Base URL", "https://test-api.service.hmrc.gov.uk"],
-        ["SwaggerHub Specification", "https://swaggerhub.com/apis/Hackney/abcdefg/1.0"],
+        ["SwaggerHub Specification", <a href={`https://swaggerhub.com/apis${apiData.basePath}`}>https://swaggerhub.com/apis{apiData.basePath}</a>],
         ["API Specification", "https://playbook.hackney.gov.uk/api-specifications/"],
         ["GitHub Repository", "https://github.com/LBHackney-IT/abcdefghijkl"],
         ["Contacts",
@@ -32,29 +53,30 @@ const ApiInformationPage = () => {
         ],
     ];
 
-
-    const changeVersion = (version) => {
-        console.log(version);
-        // placeholder
-    }
-
-    TableData.unshift(["Version", <Select name={"VersionNo"} options={["V1.0.0", "V2.0.0"]} onChange={changeVersion} />]);
-
     return (
         <div id="api-info-page" className="lbh-container">
-            <div className="sidebar">
-                <Breadcrumbs />
-                <h1>{ApiData.name}</h1>
-                <EnvironmentTags tags={ApiData.tags} />
-                <p className="lbh-body-m">{ApiData.description}</p>
-            </div>
-            <div className="main-container table-container">
-                <div className="inner-container">
-                    <span className="govuk-caption-xl lbh-caption">API Information</span>
-                    <hr/>
-                    <Table tableData={TableData} />
-                </div>
-            </div>
+            {isLoaded ? ( 
+                error ? 
+                    <Error title="Oops! Something went wrong!" summary={error.message} /> 
+                    :
+                    <>
+                        <div className="sidebar">
+                            <Breadcrumbs />
+                            <h1>{apiData.info.title}</h1>
+                            <EnvironmentTags tags={apiData.tags ? apiData.tags.map(tag => tag.Name) : null} />
+                            <p className="lbh-body-m">{apiData.info.description}</p>
+                        </div>
+                        <div className="main-container table-container">
+                            <div className="inner-container">
+                                <span className="govuk-caption-xl lbh-caption">API Information</span>
+                                <hr/>
+                                <Table tableData={TableData} />
+                            </div>
+                        </div>
+                    </>
+            )
+            : 
+            <h3>Loading..</h3>}
         </div>
     );
 };
