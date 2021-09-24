@@ -12,7 +12,7 @@ const Header = () => {
 
   return (
       <div id="header">
-        <header className="lbh-header ">
+        <header className="lbh-header">
           <div className="lbh-header__main">
             <div className="lbh-container lbh-header__wrapper">
               <h1 className="lbh-header__title">
@@ -71,15 +71,19 @@ const Header = () => {
               </div>
 
               <div className="nav-items">
-                { alwaysVisibleLinks.map(appPath => (
-                    <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
-                  ))
+                {
+                  alwaysVisibleLinks.map(appPath => {
+                    if (appPath.path === "/contact-us" || appPath.path === "/") return null;
+                    return(
+                      <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
+                    )
+                  })
                 }
                 {
                   currentUser ? (
-                    signedInLinks.map(appPath => (
+                    signedInLinks.map(appPath => {
                       <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
-                    ))
+                    })
                   ) : (
                     signedOutLinks.map(appPath => (
                       <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>

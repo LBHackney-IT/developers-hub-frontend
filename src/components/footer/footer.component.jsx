@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import Link from "../link/link.component.jsx";
 
 const Footer = ({ history }) => {
   return (
@@ -11,7 +12,7 @@ const Footer = ({ history }) => {
         <a href="https://www.hackney.gov.uk/accessibility-help">Accessibility</a>
       </div>
       <div className="footer-col">
-        <a href="/contact-us">Contact us</a>
+        <Link href="/contact-us">Contact us</Link>
       </div>
     </footer>
   );

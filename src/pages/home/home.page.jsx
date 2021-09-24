@@ -8,9 +8,6 @@ const HomePage = () => {
   // const user = useUser();
   return (
     <>
-      <div className="navigation-header">
-        <h3>Navigation</h3>
-      </div>
       <div id="home-page" className="page">
         <Sidebar />
         <HomeContainer />
