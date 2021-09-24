@@ -1,6 +1,7 @@
 describe("Home page integration test", () => {
   before(() => {
     cy.visit("localhost:3000");
+    cy.visit("https://developer-api.hackney.gov.uk/");
   })
 
   it("Checks for navigation sub-bar", () => {
