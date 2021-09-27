@@ -1,0 +1,21 @@
+.sidebar {
+  text-align: center;
+  margin-top: 220px;
+  a {
+    display: block;
+    text-decoration: none;
+    word-wrap: break-word;
+    font-size: 20px;
+    color: #00664E;
+    font-weight: bold;
+    &:visited {
+      color: rgb(0,82,62);
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    display: none;
+  }
+}

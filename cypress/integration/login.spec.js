@@ -1,18 +1,18 @@
-const testUser = {
-  "login-email": "alh@gmail.com",
-  "login-pass": "pass123"
-};
+// const testUser = {
+//   "login-email": "alh@gmail.com",
+//   "login-pass": "pass123"
+// };
 
-describe("Tests login page", () => {
-  it("Logs user in", () => {
-    cy.visit("/login");
+// describe("Unit Test login page", () => {
+//   it("Logs user in", () => {
+//     cy.visit("/login");
 
-    for (const prop in testUser) {
-      cy.get(`#${prop}`).type(testUser[prop]);
-    }
+//     for (const prop in testUser) {
+//       cy.get(`#${prop}`).type(testUser[prop]);
+//     }
 
-    cy.get("button[type='submit']").click();
+//     cy.get("button[type='submit']").click();
 
-    cy.url().should("include", "/");
-  });
-});
+//     cy.url().should("include", "/");
+//   });
+// });

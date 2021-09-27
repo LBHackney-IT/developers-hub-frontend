@@ -8,12 +8,12 @@ const UserContext = createContext(null);
 
 const parseToken = () => {
     const token = Cookies.get('hackneyToken') || null;
-    
+
     try {
       const decodedToken = jwtDecode(token);
-        return decodedToken;
+      return decodedToken;
     } catch(e) {
-        return null;
+      return null;
     }
 }
 
@@ -35,6 +35,7 @@ export const useUser = () => {
   return user;
 }
 
+/* eslint-disable no-unused-vars */
 const SignOut = () => {
   const { logout } = useContext(UserContext);
   return <button onClick={logout}>Logout</button>;

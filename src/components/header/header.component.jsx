@@ -1,14 +1,18 @@
 import React from "react";
 import Link from "../link/link.component.jsx";
 import APP_PATHS from "../../APP_PATHS.js";
-
-import { useUser } from '../../context/user.context'
+import { useUser } from "../../context/user.context.js";
 
 const Header = () => {
+
   const currentUser = useUser();
+  const alwaysVisibleLinks = APP_PATHS.filter(appPath => appPath.alwaysVisible);
+  const signedOutLinks = APP_PATHS.filter(appPath => appPath.signedOutVisible);
+  const signedInLinks = APP_PATHS.filter(appPath => appPath.signedInVisible);
+
   return (
       <div id="header">
-        <header className="lbh-header ">
+        <header className="lbh-header">
           <div className="lbh-header__main">
             <div className="lbh-container lbh-header__wrapper">
               <h1 className="lbh-header__title">
@@ -22,7 +26,7 @@ const Header = () => {
                     viewBox="0 0 208 37"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <title>Hackney logo</title>
+                    <title>Developer Hub</title>
                     <g stroke="none" fill="currentColor" fillRule="evenodd">
                       <path
                         d="M36,15.9985404 C36,9.03922642 32.0578091,3.00529101 26.2909886,0 L26.2909886,12.0328407 L9.70901142,12.0328407 L9.70901142,0 C3.94073354,3.00529101 0,9.03922642 0,15.9985404 C0,22.9607736 3.94073354,28.9961686 9.70901142,32 L9.70901142,19.9671593 L26.2909886,19.9671593 L26.2909886,32 C32.0578091,28.9961686 36,22.959314 36,15.9985404"
@@ -58,21 +62,32 @@ const Header = () => {
                       height="37"
                     ></image>
                   </svg>
-                  <span className="lbh-header__logo-text"> Hackney </span>
+                  <span className="lbh-header__logo-text">Developers Hub</span>
                 </a>
               </h1>
+
+              <div className="name">
+                  <h3 style={{ color: 'white', position: 'center', }}>DEVELOPER HUB</h3>
+              </div>
+
               <div className="nav-items">
-                <Link className="nav-item lbh-body-m">HOME</Link>
-                <Link className="nav-item lbh-body-m" href={APP_PATHS.allApis}>APIs</Link>
-                <Link className="nav-item lbh-body-m">CONTACT US</Link>
+                {
+                  alwaysVisibleLinks.map(appPath => {
+                    if (appPath.path === "/contact-us" || appPath.path === "/") return null;
+                    return(
+                      <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
+                    )
+                  })
+                }
                 {
                   currentUser ? (
-                    <Link className="nav-item lbh-body-m">LOGOUT</Link>
+                    signedInLinks.map(appPath => {
+                      <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
+                    })
                   ) : (
-                    <React.Fragment>
-                      <Link className="nav-item lbh-body-m" href={APP_PATHS.login}>LOGIN</Link>
-                      <Link className="nav-item lbh-body-m" href={APP_PATHS.register}>SIGNUP</Link>
-                    </React.Fragment>
+                    signedOutLinks.map(appPath => (
+                      <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
+                    ))
                   )
                 }
               </div>
