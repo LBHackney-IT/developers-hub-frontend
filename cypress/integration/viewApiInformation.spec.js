@@ -1,4 +1,4 @@
-import { parseURL } from "../../src/utility/utility"
+import { spacedtoHyphenatedCase } from "../../src/utility/utility"
 
 describe("View API Information page", () => {
 
@@ -16,7 +16,7 @@ describe("View API Information page", () => {
     });
 
     it("Navigate to page", function() {
-        const expectedUrl = parseURL(this.apiData.info.title);
+        const expectedUrl = spacedtoHyphenatedCase(this.apiData.info.title);
         cy.url().should('include', expectedUrl);
 
     });

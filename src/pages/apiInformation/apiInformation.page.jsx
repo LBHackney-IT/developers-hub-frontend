@@ -2,25 +2,35 @@ import { React, useEffect, useState } from "react";
 import { useLocation } from "react-router";
 
 import withUser from "../../HOCs/with-user.hoc.js";
-// import { parseApiName } from "../../utility/utility.js";
+// import { hyphenatedToTitleCase } from "../../utility/utility.js";
 
 import Table from "../../components/table/table.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
 import Select from "../../components/select/select.component.jsx";
 import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
+import { camelToTitleCase } from "../../utility/utility.js";
 
 const ApiInformationPage = () => {
+    //const { apiName } = useParams();
+    const { SwaggerLink, Versions, SelectedVersion } = useLocation().state; 
+    const apiRequestUrl = SwaggerLink.replace(SelectedVersion, "");
 
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [apiData, setApiData] = useState({});
+    const [currentVersion, setCurrentVersion] = useState(SelectedVersion);
 
-    //const { apiName } = useParams();
-    const { SwaggerLink } = useLocation().state; 
+
+    const resetState = () => {
+        setError(null);
+        setIsLoaded(false);
+        setApiData(null);
+      }
 
     useEffect(() => {
-        fetch(SwaggerLink)
+        resetState();
+        fetch(`${apiRequestUrl}${currentVersion}`)
             .then(res => res.json())
             .then((result) => {
                 setApiData(result);
@@ -30,28 +40,33 @@ const ApiInformationPage = () => {
                 setError(error);
                 setIsLoaded(true);
             })
-        }, [SwaggerLink]);
+        }, [apiRequestUrl, currentVersion]);
+
+    const ApiData = {
+        // apiName: "",
+        // description: "",
+        githubLink: "",
+        swaggerLink: `${apiRequestUrl}${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs"),
+        developmentBaseUrl: "",
+        stagingBaseUrl: "",
+        apiSpecificationLink: ""
+    } // mocking API call
     
     const changeVersion = (version) => {
-        console.log(version);
+        setCurrentVersion(version);
         // placeholder
     }
 
+    const SelectVersion = <Select name={"VersionNo"} options={Versions} selectedOption={currentVersion} onChange={changeVersion} />;
     const TableData = [
-        ["Version", <Select name={"VersionNo"} options={["V1.0.0", "V2.0.0"]} onChange={changeVersion} />],
-        ["Development Base URL", "https://test-api.service.hmrc.gov.uk"],
-        ["Staging Base URL", "https://test-api.service.hmrc.gov.uk"],
-        ["SwaggerHub Specification", <a href={`https://swaggerhub.com/apis${apiData.basePath}`}>https://swaggerhub.com/apis{apiData.basePath}</a>],
-        ["API Specification", "https://playbook.hackney.gov.uk/api-specifications/"],
-        ["GitHub Repository", "https://github.com/LBHackney-IT/abcdefghijkl"],
-        ["Contacts",
-            <ul>
-                <li>sarah.phillips@example.com</li>
-                <li>claudia.phillips@example.com</li>
-                <li>sarah.john@example.com</li>
-            </ul>
-        ],
+        ["Version", SelectVersion]
     ];
+
+    for (const [key, value] of Object.entries(ApiData)) {
+        TableData.push(
+            [camelToTitleCase(key), value]
+        );
+      }
 
     return (
         <div id="api-info-page" className="lbh-container">

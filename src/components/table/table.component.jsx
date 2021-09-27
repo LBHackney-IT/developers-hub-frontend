@@ -1,4 +1,5 @@
 import React from "react";
+import Linkify from "react-linkify";
 
 const Table = ({tableData}) => {
 
@@ -9,7 +10,7 @@ const Table = ({tableData}) => {
             if(index === 0){
                 return <th key={index} scope="row" className="govuk-table__header">{cellContent}</th>
             } else {
-                return <td key={index} className="govuk-table__cell">{cellContent}</td>
+                return <td key={index} className="govuk-table__cell"><Linkify>{cellContent}</Linkify></td>
             }
         })}
         </tr>);

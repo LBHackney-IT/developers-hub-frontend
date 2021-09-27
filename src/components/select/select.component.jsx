@@ -1,4 +1,4 @@
-const Select = ({name, label, options, onChange}) => {
+const Select = ({name, label, options, onChange, selectedOption}) => {
 
     const updateSelection = (selection) => {
         onChange(selection);
@@ -11,12 +11,15 @@ const Select = ({name, label, options, onChange}) => {
                     Label text goes here
                 </label>
             }
-            <select className="govuk-select lbh-select" id={name} name={name} onChange={(e) => updateSelection(e.target.value)}>
-                {
-                    options.map( option => (
-                        <option key={option} value={option}>{option}</option>
-                    ))
-                }
+            <select 
+                className="govuk-select lbh-select" 
+                id={name} name={name} 
+                onChange={(e) => updateSelection(e.target.value)}
+                defaultValue={options.filter(option => option === selectedOption)}
+            >
+                {options.map( option => (
+                    <option key={option} value={option}>{option}</option>
+                ))}
             </select>
         </div>
   );

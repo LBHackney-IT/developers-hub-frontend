@@ -1,12 +1,15 @@
-export const parseURL = function(apiName) {
-    return apiName.toLowerCase().replaceAll(" ", "-");
+export const spacedtoHyphenatedCase = function(string) {
+    return string.toLowerCase().replaceAll(" ", "-");
 }
 
-export const parseApiName = function(url) {
-    var apiName = url.replaceAll("-", " ").replace(
+export const hyphenatedToTitleCase = function(string) {
+    return string.replaceAll("-", " ").replace(
         /\w\S*/g, (txt) => {
           return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         }
     ).replace(/api/ig, "API"); // Make title case, API all capitalised
-    return apiName;
+}
+export const camelToTitleCase = function(string){
+    const result = string.replace(/([A-Z])/g, " $1");
+    return result.charAt(0).toUpperCase() + result.slice(1);
 }
