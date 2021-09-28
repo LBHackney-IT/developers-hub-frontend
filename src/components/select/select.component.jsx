@@ -8,14 +8,14 @@ const Select = ({name, label, options, onChange, selectedOption}) => {
         <div className="govuk-form-group lbh-form-group">
             { label &&
                 <label className="govuk-label lbh-label" for={name}>
-                    Label text goes here
+                    {label}
                 </label>
             }
             <select 
                 className="govuk-select lbh-select" 
                 id={name} name={name} 
                 onChange={(e) => updateSelection(e.target.value)}
-                defaultValue={options.filter(option => option === selectedOption)}
+                defaultValue={ options.length > 1 && options.filter(option => option === selectedOption)[0]}
             >
                 {options.map( option => (
                     <option key={option} value={option}>{option}</option>
