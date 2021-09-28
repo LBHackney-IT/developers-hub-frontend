@@ -12,11 +12,11 @@
             "properties": [
                 {
                     "type": "Swagger",
-                    "url": "https://api.swaggerhub.com/apis/Hackney/test-api/1.0"
+                    "url": "https://api.swaggerhub.com/apis/Hackney/testApi/1.0.0"
                 },
                 {
                     "type": "X-Version",
-                    "value": "1.0"
+                    "value": "1.0.0"
                 },
                 {
                     "type": "X-Created",
@@ -32,7 +32,7 @@
                 },
                 {
                     "type": "X-Versions",
-                    "value": "1.0"
+                    "value": "1.0.0,2.0.0"
                 },
                 {
                     "type": "X-Private",

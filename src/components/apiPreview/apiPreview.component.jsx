@@ -26,7 +26,7 @@ const ApiPreview = ({name, description, tags, properties}) => {
         </div>
         <span className={`govuk-tag lbh-tag${isPublished ? "" : "--grey"}`}>{ isPublished ? "Active" : "Inactive" }</span>
       </div>
-      <p>{description}</p>
+      <p className="description">{description}</p>
       <EnvironmentTags tags={tags} />
     </li>
   );

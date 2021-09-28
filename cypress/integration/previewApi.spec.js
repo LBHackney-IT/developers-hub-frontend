@@ -10,19 +10,25 @@ describe("Preview an API", () => {
     });
 
     it("View API name", function () {
-        cy.get(".apiPreview").find("h3").first()
+        cy.get(".title").find("h3").first()
             .should("have.text", this.apiData.name);
     });
 
+    it("View API version", function () {
+        const expectedVersion = this.apiData.properties.filter(property => property.type === "X-Version")[0]
+        cy.get(".title").find("p").first()
+            .should("have.text", `Version ${expectedVersion.value}`);
+    });
+
     it("View API description", function () {
-        cy.get(".apiPreview").find("p").first()
+        cy.get(".apiPreview").find(".description").first()
             .should("have.text", this.apiData.description);
     });
 
     it("View active status tag", function () {
         const isPublished = this.apiData.properties.filter( property => property.type === "X-Published")[0].value.toLowerCase() == "true";
         const expectedClass = isPublished ? "lbh-tag" : "lbh-tag--grey";
-        cy.get(".apiPreview").find(".title > span.govuk-tag").first().should(($tag) => {
+        cy.get(".apiPreview").find(".top > span.govuk-tag").first().should(($tag) => {
             const tagText = $tag.text();
             const expectedTagText = isPublished ? "Active" : "Inactive";
             expect(tagText).to.equal(expectedTagText);
