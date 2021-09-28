@@ -19,11 +19,11 @@ const ApiInformationPage = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [currentVersion, setCurrentVersion] = useState(SelectedVersion);
     const [apiData, setApiData] = useState({
-        githubLink: "",
+        githubLink: null,
         swaggerLink: `${apiRequestUrl}${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs"),
-        developmentBaseUrl: "",
-        stagingBaseUrl: "",
-        apiSpecificationLink: "",
+        developmentBaseUrl: null,
+        stagingBaseUrl: null,
+        apiSpecificationLink: null,
         // fields that will be populated by an API call later
     });
     const resetState = () => {
@@ -58,22 +58,22 @@ const ApiInformationPage = () => {
             {linkText: `${apiData.swaggerData.info.title} Specification`, url: apiData.apiSpecificationLink},
             {linkText: `${apiData.swaggerData.info.title} on SwaggerHub`, url: apiData.swaggerLink },
             {linkText: `${apiData.swaggerData.info.title} GitHub Repository`, url: apiData.githubLink }
-        ]
-    
+        ];
+
         TableData.push(
             ["Version", SelectVersion],
             ["Development Base URL", apiData.developmentBaseUrl],
             ["Staging Base URL", apiData.stagingBaseUrl],
             ["Relevant Links", Links.map(link => (
                 <li key={link} >   
-                    <a className="lbh-link lbh-link--no-visited-state" href={link.url} >{link.linkText}</a>
+                    <a className="lbh-link lbh-link--no-visited-state" href={link.url} >{link.linkText} {!link.url && "(TBC)"}</a>
                 </li>
             ))]
         );
     }
 
     const TableData = [];
-    if (isLoaded){
+    if (isLoaded && !error){
         formatApiData();
     }
 
@@ -87,7 +87,7 @@ const ApiInformationPage = () => {
                         <div className="sidebar">
                             <Breadcrumbs />
                             <h1>{apiData.swaggerData.info.title}</h1>
-                            <EnvironmentTags tags={apiData.swaggerData.tags ? apiData.swaggerData.tags.map(tag => tag.Name) : null} />
+                            <EnvironmentTags tags={apiData.swaggerData.tags && apiData.swaggerData.tags.map(tag =>(tag.name))} />
                             <p className="lbh-body-m">{apiData.swaggerData.info.description}</p>
                         </div>
                         <div className="main-container table-container">

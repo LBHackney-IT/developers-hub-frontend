@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "1.0",
+        "version": "1.0.0",
         "title": "Test API",
         "description": "This is a specification for the Test API that allows us to test that the site is working as expected"
     },
@@ -367,5 +367,5 @@
         "https"
     ],
     "host": "virtserver.swaggerhub.com",
-    "basePath": "/Hackney/academy-resident-information-api/1.0"
+    "basePath": "/Hackney/testApi/1.0.0"
 }
