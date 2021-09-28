@@ -3,6 +3,7 @@ import LoginPage from "./pages/login/login.page.jsx";
 import RegisterPage from "./pages/register/register.page.jsx";
 import ApisPage from "./pages/apispage/apis.page.jsx";
 import ContactPage from "./pages/contact/contact.page"
+import LogoutPage from "./pages/logout/logout.page.jsx";
 
 const APP_PATHS = [
   {
@@ -42,7 +43,7 @@ const APP_PATHS = [
   },
   {
     path: "/logout",
-    Component: HomePage,
+    Component: LogoutPage,
     breadcrumb: 'Register',
     headingName: 'SIGN OUT',
     signedInVisible: true
