@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import HomeContainer from "../../components/home-container/home-container.jsx";
 import withUser from "../../HOCs/with-user.hoc.js";
@@ -9,7 +10,12 @@ const HomePage = () => {
   return (
     <>
       <div id="home-page" className="page">
-        <Sidebar />
+        <Sidebar>
+          <a className="sidebarLink" href="#">Mission</a>
+          <a className="sidebarLink" href="#">The need of a developer hub</a>
+          <a className="sidebarLink" href="#">API Specifications</a>
+          <a className="sidebarLink" href="#">Our ways of working</a>
+        </Sidebar>
         <HomeContainer />
       </div>
     </>

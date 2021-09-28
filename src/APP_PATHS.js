@@ -1,8 +1,14 @@
-import HomePage from "./pages/home/home.page.jsx";
-import LoginPage from "./pages/login/login.page.jsx";
-import RegisterPage from "./pages/register/register.page.jsx";
-import ApisPage from "./pages/apispage/apis.page.jsx";
+import HomePage from "./pages/home/home.page";
+import LoginPage from "./pages/login/login.page";
+import RegisterPage from "./pages/register/register.page";
+import ApiCataloguePage from "./pages/apiCatalogue/apiCatalogue.page";
+import ApiInformationPage from "./pages/apiInformation/apiInformation.page"
 import ContactPage from "./pages/contact/contact.page"
+import { hyphenatedToTitleCase } from "./utility/utility";
+
+const ApiNameBreadcrumb = ({ match }) => (
+  <span>{hyphenatedToTitleCase(match.params.apiName)}</span>
+);
 
 const APP_PATHS = [
   {
@@ -14,10 +20,16 @@ const APP_PATHS = [
   },
   {
     path: "/api-catalogue",
-    Component: ApisPage,
+    Component: ApiCataloguePage,
     breadcrumb: 'API Catalogue',
     headingName: 'APIS',
     alwaysVisible: true
+  },
+  {
+    path: "/api-catalogue/:apiName",
+    Component: ApiInformationPage,
+    breadcrumb: ApiNameBreadcrumb,
+    alwaysVisible: false
   },
   {
     path: "/contact-us",

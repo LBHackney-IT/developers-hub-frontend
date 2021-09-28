@@ -7,7 +7,7 @@ import Radios from "../../components/radios/radios.component";
 import Pagination from "../../components/pagination/pagination.component";
 import withUser from "../../HOCs/with-user.hoc.js";
 
-const ApisPage = ({ history, currentUser: user }) => {
+const ApiCataloguePage = ({ history, currentUser: user }) => {
   // if (!user) history.push(APP_PATHS.home);
 
   // const [currentUser, setCurrentUser] = useState(user);
@@ -62,43 +62,43 @@ const ApisPage = ({ history, currentUser: user }) => {
     
     fetch(`https://api.swaggerhub.com/specs?${parseQueryParams()}`)
       .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setApis(result.apis);
-          setApiMetadata(result);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      )
-  }, [queryParams])
+      .then((result) => {
+        setApis(result.apis);
+        setApiMetadata(result);
+        setIsLoaded(true);
+      })
+      .catch((error) => {
+        setError(error);
+        setIsLoaded(true);
+      });
+  }, [queryParams]);
 
   return(
-    <div id="apis-page" className="page">
-        <Breadcrumbs/>
-        <h1>API Catalogue</h1>
-        <Radios onChange={updateApiFilter} {...radioData}/>
-        {
-          isLoaded ? ( 
-            error ? 
-              <Error title="Oops! Something went wrong!" summary={error.message} /> 
-              :
-              <div className="lbh-container">
-                <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
-                <ul id="apisList">
-                  {apis.map((item, index) => (
-                    < ApiPreview key={index} {...item} />
-                  ))}
-                </ul>
-              </div>
-          )
-          : 
-          <h3>Loading..</h3>
-        }
+    <div className="lbh-container">
+      <div id="apis-page" className="page">
+          <Breadcrumbs/>
+          <h1>API Catalogue</h1>
+          <Radios onChange={updateApiFilter} {...radioData}/>
+          {
+            isLoaded ? ( 
+              error ? 
+                <Error title="Oops! Something went wrong!" summary={error.message} /> 
+                :
+                <div className="lbh-container">
+                  <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
+                  <ul id="apisList">
+                    {apis.map((item, index) => (
+                      < ApiPreview key={index} {...item} />
+                    ))}
+                  </ul>
+                </div>
+            )
+            : 
+            <h3>Loading..</h3>
+          }
+      </div>
     </div>
   );
 };
 
-export default withUser(ApisPage);
+export default withUser(ApiCataloguePage);
