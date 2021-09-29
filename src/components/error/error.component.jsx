@@ -4,7 +4,7 @@ const Error = ({title, summary, link1, link2}) => {
             className="govuk-error-summary optional-extra-class lbh-error-summary"
             aria-labelledby="error-summary-title"
             role="alert"
-            tabIndex="-1"
+            tabindex="-1"
             data-module="govuk-error-summary"
             >
             <h2 className="govuk-error-summary__title" id="error-summary-title">

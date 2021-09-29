@@ -4,7 +4,7 @@
     border-radius: 3px;
     list-style-type: none;
 
-    .top {
+    .title {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -13,18 +13,14 @@
             text-transform: uppercase;
             font-weight: 700;
         }
-        .title{
-            display: flex;
-            align-items: center;
+    }
 
-            >{ display: inline; }
-
-            p {
-                margin: 0;
-                margin-left: 0.5em;
-                font-style: italic;
-            }
+    .tags {
+        display: flex;
+        align-items: center;
+        flex-flow: wrap;
+        .lbh-tag {
+            margin: 10px;
         }
-
     }
 }

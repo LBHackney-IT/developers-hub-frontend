@@ -10,25 +10,19 @@ describe("Preview an API", () => {
     });
 
     it("View API name", function () {
-        cy.get(".title").find("h3").first()
+        cy.get(".apiPreview").find("h3").first()
             .should("have.text", this.apiData.name);
     });
 
-    it("View API version", function () {
-        const expectedVersion = this.apiData.properties.filter(property => property.type === "X-Version")[0]
-        cy.get(".title").find("p").first()
-            .should("have.text", `Version ${expectedVersion.value}`);
-    });
-
     it("View API description", function () {
-        cy.get(".apiPreview").find(".description").first()
+        cy.get(".apiPreview").find("p").first()
             .should("have.text", this.apiData.description);
     });
 
     it("View active status tag", function () {
         const isPublished = this.apiData.properties.filter( property => property.type === "X-Published")[0].value.toLowerCase() == "true";
         const expectedClass = isPublished ? "lbh-tag" : "lbh-tag--grey";
-        cy.get(".apiPreview").find(".top > span.govuk-tag").first().should(($tag) => {
+        cy.get(".apiPreview").find(".title > span.govuk-tag").first().should(($tag) => {
             const tagText = $tag.text();
             const expectedTagText = isPublished ? "Active" : "Inactive";
             expect(tagText).to.equal(expectedTagText);
@@ -37,7 +31,7 @@ describe("Preview an API", () => {
 
     it("View environment status tags", function () {
         const expectedEnvTagsNo = 3;
-        cy.get(".apiPreview").find(".env-tags").first().children()
+        cy.get(".apiPreview").find(".tags").first().children()
             .should('have.length', expectedEnvTagsNo)
             .each((tag) => {
                 if (this.apiData.tags.includes(tag.text())){
@@ -47,4 +41,12 @@ describe("Preview an API", () => {
                 }
             });
     });
+
+    it("When the user clicks on an API name they are directed to the SwaggerHub page", function() {
+        cy.get(".apiPreview").find("a").first().click();
+        const apiUrl = this.apiData.properties.filter( property => property.type === "Swagger")[0].url;
+        const expectedUrl = apiUrl.replace("api", "app");
+        cy.url().should('include', expectedUrl);
+    });
+
 });
