@@ -16,13 +16,13 @@ const APP_PATHS = [
     Component: HomePage,
     breadcrumb: 'Home',
     headingName: 'HOME',
-    alwaysVisible: true
+    alwaysVisible: false
   },
   {
     path: "/api-catalogue",
     Component: ApiCataloguePage,
     breadcrumb: 'API Catalogue',
-    headingName: 'APIS',
+    headingName: 'API CATALOGUE',
     alwaysVisible: true
   },
   {
@@ -36,20 +36,13 @@ const APP_PATHS = [
     Component: ContactPage,
     breadcrumb: 'Contact Us',
     headingName: 'CONTACT US',
-    alwaysVisible: true
+    alwaysVisible: false
   },
   {
     path: "/login",
     Component: LoginPage,
     breadcrumb: 'Sign In',
     headingName: 'SIGN IN',
-    signedOutVisible: true
-  },
-  {
-    path: "/register",
-    Component: RegisterPage,
-    breadcrumb: 'Register',
-    headingName: 'SIGN UP',
     signedOutVisible: true
   },
   {
