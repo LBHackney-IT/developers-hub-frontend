@@ -81,9 +81,9 @@ const Header = () => {
                 }
                 {
                   currentUser ? (
-                    signedInLinks.map(appPath => {
+                    signedInLinks.map(appPath => (
                       <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
-                    })
+                    ))
                   ) : (
                     signedOutLinks.map(appPath => (
                       <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
