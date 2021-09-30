@@ -1,4 +1,3 @@
-import { spacedtoHyphenatedCase } from "../../src/utility/utility";
 import { screenSizes } from "../support/screenSizes";
 
 describe("View API Information page", () => {
@@ -16,8 +15,9 @@ describe("View API Information page", () => {
         // navigate from API Catalogue
     });
 
-    it("Navigate to page", function() {
-        const expectedUrl = spacedtoHyphenatedCase(this.apiData.info.title);
+    it("Navigate directly to page", function() {
+        cy.visit("/api-catalogue/testApi");
+        const expectedUrl = this.apiData.basePath.split("/")[2];
         cy.url().should('include', expectedUrl);
 
     });

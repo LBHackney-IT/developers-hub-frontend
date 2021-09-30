@@ -3,11 +3,11 @@ import LoginPage from "./pages/login/login.page";
 import ApiCataloguePage from "./pages/apiCatalogue/apiCatalogue.page";
 import ApiInformationPage from "./pages/apiInformation/apiInformation.page"
 import ContactPage from "./pages/contact/contact.page"
-import { hyphenatedToTitleCase } from "./utility/utility";
+import { hyphenatedToTitleCase, camelToTitleCase } from "./utility/utility";
 
-const ApiNameBreadcrumb = ({ match }) => (
-  <span>{hyphenatedToTitleCase(match.params.apiName)}</span>
-);
+const ApiNameBreadcrumb = ({ match }) => {
+  return <span>{match.params.apiName.includes("-") ? hyphenatedToTitleCase(match.params.apiName) : camelToTitleCase(match.params.apiName) }</span>
+}
 
 const APP_PATHS = [
   {

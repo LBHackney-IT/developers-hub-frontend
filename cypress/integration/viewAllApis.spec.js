@@ -25,15 +25,16 @@ describe("View API Catalogue page", () => {
 
 describe('All APIs Pagination', () => {
     const visitLastPageIfPossible = () => {
+        cy.intercept('/specs*').as('getApiDefinitions')
         // iterate recursively until the "Next" link is disabled
         cy.get(".lbh-simple-pagination__link--next").then(($next) => {
         if ($next.hasClass('disabled')) {
             // we are on the last page
             return
         }
-        
         cy.wait(500); // just for clarity
         cy.get(".lbh-simple-pagination__link--next").click();
+        cy.wait("@getApiDefinitions");
         visitLastPageIfPossible();
         })
     }
