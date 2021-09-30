@@ -26,9 +26,13 @@ describe("View API Catalogue page", () => {
 });
 
 describe('All APIs Pagination', () => {
+
+    beforeEach(function () {
+        cy.intercept('/specs*').as('getApiDefinitions')
+    })
+
     const visitLastPageIfPossible = () => {
         // iterate recursively until the "Next" link is disabled
-        cy.intercept('/specs*').as('getApiDefinitions')
         cy.get(".lbh-simple-pagination__link--next").then(($next) => {
         if ($next.hasClass('disabled')) { return } // we are on the last page
         
@@ -42,6 +46,7 @@ describe('All APIs Pagination', () => {
     
     it('View the first page', () => {
         cy.visit("/api-catalogue");
+        cy.wait("@getApiDefinitions");
         cy.get(".lbh-simple-pagination__link--previous").should('have.class', 'disabled');
                
     });
