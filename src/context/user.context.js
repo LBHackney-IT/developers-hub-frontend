@@ -38,7 +38,9 @@ export const useUser = () => {
 /* eslint-disable no-unused-vars */
 export const SignOut = () => {
   const { logout } = useContext(UserContext);
-  return <a onClick={logout} className="nav-item lbh-body-m">SIGN OUT</a>;
+  return <a
+  //href="/login"
+  onClick={logout} className="nav-item lbh-body-m">SIGN OUT</a>;
 }
 
 export default UserContext

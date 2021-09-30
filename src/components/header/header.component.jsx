@@ -70,6 +70,10 @@ const Header = () => {
                   <h3 style={{ color: 'white', position: 'center', }}>DEVELOPER HUB</h3>
               </div>
 
+              // <div className="name">
+              //     <p>Welcome</p> <b>{currentUser.name}</b>
+              // </div>
+
               <div className="nav-items">
                 {
                   alwaysVisibleLinks.map(appPath => {
