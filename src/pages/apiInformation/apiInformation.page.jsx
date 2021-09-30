@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 
 import withUser from "../../HOCs/with-user.hoc.js";
+import { filterSwaggerPropertiesByType } from "../../utility/utility"
 
 import Table from "../../components/table/table.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
@@ -39,7 +40,7 @@ const ApiInformationPage = () => {
         }
 
         const handleApiVersioning = (result) => {
-            const versions = result.apis.map( api => api.properties.filter(property => property.type === "X-Version")[0].value);
+            const versions = result.apis.map( api => filterSwaggerPropertiesByType(api.properties, "X-Version").value);
             setVersions(versions);
             setCurrentVersion(versions[0]);
         }

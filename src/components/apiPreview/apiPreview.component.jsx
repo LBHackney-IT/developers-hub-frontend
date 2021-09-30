@@ -1,13 +1,14 @@
 import React from "react";
 import EnvironmentTags from "../environmentTags/environmentTags.component";
 import { Link } from "react-router-dom";
+import { filterSwaggerPropertiesByType } from "../../utility/utility";
 
 const ApiPreview = ({name, description, tags, properties}) => {
 
-  const id = properties.filter( property => property.type === "Swagger")[0].url.split("/")[5];
-  const isPublished = properties.filter( property => property.type === "X-Published")[0].value.toLowerCase() === "true";
-  const Versions = properties.filter( property => property.type === "X-Versions")[0].value.split(",");
-  const SelectedVersion = properties.filter( property => property.type === "X-Version")[0].value;
+  const id = filterSwaggerPropertiesByType(properties, "Swagger").url.split("/")[5];
+  const isPublished = filterSwaggerPropertiesByType(properties, "X-Published").value.toLowerCase() === "true";
+  const Versions = filterSwaggerPropertiesByType(properties, "X-Versions").value.split(",");
+  const SelectedVersion = filterSwaggerPropertiesByType(properties, "X-Version").value;
 
   return (
     <li className="apiPreview">

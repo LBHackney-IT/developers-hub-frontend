@@ -1,4 +1,5 @@
 import { screenSizes } from "../support/screenSizes";
+import { filterSwaggerPropertiesByType } from "../../src/utility/utility"
 
 describe("Preview an API", () => {
 
@@ -18,7 +19,7 @@ describe("Preview an API", () => {
         });
 
         it(`View API version on ${screenSize} screen`, function () {
-            const expectedVersion = this.apiData.properties.filter(property => property.type === "X-Version")[0]
+            const expectedVersion = filterSwaggerPropertiesByType(this.apiData.properties, "X-Version");
             cy.get(".title").find("p").first()
                 .should("have.text", `Version ${expectedVersion.value}`);
         });
@@ -29,7 +30,7 @@ describe("Preview an API", () => {
         });
 
         it(`View active status tag on ${screenSize} screen`, function () {
-            const isPublished = this.apiData.properties.filter( property => property.type === "X-Published")[0].value.toLowerCase() == "true";
+            const isPublished = filterSwaggerPropertiesByType(this.apiData.properties, "X-Published").value.toLowerCase() == "true";
             const expectedClass = isPublished ? "lbh-tag" : "lbh-tag--grey";
             cy.get(".apiPreview").find(".top > span.govuk-tag").first().should(($tag) => {
                 const tagText = $tag.text();
