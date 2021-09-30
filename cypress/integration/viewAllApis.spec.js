@@ -5,7 +5,9 @@ describe("View API Catalogue page", () => {
     screenSizes.forEach((screenSize) => {
 
         it(`View title on ${screenSize} screen`, () => {
+            cy.intercept('/specs*').as('getApiDefinitions')
             cy.visit("/api-catalogue");
+            cy.wait("@getApiDefinitions");
             cy.contains("API Catalogue").should('be.visible');
         });
         
@@ -25,15 +27,14 @@ describe("View API Catalogue page", () => {
 
 describe('All APIs Pagination', () => {
     const visitLastPageIfPossible = () => {
-        cy.intercept('/specs*').as('getApiDefinitions')
         // iterate recursively until the "Next" link is disabled
+        cy.intercept('/specs*').as('getApiDefinitions')
         cy.get(".lbh-simple-pagination__link--next").then(($next) => {
-        if ($next.hasClass('disabled')) {
-            // we are on the last page
-            return
-        }
+        if ($next.hasClass('disabled')) { return } // we are on the last page
+        
         cy.wait(500); // just for clarity
         cy.get(".lbh-simple-pagination__link--next").click();
+        
         cy.wait("@getApiDefinitions");
         visitLastPageIfPossible();
         })
@@ -85,17 +86,21 @@ describe("Filter APIs", () => {
 
 describe("Pagination + Filters", () => {
     it("When switching filters, pagination is reset", () => {
+        cy.intercept('/specs*').as('getApiDefinitions');
         cy.visit("/api-catalogue");
 
         cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
             expect($nextPage.text()).to.contain("2"); // on page 1
         });
         cy.get(".lbh-simple-pagination__link--next").click();
+        cy.wait("@getApiDefinitions");
         cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
             expect($nextPage.text()).to.contain("3"); // on page 2
         });
 
         cy.get("#filterApis-2").check();
+        cy.wait("@getApiDefinitions");
+        
         cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
             expect($nextPage.text()).to.contain("2");
             expect($nextPage.text()).to.not.contain("3");
