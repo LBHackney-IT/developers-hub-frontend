@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState } from "react";
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 
@@ -21,18 +21,17 @@ export const UserProvider = ({ children }) => {
   // decode cookie value
   const [ user, setUser ]= useState(parseToken())
 
-  const logoutUser = useCallback(() => {
+  const logoutUser = () => {
     setUser(null);
     // delete cookie
     Cookies.remove('hackneyToken');
-  }, [])
+  };
 
-  return <UserContext.Provider value={{ user, logout: logoutUser }}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={{ user, logout: logoutUser, setUser }}>{children}</UserContext.Provider>;
 }
 
 export const useUser = () => {
-  const { user } = useContext(UserContext);
-  return user;
+  return useContext(UserContext);
 }
 
 /* eslint-disable no-unused-vars */

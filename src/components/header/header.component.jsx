@@ -5,7 +5,7 @@ import { useUser } from "../../context/user.context.js";
 
 const Header = () => {
 
-  const currentUser = useUser();
+  const { user: currentUser, logout } = useUser();
   const alwaysVisibleLinks = APP_PATHS.filter(appPath => appPath.alwaysVisible);
   const signedOutLinks = APP_PATHS.filter(appPath => appPath.signedOutVisible);
   const signedInLinks = APP_PATHS.filter(appPath => appPath.signedInVisible);
@@ -89,6 +89,9 @@ const Header = () => {
                       <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
                     ))
                   )
+                }
+                {
+                  currentUser && (<Link className="nav-item lbh-body-m" href="/login" handleClick={logout}>Sign Out</Link>)
                 }
               </div>
             </div>

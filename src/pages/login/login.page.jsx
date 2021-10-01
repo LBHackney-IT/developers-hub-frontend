@@ -5,9 +5,17 @@ import FormInput from "../../components/form-input/form-input.component.jsx";
 import APP_PATHS from "../../APP_PATHS.js";
 import { SOCKET_ADDRESS } from "../../APP_CONFIG.js";
 import withUser from "../../HOCs/with-user.hoc.js";
+import Cookies from 'js-cookie';
+import Link from "../../components/link/link.component";
+
+import { useUser } from "../../context/user.context";
 
 const LoginPage = ({ history, currentUser: user }) => {
   // if (user.user) history.push(APP_PATHS.home);
+  const { setUser } = useUser();
+
+  // set to true if the hackney oAuth token issue is solved
+  const solvedCookieIssue = false;
 
   const [formData, setFormData] = useState({
     email: "",
@@ -58,6 +66,24 @@ const LoginPage = ({ history, currentUser: user }) => {
     });
   };
 
+  function cookieIssueFeatureFlag() {
+    return (
+      solvedCookieIssue ? (
+        <a
+          role="button"
+          draggable="false"
+          className="govuk-button lbh-button"
+          data-module="govuk-button"
+          href={`https://auth.hackney.gov.uk/auth?redirect_uri=${window.location.origin}/`}
+          >
+          Sign in using Hackney.gov.uk
+          </a>
+      ) : (
+        <GenUserButton className="govuk-button lbh-button" setUser={setUser}>Sign in</GenUserButton>
+      )
+    );
+  }
+
   return (
     <div id="login-page" className="page">
       <form
@@ -82,17 +108,26 @@ const LoginPage = ({ history, currentUser: user }) => {
           onChange={handleInput} />
         <br />
       </form>
-      <a
-        role="button"
-        draggable="false"
-        className="govuk-button lbh-button"
-        data-module="govuk-button"
-        href={`https://auth.hackney.gov.uk/auth?redirect_uri=${window.location.origin}/`}
-        >
-        Sign in using Hackney.gov.uk
-        </a>
+      {
+        cookieIssueFeatureFlag()
+      }
     </div>
   );
 };
+
+// Button for mock user generation
+function GenUserButton({ children, setUser }) {
+  const generateUserCookie = () => {
+    const user = {
+      name: "User"
+    };
+
+    setUser(user);
+  };
+
+  return (
+    <Link className="govuk-button lbh-button" href="/" handleClick={generateUserCookie}>{children}</Link>
+  );
+}
 
 export default withUser(LoginPage);
