@@ -30,6 +30,7 @@ describe("View API Information page", () => {
         });
 
         it(`View environment status tags on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
             const expectedEnvTagsNo = 3;
             cy.get(".sidebar").find(".env-tags").first().children()
                 .should('have.length', expectedEnvTagsNo)

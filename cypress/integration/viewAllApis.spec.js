@@ -5,6 +5,7 @@ describe("View API Catalogue page", () => {
     screenSizes.forEach((screenSize) => {
 
         it(`View title on ${screenSize} screen`, () => {
+            cy.viewport(screenSize);
             cy.intercept('/specs*').as('getApiDefinitions')
             cy.visit("/api-catalogue");
             cy.wait("@getApiDefinitions");
@@ -12,11 +13,13 @@ describe("View API Catalogue page", () => {
         });
         
         it(`View 5 APIs by default on ${screenSize} screen`, () => {
+            cy.viewport(screenSize);
             const expectedCount = 5;
             cy.get('ul#apisList').get('li.apiPreview').should('have.length', expectedCount);
         });
 
         it(`View error response if API error on ${screenSize} screen`, () => {
+            cy.viewport(screenSize);
             cy.intercept('GET', '/specs*', { statusCode: 500 });
             cy.reload();
             cy.get(".lbh-error-summary").should('be.visible');

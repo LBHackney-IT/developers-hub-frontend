@@ -14,22 +14,26 @@ describe("Preview an API", () => {
 
     screenSizes.forEach((screenSize) => {
         it(`View API name on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
             cy.get(".title").find("h3").first()
                 .should("have.text", this.apiData.name);
         });
 
         it(`View API version on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
             const expectedVersion = filterSwaggerPropertiesByType(this.apiData.properties, "X-Version");
             cy.get(".title").find("p").first()
                 .should("have.text", `Version ${expectedVersion.value}`);
         });
 
         it(`View API description on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
             cy.get(".apiPreview").find(".description").first()
                 .should("have.text", this.apiData.description);
         });
 
         it(`View active status tag on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
             const isPublished = filterSwaggerPropertiesByType(this.apiData.properties, "X-Published").value.toLowerCase() == "true";
             const expectedClass = isPublished ? "lbh-tag" : "lbh-tag--grey";
             cy.get(".apiPreview").find(".top > span.govuk-tag").first().should(($tag) => {
@@ -40,6 +44,7 @@ describe("Preview an API", () => {
         });
 
         it(`View environment status tags on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
             const expectedEnvTagsNo = 3;
             cy.get(".apiPreview").find(".env-tags").first().children()
                 .should('have.length', expectedEnvTagsNo)
