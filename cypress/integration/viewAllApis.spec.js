@@ -1,40 +1,55 @@
+import { screenSizes } from "../support/screenSizes";
+
 describe("View API Catalogue page", () => {
 
-    it("View title", () => {
-        cy.visit("/api-catalogue");
-        cy.contains("API Catalogue").should('be.visible');
-    });
-    
-    it("View 5 APIs by default", () => {
-        const expectedCount = 5;
-        cy.get('ul#apisList').get('li.apiPreview').should('have.length', expectedCount);
-    });
+    screenSizes.forEach((screenSize) => {
 
-    it("View error response if API error", () => {
-        cy.intercept('GET', '/specs*', { statusCode: 500 });
-        cy.reload();
-        cy.get(".lbh-error-summary").should('be.visible');
-    });
+        it(`View title on ${screenSize} screen`, () => {
+            cy.viewport(screenSize);
+            cy.intercept('/specs*').as('getApiDefinitions')
+            cy.visit("/api-catalogue");
+            cy.wait("@getApiDefinitions");
+            cy.contains("API Catalogue").should('be.visible');
+        });
+        
+        it(`View 5 APIs by default on ${screenSize} screen`, () => {
+            cy.viewport(screenSize);
+            const expectedCount = 5;
+            cy.get('ul#apisList').get('li.apiPreview').should('have.length', expectedCount);
+        });
+
+        it(`View error response if API error on ${screenSize} screen`, () => {
+            cy.viewport(screenSize);
+            cy.intercept('GET', '/specs*', { statusCode: 500 });
+            cy.reload();
+            cy.get(".lbh-error-summary").should('be.visible');
+        });
+    })
     
 });
 
 describe('All APIs Pagination', () => {
+
+    beforeEach(function () {
+        cy.intercept('/specs*').as('getApiDefinitions')
+    })
+
     const visitLastPageIfPossible = () => {
         // iterate recursively until the "Next" link is disabled
         cy.get(".lbh-simple-pagination__link--next").then(($next) => {
-        if ($next.hasClass('disabled')) {
-            // we are on the last page
-            return
-        }
+        if ($next.hasClass('disabled')) { return } // we are on the last page
         
         cy.wait(500); // just for clarity
         cy.get(".lbh-simple-pagination__link--next").click();
+        
+        cy.wait("@getApiDefinitions");
         visitLastPageIfPossible();
         })
     }
     
     it('View the first page', () => {
         cy.visit("/api-catalogue");
+        cy.wait("@getApiDefinitions");
         cy.get(".lbh-simple-pagination__link--previous").should('have.class', 'disabled');
                
     });
@@ -79,17 +94,21 @@ describe("Filter APIs", () => {
 
 describe("Pagination + Filters", () => {
     it("When switching filters, pagination is reset", () => {
+        cy.intercept('/specs*').as('getApiDefinitions');
         cy.visit("/api-catalogue");
 
         cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
             expect($nextPage.text()).to.contain("2"); // on page 1
         });
         cy.get(".lbh-simple-pagination__link--next").click();
+        cy.wait("@getApiDefinitions");
         cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
             expect($nextPage.text()).to.contain("3"); // on page 2
         });
 
         cy.get("#filterApis-2").check();
+        cy.wait("@getApiDefinitions");
+        
         cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
             expect($nextPage.text()).to.contain("2");
             expect($nextPage.text()).to.not.contain("3");

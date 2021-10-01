@@ -1,4 +1,4 @@
-import { spacedtoHyphenatedCase } from "../../src/utility/utility"
+import { screenSizes } from "../support/screenSizes";
 
 describe("View API Information page", () => {
 
@@ -15,29 +15,34 @@ describe("View API Information page", () => {
         // navigate from API Catalogue
     });
 
-    it("Navigate to page", function() {
-        const expectedUrl = spacedtoHyphenatedCase(this.apiData.info.title);
+    it("Navigate directly to page", function() {
+        cy.visit("/api-catalogue/testApi");
+        const expectedUrl = this.apiData.basePath.split("/")[2];
         cy.url().should('include', expectedUrl);
 
     });
-    
-    it("View title and description", function() {
-        cy.contains(this.apiData.info.title).should('be.visible');
-        cy.contains(this.apiData.info.description).should('be.visible');
-    });
 
-    it("View environment status tags", function () {
-        const expectedEnvTagsNo = 3;
-        cy.get(".sidebar").find(".env-tags").first().children()
-            .should('have.length', expectedEnvTagsNo)
-            .each((tag) => {
-                if (this.apiData.tags.filter( apiTag => apiTag.name === tag.text()).length > 0){
-                    expect(tag).to.have.class("lbh-tag--green");
-                } else {
-                    expect(tag).to.have.class("lbh-tag--grey");
-                }
-            });
-    });
+    screenSizes.forEach((screenSize) => {
+        it(`View title and description on ${screenSize} screen`, function() {
+            cy.viewport(screenSize);
+            cy.contains(this.apiData.info.title).should('be.visible');
+            cy.contains(this.apiData.info.description).should('be.visible');
+        });
+
+        it(`View environment status tags on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
+            const expectedEnvTagsNo = 3;
+            cy.get(".sidebar").find(".env-tags").first().children()
+                .should('have.length', expectedEnvTagsNo)
+                .each((tag) => {
+                    if (this.apiData.tags.filter( apiTag => apiTag.name === tag.text()).length > 0){
+                        expect(tag).to.have.class("lbh-tag--green");
+                    } else {
+                        expect(tag).to.have.class("lbh-tag--grey");
+                    }
+                });
+        });
+    })
 
     it("Should automatically have API version selected", function() {
         cy.get('select#VersionNo option:selected').should('have.text', this.apiData.info.version);

@@ -33,10 +33,6 @@ $lbh-asset-path: "~lbh-frontend/lbh/assets";
   font-family: 'Open Sans', sans-serif !important;
 }
 
-body {
-  margin-top: 0px !important;
-}
-
 #root {
   margin-top: 0px !important;
   min-height: 100vh;
@@ -45,7 +41,6 @@ body {
 
 #main-content{
   justify-content: center;
-  width: 80% !important;
 }
 
 a {
