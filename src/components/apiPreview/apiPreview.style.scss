@@ -13,17 +13,10 @@
             text-transform: uppercase;
             font-weight: 700;
         }
-        .title{
-            display: flex;
-            align-items: center;
-
-            >{ display: inline; }
-
-            p {
-                margin: 0;
-                margin-left: 0.5em;
-                font-style: italic;
-            }
+        .title .metadata{
+            margin-top: 0;
+            text-align: left;
+            p { margin-top: 0; }
         }
 
     }

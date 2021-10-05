@@ -8,7 +8,8 @@ const ApiPreview = ({name, description, tags, properties}) => {
   const id = filterSwaggerPropertiesByType(properties, "Swagger").url.split("/")[5];
   const isPublished = filterSwaggerPropertiesByType(properties, "X-Published").value.toLowerCase() === "true";
   const Versions = filterSwaggerPropertiesByType(properties, "X-Versions").value.split(",");
-  const SelectedVersion = filterSwaggerPropertiesByType(properties, "X-Version").value;
+  const selectedVersion = filterSwaggerPropertiesByType(properties, "X-Version").value;
+  const lastModified = filterSwaggerPropertiesByType(properties, "X-Modified").value.split("T")[0];
 
   return (
     <li className="apiPreview">
@@ -16,12 +17,14 @@ const ApiPreview = ({name, description, tags, properties}) => {
         <div className="title">
           <Link to={{
             pathname: `/api-catalogue/${id}`, 
-            state: { versions: Versions, currentVersion: SelectedVersion }
+            state: { versions: Versions, currentVersion: selectedVersion }
           }} 
           className="lbh-link">
-            <h3>{name}</h3>
+            <h2 className="lbh-heading-h3">{name}</h2>
           </Link>
-          <p>Version {SelectedVersion}</p>
+          <div className="metadata">
+            <p className="lbh-body-xs">v{selectedVersion} &#183; Edited {lastModified}</p>
+          </div>
         </div>
         <span className={`govuk-tag lbh-tag${isPublished ? "" : "--grey"}`}>{ isPublished ? "Active" : "Inactive" }</span>
       </div>

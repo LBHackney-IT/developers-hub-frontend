@@ -15,7 +15,7 @@ describe("Preview an API", () => {
     screenSizes.forEach((screenSize) => {
         it(`View API name on ${screenSize} screen`, function () {
             cy.viewport(screenSize);
-            cy.get(".title").find("h3").first()
+            cy.get(".title").find("h2").first()
                 .should("have.text", this.apiData.name);
         });
 
@@ -23,7 +23,14 @@ describe("Preview an API", () => {
             cy.viewport(screenSize);
             const expectedVersion = filterSwaggerPropertiesByType(this.apiData.properties, "X-Version");
             cy.get(".title").find("p").first()
-                .should("have.text", `Version ${expectedVersion.value}`);
+                .should("contain", expectedVersion.value);
+        });
+
+        it(`View last edited date of API on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
+            const lastModifiedDate = filterSwaggerPropertiesByType(this.apiData.properties, "X-Modified").value.split("T")[0];
+            cy.get(".title").find("p").first()
+                .should("contain", lastModifiedDate);
         });
 
         it(`View API description on ${screenSize} screen`, function () {
