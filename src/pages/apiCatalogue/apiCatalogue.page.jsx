@@ -5,6 +5,7 @@ import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component";
 import Error from "../../components/error/error.component"
 import Radios from "../../components/radios/radios.component";
 import Pagination from "../../components/pagination/pagination.component";
+import BackToTop from "../../components/backToTop/backToTop.component";
 import withUser from "../../HOCs/with-user.hoc.js";
 
 const ApiCataloguePage = ({ history, currentUser: user }) => {
@@ -78,6 +79,7 @@ const ApiCataloguePage = ({ history, currentUser: user }) => {
       <div id="apis-page" className="page">
           <Breadcrumbs/>
           <h1>API Catalogue</h1>
+          <BackToTop href="#apis-page"/>
           <Radios onChange={updateApiFilter} {...radioData}/>
           {
             isLoaded ? ( 
