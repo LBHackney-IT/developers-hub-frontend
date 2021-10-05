@@ -5,11 +5,16 @@ import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component";
 import Error from "../../components/error/error.component"
 import Radios from "../../components/radios/radios.component";
 import Pagination from "../../components/pagination/pagination.component";
+import { useUser } from "../../context/user.context.js";
 import withUser from "../../HOCs/with-user.hoc.js";
+import { useHistory } from "react-router-dom";
 
-const ApisPage = ({ history, currentUser: user }) => {
-  // if (!user) history.push(APP_PATHS.home);
+const ApisPage = ({ currentUser: user }) => {
+  const history = useHistory();
 
+  const currentuser = useUser();
+  //console.log(currentuser);
+  if (!currentuser) history.push("/");
   // const [currentUser, setCurrentUser] = useState(user);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -59,7 +64,7 @@ const ApisPage = ({ history, currentUser: user }) => {
       return Object.keys(queryParams).map(key => key + '=' + queryParams[key]).join('&');
     }
     resetState();
-    
+
     fetch(`https://api.swaggerhub.com/specs?${parseQueryParams()}`)
       .then(res => res.json())
       .then(
@@ -81,9 +86,9 @@ const ApisPage = ({ history, currentUser: user }) => {
         <h1>API Catalogue</h1>
         <Radios onChange={updateApiFilter} {...radioData}/>
         {
-          isLoaded ? ( 
-            error ? 
-              <Error title="Oops! Something went wrong!" summary={error.message} /> 
+          isLoaded ? (
+            error ?
+              <Error title="Oops! Something went wrong!" summary={error.message} />
               :
               <div className="lbh-container">
                 <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
@@ -94,7 +99,7 @@ const ApisPage = ({ history, currentUser: user }) => {
                 </ul>
               </div>
           )
-          : 
+          :
           <h3>Loading..</h3>
         }
     </div>
