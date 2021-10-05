@@ -6,6 +6,8 @@ import Error from "../../components/error/error.component"
 import Radios from "../../components/radios/radios.component";
 import Pagination from "../../components/pagination/pagination.component";
 import BackToTop from "../../components/backToTop/backToTop.component";
+import Select from "../../components/select/select.component";
+
 import withUser from "../../HOCs/with-user.hoc.js";
 
 const ApiCataloguePage = ({ history, currentUser: user }) => {
@@ -55,6 +57,12 @@ const ApiCataloguePage = ({ history, currentUser: user }) => {
     setQueryParams({...queryParams, page: newPage});
   }
 
+  const updatePageSize = (numberOfItems) => {
+    const pageSize = numberOfItems.replace(" items", "");
+    setQueryParams({...queryParams, limit: pageSize, page: 0 });
+    // reset pagination when changing page size
+  }
+
   useEffect(() => {
     const parseQueryParams = () => {
       return Object.keys(queryParams).map(key => key + '=' + queryParams[key]).join('&');
@@ -77,10 +85,13 @@ const ApiCataloguePage = ({ history, currentUser: user }) => {
   return(
     <div className="lbh-container">
       <div id="apis-page" className="page">
+          <BackToTop href="#header"/>
           <Breadcrumbs/>
           <h1>API Catalogue</h1>
-          <BackToTop href="#apis-page"/>
           <Radios onChange={updateApiFilter} {...radioData}/>
+          <div className="select-page-size">
+            <Select name={"PageSize"} label={"Show:"} options={["5 items", "10 items", "15 items"]} selectedOption={`${queryParams.limit} items`} onChange={updatePageSize} />
+          </div>
           {
             isLoaded ? ( 
               error ? 

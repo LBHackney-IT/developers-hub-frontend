@@ -58,6 +58,13 @@ describe('All APIs Pagination', () => {
         visitLastPageIfPossible();
         cy.get(".lbh-simple-pagination__link--next").should('have.class', 'disabled');
     });
+
+    it("Choose page size", () => {
+        cy.visit("/api-catalogue");
+        const expectedCount = 10;
+        cy.get('select').select(`${expectedCount} items`);
+        cy.get('ul#apisList').get('li.apiPreview').should('have.length', expectedCount);
+    });
 });
 
 describe("Filter APIs", () => {
@@ -92,26 +99,38 @@ describe("Filter APIs", () => {
     });
 });
 
-describe("Pagination + Filters", () => {
-    it("When switching filters, pagination is reset", () => {
-        cy.intercept('/specs*').as('getApiDefinitions');
-        cy.visit("/api-catalogue");
+describe("Resetting Pagination", () => {
 
-        cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
-            expect($nextPage.text()).to.contain("2"); // on page 1
-        });
-        cy.get(".lbh-simple-pagination__link--next").click();
-        cy.wait("@getApiDefinitions");
-        cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
-            expect($nextPage.text()).to.contain("3"); // on page 2
-        });
-
-        cy.get("#filterApis-2").check();
-        cy.wait("@getApiDefinitions");
+    const scenarios = [
         
-        cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
-            expect($nextPage.text()).to.contain("2");
-            expect($nextPage.text()).to.not.contain("3");
+        { name: "switching filters", function: () => { cy.get("#filterApis-2").check() } },
+        { name: "changing page size", function: () => { cy.get('select').select("10 items") } }
+    ];
+
+    scenarios.forEach((scenario) => {
+        it(`When ${scenario.name}, pagination is reset`, () => {
+            cy.intercept('/specs*').as('getApiDefinitions');
+            cy.visit("/api-catalogue");
+    
+            cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
+                expect($nextPage.text()).to.contain("2"); // on page 1
+            });
+            cy.get(".lbh-simple-pagination__link--next").click();
+            cy.wait("@getApiDefinitions");
+            cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
+                expect($nextPage.text()).to.contain("3"); // on page 2
+            });
+            // Arrange
+    
+            scenario.function();
+            cy.wait("@getApiDefinitions");
+            // Act
+            
+            cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
+                expect($nextPage.text()).to.contain("2");
+                expect($nextPage.text()).to.not.contain("3");
+            });
+            // Assert
         });
     });
 });

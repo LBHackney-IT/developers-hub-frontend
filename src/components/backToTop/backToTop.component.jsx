@@ -14,14 +14,14 @@ const BackToTop = ({href}) => {
                 <title>Back to top arrow icon</title>
                 <g
                 stroke="none"
-                stroke-width="1"
+                strokeWidth="1"
                 fill="none"
                 fill-rule="evenodd"
                 transform="translate(1.000000, 1.000000)"
                 >
                 <circle
                     className="lbh-back-to-top__icon-circle"
-                    stroke-width="1"
+                    strokeWidth="1"
                     fill-rule="evenodd"
                     cx="14.5"
                     cy="14.5"
