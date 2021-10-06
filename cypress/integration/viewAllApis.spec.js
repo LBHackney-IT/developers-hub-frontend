@@ -58,13 +58,6 @@ describe('All APIs Pagination', () => {
         visitLastPageIfPossible();
         cy.get(".lbh-simple-pagination__link--next").should('have.class', 'disabled');
     });
-
-    it("Choose page size", () => {
-        cy.visit("/api-catalogue");
-        const expectedCount = 10;
-        cy.get('select').select(`${expectedCount} items`);
-        cy.get('ul#apisList').get('li.apiPreview').should('have.length', expectedCount);
-    });
 });
 
 describe("Filter APIs", () => {
@@ -99,12 +92,62 @@ describe("Filter APIs", () => {
     });
 });
 
+describe("Advanced query fields", () => {
+
+    beforeEach( function() {
+        cy.intercept('/specs*').as('getApis');
+        cy.visit("/api-catalogue");
+        cy.wait("@getApis")
+    })
+
+    it("Choose page size", () => {
+        const expectedCount = 10;
+        cy.get(".govuk-details__summary-text").click();
+        cy.get('select#PageSize').select(`${expectedCount} items`);
+        cy.wait("@getApis");
+        cy.get('ul#apisList').get('li.apiPreview').should('have.length', expectedCount);
+    });
+
+    it("View APIs in last modified order by default", () => {
+        cy.get(".edited").then(apis => {
+            const apiModifiedDates = apis.map((index, html) => Cypress.$(html).text()).get();
+            const sortedDates = apiModifiedDates.slice().sort().reverse();
+            expect(apiModifiedDates).to.deep.equal(sortedDates);
+          });
+    });
+    
+    it("View APIs in reverse alphabetical order", () => {
+        cy.get(".govuk-details__summary-text").click();
+        cy.get('select#SortBy').select("Title");
+        cy.wait("@getApis");
+
+        cy.get("h2").then(apis => {
+            const apiTitles = apis.map((index, html) => Cypress.$(html).text()).get();
+            const sortedTitles = apiModifiedDates.slice().sort().reverse();
+            expect(apiTitles).to.deep.equal(sortedTitles);
+          });
+    });
+
+    it("Sort APIs by earliest modified", () => {
+        cy.get(".govuk-details__summary-text").click();
+        cy.get('select#Order').select("Ascending");
+        cy.wait("@getApis");
+
+        cy.get(".edited").then(apis => {
+            const apiModifiedDates = apis.map((index, html) => Cypress.$(html).text()).get();
+            const sortedDates = apiModifiedDates.slice().sort();
+            expect(apiModifiedDates).to.deep.equal(sortedDates);
+          });
+    });
+})
+
 describe("Resetting Pagination", () => {
 
     const scenarios = [
-        
         { name: "switching filters", function: () => { cy.get("#filterApis-2").check() } },
-        { name: "changing page size", function: () => { cy.get('select').select("10 items") } }
+        { name: "changing sort by", function: () => { cy.get('select#SortBy').select("Relevance") } },
+        { name: "changing results order", function: () => { cy.get('select#Order').select("Ascending") } },
+        { name: "changing page size", function: () => { cy.get('select#PageSize').select("10 items") } }
     ];
 
     scenarios.forEach((scenario) => {
@@ -122,6 +165,7 @@ describe("Resetting Pagination", () => {
             });
             // Arrange
     
+            cy.get(".govuk-details__summary-text").click();
             scenario.function();
             cy.wait("@getApiDefinitions");
             // Act

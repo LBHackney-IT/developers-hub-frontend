@@ -23,7 +23,7 @@ const ApiPreview = ({name, description, tags, properties}) => {
             <h2 className="lbh-heading-h3">{name}</h2>
           </Link>
           <div className="metadata">
-            <p className="lbh-body-xs">v{selectedVersion} &#183; Edited {lastModified}</p>
+            <p className="lbh-body-xs"><span className="version">v{selectedVersion}</span> &#183; <span className="edited">Edited {lastModified}</span></p>
           </div>
         </div>
         <span className={`govuk-tag lbh-tag${isPublished ? "" : "--grey"}`}>{ isPublished ? "Active" : "Inactive" }</span>
