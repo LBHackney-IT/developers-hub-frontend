@@ -123,7 +123,7 @@ describe("Advanced query fields", () => {
 
         cy.get("h2").then(apis => {
             const apiTitles = apis.map((index, html) => Cypress.$(html).text()).get();
-            const sortedTitles = apiModifiedDates.slice().sort().reverse();
+            const sortedTitles = apiTitles.slice().sort().reverse();
             expect(apiTitles).to.deep.equal(sortedTitles);
           });
     });
