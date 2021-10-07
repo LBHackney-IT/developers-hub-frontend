@@ -46,8 +46,8 @@ const ApiCataloguePage = ({ history, currentUser: user }) => {
     },
     sort: {
       "Last Modified": { sort: "UPDATED", order: "DESC" },
-      "Title A-Z": { sort: "TITLE", order: "ASC" },
-      "Title Z-A": { sort: "TITLE", order: "DESC" },
+      "A-Z": { sort: "TITLE", order: "ASC" },
+      "Z-A": { sort: "TITLE", order: "DESC" },
     },
     limit: {
       "5 items": 5,

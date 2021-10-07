@@ -118,7 +118,7 @@ describe("Advanced Query Fields", () => {
     
     it("View APIs in alphabetical order", () => {
         cy.get(".govuk-details__summary-text").click();
-        cy.get('select#SortBy').select("Title A-Z");
+        cy.get('select#SortBy').select("A-Z");
         cy.wait("@getApis");
 
         cy.get("h2").then(apis => {
@@ -130,7 +130,7 @@ describe("Advanced Query Fields", () => {
 
     it("View APIs in reverse alphabetical order", () => {
         cy.get(".govuk-details__summary-text").click();
-        cy.get('select#SortBy').select("Title Z-A");
+        cy.get('select#SortBy').select("Z-A");
         cy.wait("@getApis");
 
         cy.get("h2").then(apis => {
@@ -145,7 +145,7 @@ describe("Resetting Pagination", () => {
 
     const scenarios = [
         { name: "switching filters", function: () => { cy.get("#filterApis-2").check() } },
-        { name: "changing sort by", function: () => { cy.get('select#SortBy').select("Title A-Z") } },
+        { name: "changing sort by", function: () => { cy.get('select#SortBy').select("A-Z") } },
         { name: "changing page size", function: () => { cy.get('select#PageSize').select("10 items") } }
     ];
 
