@@ -116,7 +116,7 @@ describe("Advanced Query Fields", () => {
           });
     });
     
-    it.only("View APIs in alphabetical order", () => {
+    it("View APIs in alphabetical order", () => {
         cy.get(".govuk-details__summary-text").click();
         cy.get('select#SortBy').select("Title A-Z");
         cy.wait("@getApis");
@@ -128,7 +128,7 @@ describe("Advanced Query Fields", () => {
           });
     });
 
-    it.only("View APIs in reverse alphabetical order", () => {
+    it("View APIs in reverse alphabetical order", () => {
         cy.get(".govuk-details__summary-text").click();
         cy.get('select#SortBy').select("Title Z-A");
         cy.wait("@getApis");
