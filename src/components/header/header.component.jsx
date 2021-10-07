@@ -76,6 +76,7 @@ const Header = () => {
 
               <div className="nav-items">
                 {
+                  // refactor for simplicity
                   alwaysVisibleLinks.map(appPath => {
                     if (appPath.path === "/contact-us" || appPath.path === "/") return null;
                     return(
@@ -93,6 +94,7 @@ const Header = () => {
                       <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
                     ))
                   )
+                  // add logout button after the links currentUser.logout
                 }
               </div>
             </div>

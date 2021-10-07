@@ -26,7 +26,7 @@ export const UserProvider = ({ children }) => {
   const logoutUser = useCallback(() => {
     setUser(null);
     // delete cookie
-    Cookies.remove('hackneyToken');
+    Cookies.remove('hackneyToken', {domain: 'hackney.gov.uk'});
     history.push("/");
   }, [history])
 
@@ -37,11 +37,12 @@ export const useUser = () => {
   const { user } = useContext(UserContext);
   return user;
 }
+// export logout functionality
 
 /* eslint-disable no-unused-vars */
 export const SignOut = () => {
   const { logout } = useContext(UserContext);
-  return <a href="#" onClick={logout} className="nav-item lbh-body-m">SIGN OUT</a>;
+  return <button onClick={logout} className="nav-item lbh-body-m" style={{background:'transparent', border:'none'}}>SIGN OUT</button>;
 }
 
 export default UserContext
