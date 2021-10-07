@@ -45,13 +45,9 @@ const ApiCataloguePage = ({ history, currentUser: user }) => {
       "Inactive APIs": "UNPUBLISHED"
     },
     sort: {
-      "Last Modified": "UPDATED",
-      "Relevance": "BEST_MATCH",
-      "Title": "TITLE"
-    },
-    order: {
-      "Descending": "DESC",
-      "Ascending": "ASC"
+      "Last Modified": { sort: "UPDATED", order: "DESC" },
+      "Title A-Z": { sort: "TITLE", order: "ASC" },
+      "Title Z-A": { sort: "TITLE", order: "DESC" },
     },
     limit: {
       "5 items": 5,
@@ -74,10 +70,7 @@ const ApiCataloguePage = ({ history, currentUser: user }) => {
     setQueryParams({...queryParams, limit: apiParamsOptions.limit[pageSize], page: 0 });
   }
   const updateSortBy = (sortBy) => {
-    setQueryParams({...queryParams, sort: apiParamsOptions.sort[sortBy], page: 0 });
-  }
-  const updateOrder = (order) => {
-    setQueryParams({...queryParams, order: apiParamsOptions.order[order], page: 0 });
+    setQueryParams({...queryParams, ...apiParamsOptions.sort[sortBy], page: 0 });
   }
 
   useEffect(() => {
@@ -115,7 +108,6 @@ const ApiCataloguePage = ({ history, currentUser: user }) => {
           <Radios onChange={updateApiFilter} {...radioData}/>
           <Details summary={"Advanced..."}>
             <Select name={"SortBy"} label={"Sort by:"} options={Object.keys(apiParamsOptions.sort)} selectedOption={formatApiParam("sort", queryParams.sort)} onChange={updateSortBy} />
-            <Select name={"Order"} label={"Order: "} options={Object.keys(apiParamsOptions.order)} selectedOption={formatApiParam("order", queryParams.order)} onChange={updateOrder} />
             <Select name={"PageSize"} label={"Show: "} options={Object.keys(apiParamsOptions.limit)} selectedOption={formatApiParam("limit", queryParams.limit)} onChange={updatePageSize} />
           </Details>
 

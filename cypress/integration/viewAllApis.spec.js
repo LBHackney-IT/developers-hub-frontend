@@ -92,7 +92,7 @@ describe("Filter APIs", () => {
     });
 });
 
-describe("Advanced query fields", () => {
+describe("Advanced Query Fields", () => {
 
     beforeEach( function() {
         cy.intercept('/specs*').as('getApis');
@@ -116,27 +116,27 @@ describe("Advanced query fields", () => {
           });
     });
     
-    it("View APIs in reverse alphabetical order", () => {
+    it.only("View APIs in alphabetical order", () => {
         cy.get(".govuk-details__summary-text").click();
-        cy.get('select#SortBy').select("Title");
+        cy.get('select#SortBy').select("Title A-Z");
         cy.wait("@getApis");
 
         cy.get("h2").then(apis => {
-            const apiTitles = apis.map((index, html) => Cypress.$(html).text()).get();
-            const sortedTitles = apiTitles.slice().sort().reverse();
+            const apiTitles = apis.map((index, html) => Cypress.$(html).text().toLowerCase()).get();
+            const sortedTitles = apiTitles.slice().sort();
             expect(apiTitles).to.deep.equal(sortedTitles);
           });
     });
 
-    it("Sort APIs by earliest modified", () => {
+    it.only("View APIs in reverse alphabetical order", () => {
         cy.get(".govuk-details__summary-text").click();
-        cy.get('select#Order').select("Ascending");
+        cy.get('select#SortBy').select("Title Z-A");
         cy.wait("@getApis");
 
-        cy.get(".edited").then(apis => {
-            const apiModifiedDates = apis.map((index, html) => Cypress.$(html).text()).get();
-            const sortedDates = apiModifiedDates.slice().sort();
-            expect(apiModifiedDates).to.deep.equal(sortedDates);
+        cy.get("h2").then(apis => {
+            const apiTitles = apis.map((index, html) => Cypress.$(html).text().toLowerCase()).get();
+            const sortedTitles = apiTitles.slice().sort().reverse();
+            expect(apiTitles).to.deep.equal(sortedTitles);
           });
     });
 })
@@ -145,8 +145,7 @@ describe("Resetting Pagination", () => {
 
     const scenarios = [
         { name: "switching filters", function: () => { cy.get("#filterApis-2").check() } },
-        { name: "changing sort by", function: () => { cy.get('select#SortBy').select("Relevance") } },
-        { name: "changing results order", function: () => { cy.get('select#Order').select("Ascending") } },
+        { name: "changing sort by", function: () => { cy.get('select#SortBy').select("Title A-Z") } },
         { name: "changing page size", function: () => { cy.get('select#PageSize').select("10 items") } }
     ];
 
@@ -154,6 +153,7 @@ describe("Resetting Pagination", () => {
         it(`When ${scenario.name}, pagination is reset`, () => {
             cy.intercept('/specs*').as('getApiDefinitions');
             cy.visit("/api-catalogue");
+            cy.wait("@getApiDefinitions");
     
             cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
                 expect($nextPage.text()).to.contain("2"); // on page 1
