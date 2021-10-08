@@ -15,7 +15,6 @@ $lbh-asset-path: "~lbh-frontend/lbh/assets";
 @import "./components/apiPreview/apiPreview.style.scss";
 @import "./components/pagination/pagination.style.scss";
 @import "./components/contact-container/contact-container.style.scss";
-@import "./components/home-container/home-container.style.scss";
 @import "./components/sidebar/sidebar.style.scss";
 @import "./components/breadcrumbs/breadcrumbs.style.scss";
 @import "./components/select/select.style.scss";
@@ -37,15 +36,20 @@ body {
   margin-top: 0px !important;
 }
 
+body * {
+  box-sizing: border-box;
+}
+
 #root {
+  position: relative;
   margin-top: 0px !important;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
 #main-content{
-  justify-content: center;
-  width: 80% !important;
+  min-height: calc(100% - 162px);
+  padding: 0px !important;
 }
 
 a {

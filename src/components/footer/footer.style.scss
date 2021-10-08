@@ -1,9 +1,10 @@
 #app-footer {
-  position: relative;
-  padding: 20px 20px 20px 10px;
+  position: absolute;
+  top: calc(100% - 60px);
   display: flex;
   background: black;
   flex-flow: row wrap;
+  height: 60px;
   justify-content: space-around;
   .footer-col {
     text-align: center;
@@ -18,4 +19,5 @@
       }
     }
   }
+  margin-top:0px;
 }
