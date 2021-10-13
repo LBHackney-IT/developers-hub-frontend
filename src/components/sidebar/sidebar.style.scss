@@ -1,16 +1,15 @@
 .sidebar {
-  text-align: center;
-  border-right: 2px solid grey;
-  
+  text-align: left;
+  border-right: 2px solid 	#bfc1c3;
+
   a.sidebarLink {
     display: block;
     text-decoration: none;
     word-wrap: break-word;
     font-size: 18px;
     color: #00664E;
-    //font-weight: bold;
     text-align: left;
-    color: grey;
+    color: 	#bfc1c3;
     padding-left: 20px;
     margin: 5px;
     &:visited {
@@ -27,4 +26,5 @@
   .sidebar {
     display: none;
   }
+
 }

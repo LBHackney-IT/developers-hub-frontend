@@ -9,6 +9,8 @@
     }
     > .sidebar {
       flex: 1;
+      height:100%;
+      width: 40% !important;
     }
 }
 
@@ -16,7 +18,7 @@
   padding: 20px;
   margin-left: 90px;
   margin-right: 90px;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid grey;
 }
 .lbh-main-wrapper :hover{
   cursor: pointer;
