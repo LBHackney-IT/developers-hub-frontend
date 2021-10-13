@@ -17,9 +17,21 @@
 //   });
 // });
 
-// describe("Log in functionality"), () => {
-//   it("Displays a welcome message when signed in", () => {
-//     cy.login()
-//     cy.contains('Welcome')
-//   });
-// });
+describe("Log in functionality"), () => {
+  it("Has a SIGN IN button in nav bar", () => {
+    cy.get("/");
+    cy.contains('SIGN IN');
+  });
+
+  // it("Redirects to homepage when signed in", () => {
+  //   cy.visit("/");
+  //   cy.login();
+  //   cy.url().should("eq", "http://local.hackney.gov.uk:3000/");
+  // });
+  //
+  // it("Displays a welcome message when signed in", () => {
+  //   cy.visit("/");
+  //   cy.login();
+  //   cy.contains('Welcome');
+  // });
+});
