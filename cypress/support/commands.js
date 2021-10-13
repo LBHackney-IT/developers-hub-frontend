@@ -23,3 +23,17 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+// Cypress.Commands.add('login', () => {
+//   const gssoTestKey = 'testKey'
+//
+//   cy.getCookies().should('be.empty')
+//   cy.setCookie('hackneyToken', gssoTestKey)
+//   cy.getCookie('hackneyToken').should('have.property', 'value', gssoTestKey)
+//
+//   cy.visit('/login')
+//   cy.intercept(
+//     '/login',
+//     { fixture: 'user.json' }
+//   )
+// })
