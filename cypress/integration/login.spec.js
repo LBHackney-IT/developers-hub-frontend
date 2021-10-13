@@ -16,3 +16,10 @@
 //     cy.url().should("include", "/");
 //   });
 // });
+
+// describe("Log in functionality"), () => {
+//   it("Displays a welcome message when signed in", () => {
+//     cy.login()
+//     cy.contains('Welcome')
+//   });
+// });
