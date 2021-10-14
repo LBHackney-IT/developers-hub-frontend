@@ -1,16 +1,20 @@
 #home-page {
-    display: flex;
-    height: calc(100vh - 162px);
     justify-content: center;
     align-items: flex-start;
+    width: 100%;
     > .main-container {
+      height: calc(100vh - 162px);
+      position: relative;
+      left: 240px;
       flex: 5;
       padding: 30px 90px 30px 90px;
+      margin-top: 130px;
+      width: calc(100vw - 240px);
     }
     > .sidebar {
       flex: 1;
       height:100%;
-      width: 40% !important;
+      border-right: 2px solid gray;
     }
 }
 
@@ -23,4 +27,14 @@
 .lbh-main-wrapper :hover{
   cursor: pointer;
   //color: #00664D;
+}
+
+@media (max-width: 700px) {
+  #home-page {
+    > .main-container {
+      left: 0px;
+      top: 250px;
+      width: 100vw;
+    }
+  }
 }

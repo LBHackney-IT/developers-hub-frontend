@@ -8,6 +8,9 @@
   bottom: 0px !important;
   justify-content: space-around;
   .footer-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     text-align: center;
     position: relative;
     margin-top: 0px;

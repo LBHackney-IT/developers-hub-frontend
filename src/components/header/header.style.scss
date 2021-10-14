@@ -1,4 +1,9 @@
 @import "node_modules/lbh-frontend/lbh/components/lbh-header/header";
+header {
+  position: fixed !important;
+  width: 100%;
+  z-index: 20 !important;
+}
 
 .nav-items {
   margin-top: 0px;
