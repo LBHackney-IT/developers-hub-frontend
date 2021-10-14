@@ -18,7 +18,7 @@ const App = () => {
       <main className="lbh-main-wrapper" id="main-content" role="main">
         <div className="lbh-container">
           <Switch>
-          // if currentUser render particular routes
+          {/* if currentUser render particular routes, hardcoded*/}
             {APP_PATHS.map(({ path, Component }, key) => (
               <Route exact path={path} key={key} render={() => (<Component currentUser={currentUser} />) } />
             ))}

@@ -27,8 +27,6 @@
 Cypress.Commands.add('login', () => {
   const mockToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjI4OTU2NTI2MTE1MDA3NTIxNzAiLCJlbWFpbCI6InRlc3RAaGFja25leS5nb3YudWsiLCJpc3MiOiJIYWNrbmV5IiwibmFtZSI6IkhhY2tuZXkgVGVzdCIsImdyb3VwcyI6WyJURVNUX0dST1VQIl0sImp0aSI6IjRlZmUyMDA4LTc4NmMtNDE1Ni05MGJhLTJjM2UxMzk4ZDhmNSIsImlhdCI6MTYxODgyOTA5NSwiZXhwIjoxNjE4ODMyNjk1fQ._7PXGUtfR7VaxJoulWxRkkawfqJiRg47Ys4KnqxRGkA'
   const parseToken = () => {
-
-
     try {
       const decodedToken = jwtDecode(mockToken);
       return decodedToken;
@@ -36,11 +34,10 @@ Cypress.Commands.add('login', () => {
       return null;
     }
 }
-
+  cy.visit('/login')
   cy.setCookie('hackneyToken', mockToken)
   cy.getCookie('hackneyToken').should('have.property', 'value', mockToken)
-
-  // cy.visit('/login')
+  cy.visit('/')
   // cy.intercept(
   //   '/login',
   //   { fixture: 'user.json' }

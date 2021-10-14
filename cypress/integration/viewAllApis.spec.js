@@ -2,10 +2,10 @@ describe("View API Catalogue page", () => {
 
     beforeEach(function () {
         cy.login();
+        cy.visit("/api-catalogue");
     });
 
     it("View title", () => {
-        cy.visit("/api-catalogue");
         cy.contains("API Catalogue").should('be.visible');
     });
 
@@ -26,6 +26,7 @@ describe('All APIs Pagination', () => {
 
     beforeEach(function () {
         cy.login();
+        cy.visit("/api-catalogue");
     });
     const visitLastPageIfPossible = () => {
         // iterate recursively until the "Next" link is disabled
@@ -57,6 +58,7 @@ describe("Filter APIs", () => {
 
     beforeEach(function () {
         cy.login();
+        cy.visit("/api-catalogue");
     });
 
     beforeEach(function () {
@@ -93,6 +95,7 @@ describe("Pagination + Filters", () => {
 
     beforeEach(function () {
         cy.login();
+        cy.visit("/api-catalogue");
     });
     it("When switching filters, pagination is reset", () => {
         cy.visit("/api-catalogue");
