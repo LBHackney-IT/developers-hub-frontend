@@ -1,4 +1,4 @@
 {
-  "baseUrl": "http://local.hackney.gov.uk:3000/",
+  "baseUrl": "http://localhost:3000",
   "chromeWebSecurity": false
 }
