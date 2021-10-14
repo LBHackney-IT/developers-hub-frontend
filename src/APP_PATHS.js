@@ -1,6 +1,8 @@
 import HomePage from "./pages/home/home.page.jsx";
 import LoginPage from "./pages/login/login.page.jsx";
-import ApisPage from "./pages/apispage/apis.page.jsx";
+import ApiCataloguePage from "./pages/apiCatalogue/apiCatalogue.page.jsx";
+import ApiInformationPage from "./pages/apiInformation/apiInformation.page.jsx";
+import { hyphenatedToTitleCase, camelToTitleCase } from "./utility/utility.js";
 
 const ApiNameBreadcrumb = ({ match }) => {
   return <span>{match.params.apiName.includes("-") ? hyphenatedToTitleCase(match.params.apiName) : camelToTitleCase(match.params.apiName) }</span>
@@ -16,7 +18,7 @@ const APP_PATHS = [
   },
   {
     path: "/api-catalogue",
-    Component: ApisPage,
+    Component: ApiCataloguePage,
     breadcrumb: 'API Catalogue',
     headingName: 'APIS',
     alwaysVisible: true
