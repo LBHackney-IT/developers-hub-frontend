@@ -70,8 +70,8 @@ const Header = () => {
                   <h3 style={{ color: 'white', position: 'center', }}>DEVELOPER HUB</h3>
               </div>
 
-              <div className="name">
-                  { currentUser && <p>Welcome <b>{currentUser.name}</b> </p>}
+              <div className="name-tag">
+                 { currentUser && <p>Welcome <b>{currentUser.name}</b> </p>}
               </div>
 
               <div className="nav-items">
