@@ -4,23 +4,20 @@
     border-radius: 3px;
     list-style-type: none;
 
-    .title {
+    .top {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        .lbh-tag {
+        .govuk-tag {
             margin: 0px;
             text-transform: uppercase;
             font-weight: 700;
         }
-    }
-
-    .tags {
-        display: flex;
-        align-items: center;
-        flex-flow: wrap;
-        .lbh-tag {
-            margin: 10px;
+        .title .metadata{
+            margin-top: 0;
+            text-align: left;
+            p { margin-top: 0; }
         }
+
     }
 }

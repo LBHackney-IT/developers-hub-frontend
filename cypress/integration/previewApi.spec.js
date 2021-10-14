@@ -1,3 +1,6 @@
+import { screenSizes } from "../support/screenSizes";
+import { filterSwaggerPropertiesByType } from "../../src/utility/utility"
+
 describe("Preview an API", () => {
 
     beforeEach(function () {
@@ -10,44 +13,56 @@ describe("Preview an API", () => {
         });
     });
 
-    it("View API name", function () {
-        cy.get(".apiPreview").find("h3").first()
-            .should("have.text", this.apiData.name);
-    });
+    screenSizes.forEach((screenSize) => {
+        it(`View API name on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
+            cy.get(".title").find("h2").first()
+                .should("have.text", this.apiData.name);
+        });
 
-    it("View API description", function () {
-        cy.get(".apiPreview").find("p").first()
-            .should("have.text", this.apiData.description);
-    });
+        it(`View API version on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
+            const expectedVersion = filterSwaggerPropertiesByType(this.apiData.properties, "X-Version");
+            cy.get(".title").find("p").first()
+                .should("contain", expectedVersion.value);
+        });
 
-    it("View active status tag", function () {
-        const isPublished = this.apiData.properties.filter( property => property.type === "X-Published")[0].value.toLowerCase() == "true";
-        const expectedClass = isPublished ? "lbh-tag" : "lbh-tag--grey";
-        cy.get(".apiPreview").find(".title > span.govuk-tag").first().should(($tag) => {
-            const tagText = $tag.text();
-            const expectedTagText = isPublished ? "Active" : "Inactive";
-            expect(tagText).to.equal(expectedTagText);
-        }).should('have.class', expectedClass);
-    });
+        it(`View last edited date of API on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
+            const lastModifiedDate = filterSwaggerPropertiesByType(this.apiData.properties, "X-Modified").value.split("T")[0];
+            cy.get(".title").find("p").first()
+                .should("contain", lastModifiedDate);
+        });
 
-    it("View environment status tags", function () {
-        const expectedEnvTagsNo = 3;
-        cy.get(".apiPreview").find(".tags").first().children()
-            .should('have.length', expectedEnvTagsNo)
-            .each((tag) => {
-                if (this.apiData.tags.includes(tag.text())){
-                    expect(tag).to.have.class("lbh-tag--green");
-                } else {
-                    expect(tag).to.have.class("lbh-tag--grey");
-                }
-            });
-    });
+        it(`View API description on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
+            cy.get(".apiPreview").find(".description").first()
+                .should("have.text", this.apiData.description);
+        });
 
-    it("When the user clicks on an API name they are directed to the SwaggerHub page", function() {
-        cy.get(".apiPreview").find("a").first().click();
-        const apiUrl = this.apiData.properties.filter( property => property.type === "Swagger")[0].url;
-        const expectedUrl = apiUrl.replace("api", "app");
-        cy.url().should('include', expectedUrl);
-    });
+        it(`View active status tag on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
+            const isPublished = filterSwaggerPropertiesByType(this.apiData.properties, "X-Published").value.toLowerCase() == "true";
+            const expectedClass = isPublished ? "lbh-tag" : "lbh-tag--grey";
+            cy.get(".apiPreview").find(".top > span.govuk-tag").first().should(($tag) => {
+                const tagText = $tag.text();
+                const expectedTagText = isPublished ? "Active" : "Inactive";
+                expect(tagText).to.equal(expectedTagText);
+            }).should('have.class', expectedClass);
+        });
 
+        it(`View environment status tags on ${screenSize} screen`, function () {
+            cy.viewport(screenSize);
+            const expectedEnvTagsNo = 3;
+            cy.get(".apiPreview").find(".env-tags").first().children()
+                .should('have.length', expectedEnvTagsNo)
+                .each((tag) => {
+                    if (this.apiData.tags.includes(tag.text())){
+                        expect(tag).to.have.class("lbh-tag--green");
+                    } else {
+                        expect(tag).to.have.class("lbh-tag--grey");
+                    }
+                });
+        });
+    });
 });

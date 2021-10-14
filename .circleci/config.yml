@@ -125,12 +125,6 @@ jobs:
             - assume-role-and-persist-workspace:
                   aws-account: $AWS_ACCOUNT_DEVELOPMENT
 
-    assume-role-staging:
-        executor: docker-python
-        steps:
-            - assume-role-and-persist-workspace:
-                  aws-account: $AWS_ACCOUNT_STAGING
-
     assume-role-production:
         executor: docker-python
         steps:
@@ -142,12 +136,6 @@ jobs:
         steps:
             - terraform-init-then-apply:
                   environment: "development"
-
-    terraform-init-and-apply-to-staging:
-        executor: docker-terraform
-        steps:
-            - terraform-init-then-apply:
-                  environment: "staging"
 
     terraform-init-and-apply-to-production:
         executor: docker-terraform

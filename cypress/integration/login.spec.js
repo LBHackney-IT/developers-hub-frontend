@@ -25,7 +25,7 @@ describe("Log in functionality", () => {
 
   it("Redirects to homepage when signed in", () => {
     cy.login();
-    cy.url().should("eq", "http://local.hackney.gov.uk:3000/");
+    cy.url().should("eq", "http://localhost:3000/");
   });
 
   it("Displays a welcome message when signed in", () => {

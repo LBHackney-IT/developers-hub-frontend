@@ -2,8 +2,8 @@ import React from "react";
 import { UserProvider } from "./context/user.context";
 
 import './App.scss';
+import "./utility/utility";
 import { Route, Switch } from "react-router-dom";
-
 import APP_PATHS from "./APP_PATHS.js";
 
 // Components
@@ -16,14 +16,11 @@ const App = () => {
     <UserProvider>
       <Header />
       <main className="lbh-main-wrapper" id="main-content" role="main">
-        <div className="lbh-container">
           <Switch>
-          {/* if currentUser render particular routes, hardcoded*/}
             {APP_PATHS.map(({ path, Component }, key) => (
               <Route exact path={path} key={key} render={() => (<Component currentUser={currentUser} />) } />
             ))}
           </Switch>
-        </div>
       </main>
       <Footer />
     </UserProvider>
