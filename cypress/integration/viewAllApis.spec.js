@@ -30,7 +30,6 @@ describe("View API Catalogue page", () => {
             cy.get(".lbh-error-summary").should('be.visible');
         });
     })
-
 });
 
 describe('All APIs Pagination', () => {
@@ -58,7 +57,6 @@ describe('All APIs Pagination', () => {
         cy.visit("/api-catalogue");
         cy.wait("@getApiDefinitions");
         cy.get(".lbh-simple-pagination__link--previous").should('have.class', 'disabled');
-
     });
 
     it('View the last page', () => {
@@ -76,7 +74,7 @@ describe("Filter APIs", () => {
         cy.fixture("allApis").then((allApis) => {
             this.apiData = allApis.apis[0];
             cy.intercept('GET', '/specs*', allApis).as("getApis");
-                    cy.visit("/api-catalogue");
+            cy.visit("/api-catalogue");
         });
     });
 

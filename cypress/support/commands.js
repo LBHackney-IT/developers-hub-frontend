@@ -38,8 +38,4 @@ Cypress.Commands.add('login', () => {
   cy.setCookie('hackneyToken', mockToken)
   cy.getCookie('hackneyToken').should('have.property', 'value', mockToken)
   cy.visit('/')
-  // cy.intercept(
-  //   '/login',
-  //   { fixture: 'user.json' }
-  // )
 })
