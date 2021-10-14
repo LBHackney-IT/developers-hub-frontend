@@ -20,7 +20,7 @@ const APP_PATHS = [
     path: "/api-catalogue",
     Component: ApiCataloguePage,
     breadcrumb: 'API Catalogue',
-    headingName: 'API Catalogue',
+    headingName: 'API CATALOGUE',
     alwaysVisible: true
   },
   {
