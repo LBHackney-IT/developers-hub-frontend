@@ -8,7 +8,7 @@ describe("View API Catalogue page", () => {
     });
 
     screenSizes.forEach((screenSize) => {
-        
+
         it(`View title on ${screenSize} screen`, () => {
             cy.viewport(screenSize);
             cy.intercept('/specs*').as('getApiDefinitions')
@@ -16,7 +16,7 @@ describe("View API Catalogue page", () => {
             cy.wait("@getApiDefinitions");
             cy.contains("API Catalogue").should('be.visible');
         });
-        
+
         it(`View 5 APIs by default on ${screenSize} screen`, () => {
             cy.viewport(screenSize);
             const expectedCount = 5;
@@ -30,13 +30,14 @@ describe("View API Catalogue page", () => {
             cy.get(".lbh-error-summary").should('be.visible');
         });
     })
-    
+
 });
 
 describe('All APIs Pagination', () => {
 
     beforeEach(function () {
         cy.login();
+        cy.visit("/api-catalogue");
         cy.intercept('/specs*').as('getApiDefinitions');
     })
 
@@ -44,20 +45,20 @@ describe('All APIs Pagination', () => {
         // iterate recursively until the "Next" link is disabled
         cy.get(".lbh-simple-pagination__link--next").then(($next) => {
         if ($next.hasClass('disabled')) { return } // we are on the last page
-        
+
         cy.wait(500); // just for clarity
         cy.get(".lbh-simple-pagination__link--next").click();
-        
+
         cy.wait("@getApiDefinitions");
         visitLastPageIfPossible();
         })
     }
-    
+
     it('View the first page', () => {
         cy.visit("/api-catalogue");
         cy.wait("@getApiDefinitions");
         cy.get(".lbh-simple-pagination__link--previous").should('have.class', 'disabled');
-               
+
     });
 
     it('View the last page', () => {
@@ -70,31 +71,31 @@ describe("Filter APIs", () => {
 
     beforeEach(function () {
         cy.login();
+
         // Stub API response
         cy.fixture("allApis").then((allApis) => {
             this.apiData = allApis.apis[0];
             cy.intercept('GET', '/specs*', allApis).as("getApis");
+                    cy.visit("/api-catalogue");
         });
     });
 
     it("View all APIs by default", () => {
-        cy.login();
-        cy.visit("/api-catalogue");
         cy.wait('@getApis').its('request.url').should('include', 'state=ALL');
         cy.get("#filterApis-0").should("be.checked");
     });
 
-    it("View active APIs", () => {
+    it.only("View active APIs", () => {
         cy.get("#filterApis-1").check();
         cy.wait('@getApis').its('request.url').should('include', 'state=PUBLISHED');
     });
 
-    it("View inactive APIs", () => {
+    it.only("View inactive APIs", () => {
         cy.get("#filterApis-2").check();
         cy.wait('@getApis').its('request.url').should('include', 'state=UNPUBLISHED');
     });
 
-    it("Click on radio labels to select an API filter", () => {
+    it.only("Click on radio labels to select an API filter", () => {
        cy.get(".govuk-radios__label").contains("Active APIs").click();
        cy.wait('@getApis').its('request.url').should('include', 'state=PUBLISHED');
     });
@@ -124,7 +125,7 @@ describe("Advanced Query Fields", () => {
             expect(apiModifiedDates).to.deep.equal(sortedDates);
           });
     });
-    
+
     it("View APIs in alphabetical order", () => {
         cy.get(".govuk-details__summary-text").click();
         cy.get('select#SortBy').select("A-Z");
@@ -152,6 +153,11 @@ describe("Advanced Query Fields", () => {
 
 describe("Resetting Pagination", () => {
 
+    beforeEach(function () {
+        cy.login();
+        cy.visit("/api-catalogue");
+    });
+
     const scenarios = [
         { name: "switching filters", function: () => { cy.get("#filterApis-2").check() } },
         { name: "changing sort by", function: () => { cy.get('select#SortBy').select("A-Z") } },
@@ -163,7 +169,7 @@ describe("Resetting Pagination", () => {
             cy.intercept('/specs*').as('getApiDefinitions');
             cy.visit("/api-catalogue");
             cy.wait("@getApiDefinitions");
-    
+
             cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
                 expect($nextPage.text()).to.contain("2"); // on page 1
             });
@@ -173,12 +179,12 @@ describe("Resetting Pagination", () => {
                 expect($nextPage.text()).to.contain("3"); // on page 2
             });
             // Arrange
-    
+
             cy.get(".govuk-details__summary-text").click();
             scenario.function();
             cy.wait("@getApiDefinitions");
             // Act
-            
+
             cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
                 expect($nextPage.text()).to.contain("2");
                 expect($nextPage.text()).to.not.contain("3");
