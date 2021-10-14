@@ -3,7 +3,7 @@ import { screenSizes } from "../support/screenSizes";
 describe("API Catalogue is limited to signed in users", () => {
         it("Redirects to homepage if user is not signed in", function (){
           cy.visit("/");
-          cy.contains('API Catalogue').click();
+          cy.contains('API CATALOGUE').click();
           cy.url().should("eq", "http://localhost:3000/");
         });
   });
