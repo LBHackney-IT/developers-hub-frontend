@@ -8,13 +8,14 @@ import Pagination from "../../components/pagination/pagination.component";
 import BackToTop from "../../components/backToTop/backToTop.component";
 import Select from "../../components/select/select.component";
 import Details from "../../components/details/details.component";
-
+import { useUser } from "../../context/user.context.js";
+import { useHistory } from "react-router-dom";
 import withUser from "../../HOCs/with-user.hoc.js";
 
-const ApiCataloguePage = ({ history, currentUser: user }) => {
-  // if (!user) history.push(APP_PATHS.home);
-  // const [currentUser, setCurrentUser] = useState(user);
-
+const ApiCataloguePage = ({ currentUser: user }) => {
+  const currentuser = useUser();
+  const history = useHistory();
+  if (!currentuser) history.push("/");
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [apis, setApis] = useState([]);
@@ -78,7 +79,7 @@ const ApiCataloguePage = ({ history, currentUser: user }) => {
       return Object.keys(queryParams).map(key => key + '=' + queryParams[key]).join('&');
     }
     resetState();
-    
+
     fetch(`https://api.swaggerhub.com/specs?${parseQueryParams()}`)
       .then(res => res.json())
       .then((result) => {
@@ -112,9 +113,9 @@ const ApiCataloguePage = ({ history, currentUser: user }) => {
           </Details>
 
           {
-            isLoaded ? ( 
-              error ? 
-                <Error title="Oops! Something went wrong!" summary={error.message} /> 
+            isLoaded ? (
+              error ?
+                <Error title="Oops! Something went wrong!" summary={error.message} />
                 :
                 <div className="lbh-container">
                   <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
@@ -125,7 +126,7 @@ const ApiCataloguePage = ({ history, currentUser: user }) => {
                   </ul>
                 </div>
             )
-            : 
+            :
             <h3>Loading..</h3>
           }
       </div>

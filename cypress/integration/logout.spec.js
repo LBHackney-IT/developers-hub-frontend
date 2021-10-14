@@ -1,7 +1,6 @@
 describe("Sign out functionality", () => {
   beforeEach(function () {
       cy.login();
-      // Stub API response
   });
     it("Has a SIGN OUT button in the nav bar", () => {
       cy.contains("SIGN OUT");
