@@ -20,7 +20,7 @@ const APP_PATHS = [
     path: "/api-catalogue",
     Component: ApiCataloguePage,
     breadcrumb: 'API Catalogue',
-    headingName: 'APIS',
+    headingName: 'API Catalogue',
     alwaysVisible: true
   },
   {
@@ -35,7 +35,7 @@ const APP_PATHS = [
     Component: ApiInformationPage,
     breadcrumb: ApiNameBreadcrumb,
     alwaysVisible: false
-  },
+  }
 ]
 
 export default APP_PATHS;

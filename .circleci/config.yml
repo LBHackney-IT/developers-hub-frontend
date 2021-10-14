@@ -152,7 +152,7 @@ workflows:
                     - install-dependencies
             - cypress/run:
                 yarn: true
-                start: yarn start
+                start: yarn testStart
                 requires:
                   - install-dependencies
             - assume-role-development:
