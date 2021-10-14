@@ -24,16 +24,25 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-// Cypress.Commands.add('login', () => {
-//   const gssoTestKey = 'testKey'
-//
-//   cy.getCookies().should('be.empty')
-//   cy.setCookie('hackneyToken', gssoTestKey)
-//   cy.getCookie('hackneyToken').should('have.property', 'value', gssoTestKey)
-//
-//   cy.visit('/login')
-//   cy.intercept(
-//     '/login',
-//     { fixture: 'user.json' }
-//   )
-// })
+Cypress.Commands.add('login', () => {
+  const mockToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjI4OTU2NTI2MTE1MDA3NTIxNzAiLCJlbWFpbCI6InRlc3RAaGFja25leS5nb3YudWsiLCJpc3MiOiJIYWNrbmV5IiwibmFtZSI6IkhhY2tuZXkgVGVzdCIsImdyb3VwcyI6WyJURVNUX0dST1VQIl0sImp0aSI6IjRlZmUyMDA4LTc4NmMtNDE1Ni05MGJhLTJjM2UxMzk4ZDhmNSIsImlhdCI6MTYxODgyOTA5NSwiZXhwIjoxNjE4ODMyNjk1fQ._7PXGUtfR7VaxJoulWxRkkawfqJiRg47Ys4KnqxRGkA'
+  const parseToken = () => {
+
+
+    try {
+      const decodedToken = jwtDecode(mockToken);
+      return decodedToken;
+    } catch(e) {
+      return null;
+    }
+}
+
+  cy.setCookie('hackneyToken', mockToken)
+  cy.getCookie('hackneyToken').should('have.property', 'value', mockToken)
+
+  // cy.visit('/login')
+  // cy.intercept(
+  //   '/login',
+  //   { fixture: 'user.json' }
+  // )
+})

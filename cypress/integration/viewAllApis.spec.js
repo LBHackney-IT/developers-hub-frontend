@@ -1,10 +1,14 @@
 describe("View API Catalogue page", () => {
 
+    beforeEach(function () {
+        cy.login();
+    });
+
     it("View title", () => {
         cy.visit("/api-catalogue");
         cy.contains("API Catalogue").should('be.visible');
     });
-    
+
     it("View 5 APIs by default", () => {
         const expectedCount = 5;
         cy.get('ul#apisList').get('li.apiPreview').should('have.length', expectedCount);
@@ -15,10 +19,14 @@ describe("View API Catalogue page", () => {
         cy.reload();
         cy.get(".lbh-error-summary").should('be.visible');
     });
-    
+
 });
 
 describe('All APIs Pagination', () => {
+
+    beforeEach(function () {
+        cy.login();
+    });
     const visitLastPageIfPossible = () => {
         // iterate recursively until the "Next" link is disabled
         cy.get(".lbh-simple-pagination__link--next").then(($next) => {
@@ -26,17 +34,17 @@ describe('All APIs Pagination', () => {
             // we are on the last page
             return
         }
-        
+
         cy.wait(500); // just for clarity
         cy.get(".lbh-simple-pagination__link--next").click();
         visitLastPageIfPossible();
         })
     }
-    
+
     it('View the first page', () => {
         cy.visit("/api-catalogue");
         cy.get(".lbh-simple-pagination__link--previous").should('have.class', 'disabled');
-               
+
     });
 
     it('View the last page', () => {
@@ -46,6 +54,10 @@ describe('All APIs Pagination', () => {
 });
 
 describe("Filter APIs", () => {
+
+    beforeEach(function () {
+        cy.login();
+    });
 
     beforeEach(function () {
         // Stub API response
@@ -78,6 +90,10 @@ describe("Filter APIs", () => {
 });
 
 describe("Pagination + Filters", () => {
+
+    beforeEach(function () {
+        cy.login();
+    });
     it("When switching filters, pagination is reset", () => {
         cy.visit("/api-catalogue");
 

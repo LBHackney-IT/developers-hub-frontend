@@ -1,7 +1,7 @@
 describe("Preview an API", () => {
 
     beforeEach(function () {
-        // cy.login()
+        cy.login();
         // Stub API response
         cy.fixture("allApis").then((allApis) => {
             this.apiData = allApis.apis[0];

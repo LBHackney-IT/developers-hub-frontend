@@ -27,3 +27,8 @@ yarn-error.log*
 
 # IDEs
 .vscode/
+
+# cypress
+cypress/screenshots
+cypress/videos
+cypress/reports
