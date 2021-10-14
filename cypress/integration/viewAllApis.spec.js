@@ -69,13 +69,12 @@ describe("Filter APIs", () => {
 
     beforeEach(function () {
         cy.login();
-
         // Stub API response
         cy.fixture("allApis").then((allApis) => {
             this.apiData = allApis.apis[0];
             cy.intercept('GET', '/specs*', allApis).as("getApis");
-            cy.visit("/api-catalogue");
         });
+        cy.visit("/api-catalogue");
     });
 
     it("View all APIs by default", () => {
@@ -83,18 +82,21 @@ describe("Filter APIs", () => {
         cy.get("#filterApis-0").should("be.checked");
     });
 
-    it.only("View active APIs", () => {
+    it("View active APIs", () => {
+        cy.wait('@getApis');
         cy.get("#filterApis-1").check();
         cy.wait('@getApis').its('request.url').should('include', 'state=PUBLISHED');
     });
 
-    it.only("View inactive APIs", () => {
+    it("View inactive APIs", () => {
+        cy.wait('@getApis');
         cy.get("#filterApis-2").check();
         cy.wait('@getApis').its('request.url').should('include', 'state=UNPUBLISHED');
     });
 
-    it.only("Click on radio labels to select an API filter", () => {
-       cy.get(".govuk-radios__label").contains("Active APIs").click();
+    it("Click on radio labels to select an API filter", () => {
+        cy.wait('@getApis');
+        cy.get(".govuk-radios__label").contains("Active APIs").click();
        cy.wait('@getApis').its('request.url').should('include', 'state=PUBLISHED');
     });
 });

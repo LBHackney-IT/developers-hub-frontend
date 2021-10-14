@@ -63,19 +63,6 @@ a {
   }
 }
 
-#home-page {
-    display: flex;
-    width: 95%;
-    justify-content: center;
-    align-items: flex-start;
-    > .main-container {
-      flex: 3;
-    }
-    > .sidebar {
-      flex: 1;
-    }
-}
-
 .navigation-header {
   padding: 20px;
   margin-left: 90px;
