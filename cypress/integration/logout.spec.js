@@ -5,9 +5,9 @@ describe("Sign out functionality", () => {
     it("Has a SIGN OUT button in the nav bar", () => {
       cy.contains("SIGN OUT");
     });
-    it("Redirects to home page on sign out", () => {
+    it("Redirects to sign in page on sign out", () => {
         cy.visit("/api-catalogue");
         cy.contains('SIGN OUT').click();
-        cy.url().should("eq", "http://localhost:3000/");
+        cy.url().should("include", "/login");
     });
 });

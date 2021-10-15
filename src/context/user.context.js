@@ -27,7 +27,7 @@ export const UserProvider = ({ children }) => {
     setUser(null);
     // delete cookie
     Cookies.remove('hackneyToken', {domain: 'hackney.gov.uk'});
-    history.push("/");
+    history.push("/login");
   }, [history])
 
   return <UserContext.Provider value={{ user, logout: logoutUser }}>{children}</UserContext.Provider>;
