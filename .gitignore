@@ -7,8 +7,6 @@
 
 # testing
 /coverage
-/cypress/screenshots/*
-/cypress/videos/*
 
 # production
 /build
@@ -27,3 +25,8 @@ yarn-error.log*
 
 # IDEs
 .vscode/
+
+# cypress
+cypress/screenshots
+cypress/videos
+cypress/reports

@@ -3,6 +3,7 @@ import { screenSizes } from "../support/screenSizes";
 describe("View API Information page", () => {
 
     beforeEach(function () {
+        cy.login()
         // Stub API responses
         cy.intercept('GET', '/specs*', {fixture: "allApis"}).as("getAllApis");
         cy.fixture("testApi").then((apiData) => {
@@ -56,11 +57,12 @@ describe("View API Information page", () => {
         cy.get('select').select(selectedVersion);
         cy.get('select#VersionNo option:selected').should('have.text', selectedVersion);
     });
-    
+
 });
 
 describe("Test error response", () => {
     it("View error response if API error occurs", () => {
+        cy.login();
         cy.intercept('GET', '/specs*', {fixture: "allApis"}).as("getAllApis");
         cy.intercept({method: 'GET', url: /apis/gm}, { statusCode: 500 })
 

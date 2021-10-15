@@ -4,6 +4,7 @@ import { filterSwaggerPropertiesByType } from "../../src/utility/utility"
 describe("Preview an API", () => {
 
     beforeEach(function () {
+        cy.login();
         // Stub API response
         cy.fixture("allApis").then((allApis) => {
             this.apiData = allApis.apis[0];

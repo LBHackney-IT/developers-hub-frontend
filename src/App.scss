@@ -32,10 +32,25 @@ $lbh-asset-path: "~lbh-frontend/lbh/assets";
   font-family: 'Open Sans', sans-serif !important;
 }
 
+body {
+  margin-top: 0px !important;
+}
+
 #root {
   margin-top: 0px !important;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+#contact-page {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  width: 80% !important;
+}
+
+.page {
+  min-height: 100vh;
 }
 
 #main-content{
@@ -46,4 +61,11 @@ a {
   &:hover {
     cursor: pointer;
   }
+}
+
+.navigation-header {
+  padding: 20px;
+  margin-left: 90px;
+  margin-right: 90px;
+  border-bottom: 1px solid gray;
 }
