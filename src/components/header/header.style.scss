@@ -30,8 +30,8 @@ header {
   flex-flow: row wrap;
 }
 .name{
-  margin-top: 0px;
-font-weight: bold;
+  margin-top: 10px;
+  font-weight: bold;
 cursor:pointer;
 &:hover {
   opacity: 0.8;
@@ -40,6 +40,11 @@ cursor:pointer;
   opacity: 0.6;
   }
 }
+
+.name-tag{
+  margin-top: 15px;
+}
+
 
 @media (max-width: 460px) {
   .lbh-container {

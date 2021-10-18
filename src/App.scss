@@ -17,7 +17,6 @@ $lbh-asset-path: "~lbh-frontend/lbh/assets";
 @import "./components/contact-container/contact-container.style.scss";
 @import "./components/sidebar/sidebar.style.scss";
 @import "./components/breadcrumbs/breadcrumbs.style.scss";
-@import "./components/select/select.style.scss";
 @import "./components/environmentTags/environmentTags.style.scss";
 
 // Page Styling
@@ -47,13 +46,36 @@ body * {
   overflow-x: hidden;
 }
 
+
 #main-content{
   min-height: calc(100% - 162px);
   padding: 0px !important;
+
+#contact-page {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  width: 80% !important;
+
+}
+
+.page {
+  min-height: 100vh;
+}
+
+#main-content{
+  justify-content: center;
 }
 
 a {
   &:hover {
     cursor: pointer;
   }
+}
+
+.navigation-header {
+  padding: 20px;
+  margin-left: 90px;
+  margin-right: 90px;
+  border-bottom: 1px solid gray;
 }

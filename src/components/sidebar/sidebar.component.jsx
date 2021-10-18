@@ -1,6 +1,7 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 
-const Sidebar = (props) => {
+const Sidebar = () => {
   return (
     <div className="sidebar">
       <p style={TitleStyling}>CONTENTS</p>

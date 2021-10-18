@@ -1,28 +1,30 @@
 import React from "react";
 import EnvironmentTags from "../environmentTags/environmentTags.component";
-import { spacedtoHyphenatedCase } from "../../utility/utility";
 import { Link } from "react-router-dom";
+import { filterSwaggerPropertiesByType } from "../../utility/utility";
 
 const ApiPreview = ({name, description, tags, properties}) => {
 
-  const apiUrl = spacedtoHyphenatedCase(name);
-  const SwaggerLink = properties.filter( property => property.type === "Swagger")[0].url;
-  const isPublished = properties.filter( property => property.type === "X-Published")[0].value.toLowerCase() === "true";
-  const Versions = properties.filter( property => property.type === "X-Versions")[0].value.split(",");
-  const SelectedVersion = properties.filter( property => property.type === "X-Version")[0].value;
+  const id = filterSwaggerPropertiesByType(properties, "Swagger").url.split("/")[5];
+  const isPublished = filterSwaggerPropertiesByType(properties, "X-Published").value.toLowerCase() === "true";
+  const Versions = filterSwaggerPropertiesByType(properties, "X-Versions").value.split(",");
+  const selectedVersion = filterSwaggerPropertiesByType(properties, "X-Version").value;
+  const lastModified = filterSwaggerPropertiesByType(properties, "X-Modified").value.split("T")[0];
 
   return (
     <li className="apiPreview">
       <div className="top">
         <div className="title">
           <Link to={{
-            pathname: `/api-catalogue/${apiUrl}`, 
-            state: { SwaggerLink: SwaggerLink, Versions: Versions, SelectedVersion: SelectedVersion }
+            pathname: `/api-catalogue/${id}`, 
+            state: { versions: Versions, currentVersion: selectedVersion }
           }} 
           className="lbh-link">
-            <h3>{name}</h3>
+            <h2 className="lbh-heading-h3">{name}</h2>
           </Link>
-          <p>Version {SelectedVersion}</p>
+          <div className="metadata">
+            <p className="lbh-body-xs"><span className="version">v{selectedVersion}</span> &#183; <span className="edited">Edited {lastModified}</span></p>
+          </div>
         </div>
         <span className={`govuk-tag lbh-tag${isPublished ? "" : "--grey"}`}>{ isPublished ? "Active" : "Inactive" }</span>
       </div>

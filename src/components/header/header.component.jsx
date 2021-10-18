@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "../link/link.component.jsx";
 import APP_PATHS from "../../APP_PATHS.js";
-import { useUser } from "../../context/user.context.js";
+import { useUser, SignOut } from "../../context/user.context.js";
 
 const Header = () => {
 
@@ -70,8 +70,13 @@ const Header = () => {
                   <h3 style={{ color: 'white', position: 'center', }}>DEVELOPER HUB</h3>
               </div>
 
+              <div className="name-tag">
+                 { currentUser && <p>Welcome <b>{currentUser.name}</b> </p>}
+              </div>
+
               <div className="nav-items">
                 {
+                  // refactor for simplicity
                   alwaysVisibleLinks.map(appPath => {
                     if (appPath.path === "/contact-us" || appPath.path === "/") return null;
                     return(
@@ -81,14 +86,15 @@ const Header = () => {
                 }
                 {
                   currentUser ? (
-                    signedInLinks.map(appPath => {
+                    signedInLinks.map(appPath => (
                       <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
-                    })
+                    )), <SignOut/>
                   ) : (
                     signedOutLinks.map(appPath => (
                       <Link className="nav-item lbh-body-m" href={appPath.path} key={appPath.path}>{appPath.headingName}</Link>
                     ))
                   )
+                  // add logout button after the links currentUser.logout
                 }
               </div>
             </div>
