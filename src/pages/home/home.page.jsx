@@ -3,14 +3,13 @@ import React, { useState } from "react";
 import withUser from "../../HOCs/with-user.hoc.js";
 import Sidebar from "../../components/sidebar/sidebar.component.jsx";
 // import { useUser } from "../../context/user.context.js";
-import { HomePage1, HomePage2, HomePage3, HomePage4, HomePage5 } from "../home-pages/home-pages.pages";
+import { HomePage1, HomePage2, HomePage3, HomePage4} from "../home-pages/home-pages.pages";
 
 const pages = [
   <HomePage1 />,
   <HomePage2 />,
   <HomePage3 />,
   <HomePage4 />,
-  <HomePage5 />,
 ];
 
 const HomePage = () => {
@@ -35,7 +34,6 @@ const HomePage = () => {
           <a className="sidebarLink" href="#" itemId="1" onClick={storeItemId}>The need of a developer hub</a>
           <a className="sidebarLink" href="#" itemId="2" onClick={storeItemId}>API Specifications</a>
           <a className="sidebarLink" href="#" itemId="3" onClick={storeItemId}>Our ways of working</a>
-          <a className="sidebarLink" href="#" itemId="4" onClick={storeItemId}>User Stories</a>
         </Sidebar>
         {
           pages[currentItemId]
