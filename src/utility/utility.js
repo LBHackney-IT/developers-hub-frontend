@@ -11,9 +11,5 @@ export const hyphenatedToTitleCase = function(string) {
 }
 export const camelToTitleCase = function(string){
     const result = string.replace(/([A-Z])/g, " $1");
-    return (result.charAt(0).toUpperCase() + result.slice(1)).replace(/api/ig, "API");
-}
-
-export const filterSwaggerPropertiesByType = (properties, filter) => {
-    return properties.filter( property => property.type === filter)[0];
+    return result.charAt(0).toUpperCase() + result.slice(1);
 }

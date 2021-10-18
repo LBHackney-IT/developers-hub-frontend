@@ -1,8 +1,7 @@
 import { React, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router";
+import { useLocation } from "react-router";
 
 import withUser from "../../HOCs/with-user.hoc.js";
-import { filterSwaggerPropertiesByType } from "../../utility/utility"
 
 import Table from "../../components/table/table.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
@@ -11,60 +10,53 @@ import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
 
 const ApiInformationPage = () => {
-    const { apiName } = useParams();
-    const apiRequestUrl = `https://api.swaggerhub.com/apis/Hackney/${apiName}`;
-    const passedParams = useLocation().state || {versions: null, currentVersion: null };
+    //const { apiName } = useParams();
+    // use to get API name from params for API call
+    const { SwaggerLink, Versions, SelectedVersion } = useLocation().state; 
+    const apiRequestUrl = SwaggerLink.replace(SelectedVersion, "");
 
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [versions, setVersions] = useState(passedParams.versions);
-    const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
+    const [currentVersion, setCurrentVersion] = useState(SelectedVersion);
     const [apiData, setApiData] = useState({
         githubLink: null,
+        swaggerLink: `${apiRequestUrl}${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs"),
         developmentBaseUrl: null,
         stagingBaseUrl: null,
         apiSpecificationLink: null,
         // fields that will be populated by an API call later
     });
-
     const resetState = () => {
         setError(null);
         setIsLoaded(false);
+        // setApiData(null);
     }
 
     useEffect(() => {
-
-        const handleApiData = (result) => {
-            setApiData((previousData) => ({ ...previousData, swaggerData: result}));
-            setIsLoaded(true);
-        }
-
-        const handleApiVersioning = (result) => {
-            const versions = result.apis.map( api => filterSwaggerPropertiesByType(api.properties, "X-Version").value);
-            setVersions(versions);
-            setCurrentVersion(versions[0]);
-        }
-
         window.scrollTo(0, 0);
         resetState();
-
-        fetch(`${apiRequestUrl}/${currentVersion || ''}`)
+        fetch(`${apiRequestUrl}${currentVersion}`)
             .then(res => res.json())
-            .then( result => { currentVersion ? handleApiData(result) : handleApiVersioning(result) })
+            .then((result) => {
+                setApiData((previousData) => ({
+                    ...previousData, 
+                    swaggerData: result
+                }));
+                setIsLoaded(true);
+            })
             .catch((error) => {
                 setError(error);
                 setIsLoaded(true);
             })
-
-    }, [apiRequestUrl, currentVersion]);
+        }, [apiRequestUrl, currentVersion]);
 
     const formatApiData = () => {
         const changeVersion = (version) => { setCurrentVersion(version); }
-        const SelectVersion = <Select name={"VersionNo"} options={versions} selectedOption={currentVersion} onChange={changeVersion} />;
+        const SelectVersion = <Select name={"VersionNo"} options={Versions} selectedOption={currentVersion} onChange={changeVersion} />;
 
         const Links = [
             {linkText: `${apiData.swaggerData.info.title} Specification`, url: apiData.apiSpecificationLink},
-            {linkText: `${apiData.swaggerData.info.title} on SwaggerHub`, url: `${apiRequestUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs") },
+            {linkText: `${apiData.swaggerData.info.title} on SwaggerHub`, url: apiData.swaggerLink },
             {linkText: `${apiData.swaggerData.info.title} GitHub Repository`, url: apiData.githubLink }
         ];
 

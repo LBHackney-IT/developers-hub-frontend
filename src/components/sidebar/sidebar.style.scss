@@ -4,21 +4,19 @@
   left: 0px;
   width: 240px;
   top: 0px;
+
   > p {
     margin-top: 100px;
     margin-bottom: 10px;
   }
   a.sidebarLink {
-
-  text-align: center;
-  margin-top: 220px;
-  a {
     display: block;
     text-decoration: none;
     word-wrap: break-word;
     font-size: 18px;
     color: #00664E;
     text-align: left;
+  //  color: 	#bfc1c3;
     padding-left: 20px;
     padding-top: 8px;
     padding-bottom: 8px;
@@ -61,4 +59,3 @@
     top: 96px !important;
   }
 }
-

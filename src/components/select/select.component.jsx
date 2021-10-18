@@ -7,7 +7,7 @@ const Select = ({name, label, options, onChange, selectedOption}) => {
     return(
         <div className="govuk-form-group lbh-form-group">
             { label &&
-                <label className="govuk-label lbh-label" htmlFor={name}>
+                <label className="govuk-label lbh-label" for={name}>
                     {label}
                 </label>
             }

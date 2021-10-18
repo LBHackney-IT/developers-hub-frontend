@@ -7,8 +7,6 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "lbh-frontend": "^3.6.0",
-    "node-sass": "^6.0.1",
     "@types/js-cookie": "^2.2.6",
     "js-cookie": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
@@ -18,6 +16,7 @@
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-linkify": "^1.0.0-alpha",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "sass": "^1.38.2",
@@ -26,8 +25,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "HOST=local.hackney.gov.uk react-scripts start",
-    "testStart": "react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
