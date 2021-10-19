@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 
+import { useUser } from "../../context/user.context.js";
+import { useHistory } from "react-router-dom";
+import withUser from "../../HOCs/with-user.hoc.js";
+
 import ApiPreview from "../../components/apiPreview/apiPreview.component";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component";
 import Error from "../../components/error/error.component"
@@ -8,14 +12,12 @@ import Pagination from "../../components/pagination/pagination.component";
 import BackToTop from "../../components/backToTop/backToTop.component";
 import Select from "../../components/select/select.component";
 import Details from "../../components/details/details.component";
-import { useUser } from "../../context/user.context.js";
-import { useHistory } from "react-router-dom";
-import withUser from "../../HOCs/with-user.hoc.js";
 
-const ApiCataloguePage = ({ currentUser: user }) => {
+const ApiCataloguePage = () => {
   const currentuser = useUser();
   const history = useHistory();
   if (!currentuser) history.push("/");
+
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [apis, setApis] = useState([]);

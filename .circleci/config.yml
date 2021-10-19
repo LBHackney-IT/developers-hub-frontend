@@ -153,12 +153,15 @@ workflows:
             - cypress/run:
                 yarn: true
                 start: yarn testStart
+                store_artifacts: true
+                parallel: true
                 requires:
                   - install-dependencies
             - assume-role-development:
                   context: api-assume-role-development-context
                   requires:
                       - cypress/run
+                      - run-lint
             - terraform-init-and-apply-to-development:
                   requires:
                       - assume-role-development

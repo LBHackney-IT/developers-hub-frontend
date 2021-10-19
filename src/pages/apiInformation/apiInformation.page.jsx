@@ -2,7 +2,9 @@ import { React, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 
 import withUser from "../../HOCs/with-user.hoc.js";
-import { filterSwaggerPropertiesByType } from "../../utility/utility"
+import { filterSwaggerPropertiesByType } from "../../utility/utility";
+import { useUser } from "../../context/user.context.js";
+import { useHistory } from "react-router-dom";
 
 import Table from "../../components/table/table.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
@@ -11,6 +13,10 @@ import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
 
 const ApiInformationPage = () => {
+    const currentuser = useUser();
+    const history = useHistory();
+    if (!currentuser) history.push("/");
+    
     const { apiName } = useParams();
     const apiRequestUrl = `https://api.swaggerhub.com/apis/Hackney/${apiName}`;
     const passedParams = useLocation().state || {versions: null, currentVersion: null };

@@ -1,5 +1,12 @@
 import { screenSizes } from "../support/screenSizes";
 
+describe("API Information Page is limited to signed in users", () => {
+    it("Redirects to homepage if user is not signed in", function (){
+        cy.visit("/api-catalogue/testApi");
+        cy.url().should("eq", "http://localhost:3000/");
+    });
+});
+
 describe("View API Information page", () => {
 
     beforeEach(function () {
