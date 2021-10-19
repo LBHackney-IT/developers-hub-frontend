@@ -154,6 +154,7 @@ workflows:
                 yarn: true
                 start: yarn testStart
                 store_artifacts: true
+                parallel: true
                 requires:
                   - install-dependencies
             - assume-role-development:
