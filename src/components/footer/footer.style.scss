@@ -1,11 +1,16 @@
 #app-footer {
-  position: relative;
-  padding: 20px 20px 20px 10px;
+  position: fixed;
+  width:100%;
   display: flex;
   background: black;
   flex-flow: row wrap;
+  height: 60px;
+  bottom: 0px !important;
   justify-content: space-around;
   .footer-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     text-align: center;
     position: relative;
     margin-top: 0px;
@@ -18,4 +23,5 @@
       }
     }
   }
+  margin-top:0px;
 }

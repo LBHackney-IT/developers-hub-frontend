@@ -1,5 +1,5 @@
 const Error = ({title, summary, link1, link2}) => {
-    return(
+    return(  
         <div
             className="govuk-error-summary optional-extra-class lbh-error-summary"
             aria-labelledby="error-summary-title"
@@ -13,7 +13,7 @@ const Error = ({title, summary, link1, link2}) => {
             <div className="govuk-error-summary__body">
                 <p>{summary}</p>
                 <ul className="govuk-list govuk-error-summary__list">
-                    { link1 &&
+                    { link1 && 
                         <li>
                             <a href={link1.url}>
                                 {link1.text}

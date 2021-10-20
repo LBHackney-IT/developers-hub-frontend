@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useCallback } from "react";
-import { useHistory } from "react-router-dom";
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 
@@ -20,15 +19,13 @@ const parseToken = () => {
 
 export const UserProvider = ({ children }) => {
   // decode cookie value
-  const history = useHistory()
   const [ user, setUser ]= useState(parseToken())
 
   const logoutUser = useCallback(() => {
     setUser(null);
     // delete cookie
-    Cookies.remove('hackneyToken', {domain: 'hackney.gov.uk'});
-    history.push("/login");
-  }, [history])
+    Cookies.remove('hackneyToken');
+  }, [])
 
   return <UserContext.Provider value={{ user, logout: logoutUser }}>{children}</UserContext.Provider>;
 }
@@ -37,12 +34,11 @@ export const useUser = () => {
   const { user } = useContext(UserContext);
   return user;
 }
-// export logout functionality
 
 /* eslint-disable no-unused-vars */
-export const SignOut = () => {
+const SignOut = () => {
   const { logout } = useContext(UserContext);
-  return <button onClick={logout} className="nav-item lbh-body-m" style={{background:'transparent', border:'none'}}>SIGN OUT</button>;
+  return <button onClick={logout}>Logout</button>;
 }
 
 export default UserContext

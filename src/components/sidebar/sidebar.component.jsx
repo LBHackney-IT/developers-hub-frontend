@@ -1,15 +1,20 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 
-const Sidebar = () => {
+const Sidebar = (props) => {
   return (
     <div className="sidebar">
-      <a href="#">Mission</a>
-      <a href="#">The need of a developer hub</a>
-      <a href="#">API Specifications</a>
-      <a href="#">Our ways of working</a>
+      <p style={TitleStyling}>CONTENTS</p>
+      {props.children}
     </div>
   );
+};
+
+const TitleStyling = {
+  padding: "15px 20px 15px 20px", 
+  letterSpacing: "4px",
+  color: "gray",
+  fontSize: "14px",
+  textAlign: "left"
 };
 
 export default Sidebar;

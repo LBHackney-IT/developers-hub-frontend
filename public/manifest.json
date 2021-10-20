@@ -1,6 +1,6 @@
 {
-  "short_name": "HackIT Dev Hub",
-  "name": "HackIT Developer Hub",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",
