@@ -8,19 +8,16 @@ const ApiNameBreadcrumb = ({ match }) => {
   return <span>{match.params.apiName.includes("-") ? hyphenatedToTitleCase(match.params.apiName) : camelToTitleCase(match.params.apiName) }</span>
 }
 
+const SearchBreadcrumb = ({ match }) => {
+  return <span>{match.params.query || "Search"}</span>
+}
+
 const APP_PATHS = [
   {
     path: "/",
     Component: HomePage,
     breadcrumb: 'Home',
     headingName: 'HOME',
-    alwaysVisible: true
-  },
-  {
-    path: "/api-catalogue",
-    Component: ApiCataloguePage,
-    breadcrumb: 'API Catalogue',
-    headingName: 'API CATALOGUE',
     alwaysVisible: true
   },
   {
@@ -31,9 +28,27 @@ const APP_PATHS = [
     signedOutVisible: true
   },
   {
-    path: "/api-catalogue/:apiName",
+    path: "/api-catalogue",
+    Component: ApiCataloguePage,
+    breadcrumb: 'API Catalogue',
+    headingName: 'API CATALOGUE',
+    alwaysVisible: true
+  },
+  {
+    path: "/api-catalogue/api",
+    breadcrumb: null,
+    alwaysVisible: false
+  },
+  {
+    path: "/api-catalogue/api/:apiName",
     Component: ApiInformationPage,
     breadcrumb: ApiNameBreadcrumb,
+    alwaysVisible: false
+  },
+  {
+    path: "/api-catalogue/search/:query?",
+    Component: ApiCataloguePage,
+    breadcrumb: SearchBreadcrumb,
     alwaysVisible: false
   }
 ]

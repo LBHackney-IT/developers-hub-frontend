@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { useUser } from "../../context/user.context.js";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import withUser from "../../HOCs/with-user.hoc.js";
 
 import ApiPreview from "../../components/apiPreview/apiPreview.component";
@@ -18,6 +18,9 @@ const ApiCataloguePage = () => {
   const history = useHistory();
   if (!currentuser) history.push("/");
 
+  let { query } = useParams();
+  // eslint-disable-next-line
+  const [ searchQuery, setQuery ] = useState(query);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [apis, setApis] = useState([]);
@@ -30,7 +33,7 @@ const ApiCataloguePage = () => {
     page: 0,
     limit: 5,
     state: "ALL",
-    sort: "UPDATED",
+    sort: (searchQuery ? "BEST_MATCH" : "UPDATED"),
     order: "DESC"
   });
 
@@ -45,12 +48,13 @@ const ApiCataloguePage = () => {
     state: {
       "All APIs": "ALL",
       "Active APIs": "PUBLISHED",
-      "Inactive APIs": "UNPUBLISHED"
+      "Inactive APIs": "UNPUBLISHED",
     },
     sort: {
       "Last Modified": { sort: "UPDATED", order: "DESC" },
       "A-Z": { sort: "TITLE", order: "ASC" },
       "Z-A": { sort: "TITLE", order: "DESC" },
+      ...(searchQuery && { "Relevance": "BEST_MATCH" })
     },
     limit: {
       "5 items": 5,
@@ -60,7 +64,7 @@ const ApiCataloguePage = () => {
   }
 
   const formatApiParam = (value, param) => {
-    return Object.keys(apiParamsOptions[value]).find(key => apiParamsOptions[value][key] === param);
+    return Object.keys(apiParamsOptions[value]).find(key => JSON.stringify(apiParamsOptions[value][key]) === JSON.stringify(param));
   }
   const updatePagination = (newPage) => {
     setQueryParams({...queryParams, page: newPage});
@@ -82,7 +86,7 @@ const ApiCataloguePage = () => {
     }
     resetState();
 
-    fetch(`https://api.swaggerhub.com/specs?${parseQueryParams()}`)
+    fetch(`https://api.swaggerhub.com/specs?${parseQueryParams()}${ searchQuery? `&query=${searchQuery}`: ""}`)
       .then(res => res.json())
       .then((result) => {
         setApis(result.apis);
@@ -93,7 +97,7 @@ const ApiCataloguePage = () => {
         setError(error);
         setIsLoaded(true);
       });
-  }, [queryParams]);
+  }, [queryParams, searchQuery]);
 
   const radioData = {
     legend: "Filter By",

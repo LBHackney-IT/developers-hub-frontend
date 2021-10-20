@@ -10,7 +10,13 @@ describe("Preview an API", () => {
             this.apiData = allApis.apis[0];
             cy.intercept('GET', '/specs*', allApis).as("getAllApis");
             cy.visit("/api-catalogue");
+            cy.wait("@getAllApis");
         });
+    });
+
+    it.only("Redirects user to API Information Page when clicking on API name", function () {
+        cy.get(".title").contains(this.apiData.name).click();
+        cy.url().should('include', `/api-catalogue/api/testApi`);
     });
 
     screenSizes.forEach((screenSize) => {
