@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { useUser } from "../../context/user.context.js";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, useLocation } from "react-router-dom";
 import withUser from "../../HOCs/with-user.hoc.js";
 
 import ApiPreview from "../../components/apiPreview/apiPreview.component";
@@ -12,15 +12,19 @@ import Pagination from "../../components/pagination/pagination.component";
 import BackToTop from "../../components/backToTop/backToTop.component";
 import Select from "../../components/select/select.component";
 import Details from "../../components/details/details.component";
+import Search from "../../components/search/search.component";
 
 const ApiCataloguePage = () => {
   const currentuser = useUser();
   const history = useHistory();
   if (!currentuser) history.push("/");
 
+  let location = useLocation();
+  const isSearch = location.pathname.includes("search");
   let { query } = useParams();
   // eslint-disable-next-line
   const [ searchQuery, setQuery ] = useState(query);
+
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [apis, setApis] = useState([]);
@@ -33,7 +37,7 @@ const ApiCataloguePage = () => {
     page: 0,
     limit: 5,
     state: "ALL",
-    sort: (searchQuery ? "BEST_MATCH" : "UPDATED"),
+    sort: (isSearch ? "BEST_MATCH" : "UPDATED"),
     order: "DESC"
   });
 
@@ -105,35 +109,40 @@ const ApiCataloguePage = () => {
     values: Object.keys(apiParamsOptions.state)
   }
 
+  console.log( searchQuery, isSearch)
   return(
     <div className="lbh-container">
       <div id="apis-page" className="page">
           <BackToTop href="#header"/>
           <Breadcrumbs/>
-          <h1>API Catalogue</h1>
-
-          <Radios onChange={updateApiFilter} {...radioData}/>
-          <Details summary={"Advanced..."}>
-            <Select name={"SortBy"} label={"Sort by:"} options={Object.keys(apiParamsOptions.sort)} selectedOption={formatApiParam("sort", queryParams.sort)} onChange={updateSortBy} />
-            <Select name={"PageSize"} label={"Show: "} options={Object.keys(apiParamsOptions.limit)} selectedOption={formatApiParam("limit", queryParams.limit)} onChange={updatePageSize} />
-          </Details>
-
-          {
-            isLoaded ? (
-              error ?
-                <Error title="Oops! Something went wrong!" summary={error.message} />
-                :
-                <div className="lbh-container">
-                  <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
-                  <ul id="apisList">
-                    {apis.map((item, index) => (
-                      < ApiPreview key={index} {...item} />
-                    ))}
-                  </ul>
-                </div>
-            )
+          { !searchQuery ^ !isSearch ? // xor: If both true or both false, shows results page
+            <Search/>
             :
-            <h3>Loading..</h3>
+            <>
+              <h1>API Catalogue</h1>
+              <Radios onChange={updateApiFilter} {...radioData}/>
+              <Details summary={"Advanced..."}>
+                <Select name={"SortBy"} label={"Sort by:"} options={Object.keys(apiParamsOptions.sort)} selectedOption={formatApiParam("sort", queryParams.sort)} onChange={updateSortBy} />
+                <Select name={"PageSize"} label={"Show: "} options={Object.keys(apiParamsOptions.limit)} selectedOption={formatApiParam("limit", queryParams.limit)} onChange={updatePageSize} />
+              </Details>
+              {
+                isLoaded ? (
+                  error ?
+                    <Error title="Oops! Something went wrong!" summary={error.message} />
+                    :
+                    <div className="lbh-container">
+                      <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
+                      <ul id="apisList">
+                        {apis.map((item, index) => (
+                          < ApiPreview key={index} {...item} />
+                        ))}
+                      </ul>
+                    </div>
+                )
+                :
+                <h3>Loading..</h3>
+              }
+            </>
           }
       </div>
     </div>
