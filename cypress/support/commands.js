@@ -39,3 +39,8 @@ Cypress.Commands.add('login', () => {
   cy.getCookie('hackneyToken').should('have.property', 'value', mockToken)
   cy.visit('/')
 })
+
+Cypress.Commands.add('testIfLimitedToSignedInUsers', (path) => {
+  cy.visit(path);
+  cy.url().should("eq", Cypress.config().baseUrl + "/");
+})
