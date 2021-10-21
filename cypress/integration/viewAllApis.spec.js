@@ -198,3 +198,52 @@ describe("Resetting Pagination", () => {
         });
     });
 });
+
+describe.only("Search for APIs", function() {
+    beforeEach(function () {
+        cy.login();
+        cy.intercept('/specs*').as('getApiDefinitions');
+        cy.visit("/api-catalogue/search");
+    });
+
+    it("Shows the search bar and title", function() {
+        cy.get("h1").contains("Search").should("be.visible");
+        cy.get("input#query").should("be.visible");
+    });
+
+    it("Adds the form input as a query parameter", function() {
+        const query = "test"
+        cy.get("#query").type(query);
+        cy.get(".lbh-search-box__action").click();
+        cy.url().should('include', `query=${query}`);
+    });
+
+    it("Queries the SwaggerHub API with the form response", function() {
+        const query = "Tenure"
+        cy.get("#query").type(query);
+        cy.get(".lbh-search-box__action").click();
+        cy.wait('@getApiDefinitions').its('request.url').should('include', `query=${query}`);
+    });
+
+    it("Queries the SwaggerHub API with the query from the url", function() {
+        const query = "queryString";
+        cy.visit(`/api-catalogue/search?query=${query}`)
+        cy.wait('@getApiDefinitions').its('request.url').should('include', `query=${query}`);
+    });
+
+    it("Shows the search query in the heading & breadcrumbs", function() {
+        const query = "someQuery";
+        cy.visit(`/api-catalogue/search?query=${query}`);
+        cy.get(".govuk-breadcrumbs__list-item").should("contain", query);
+        cy.get("h1").should("contain", query);
+
+    });
+
+    it("Sets the search label and placeholder to 'Search for an API' then 'Search again'", function() {
+        cy.get("#query").should('have.attr', 'placeholder', 'Search for an API...');
+        cy.get("#query").type("test");
+        cy.get(".lbh-search-box__action").click();
+        cy.get("#query").should('have.attr', 'placeholder', 'Search again...');
+    });
+
+});

@@ -15,10 +15,10 @@ const SearchBreadcrumb = ({match, location}) => {
   if(location.search){
     return (
       <>
-        <li className="govuk-breadcrumbs__list-item">
+        <span className="govuk-breadcrumbs__list-item">
           <Link className="govuk-breadcrumbs__link" href={match}>Search</Link>
-        </li>
-        <li className="govuk-breadcrumbs__list-item" aria-current="page" >Search for "{location.search.replace("?query=", "")}"</li>
+        </span>
+        <span className="govuk-breadcrumbs__list-item" aria-current="page">Search for "{location.search.replace("?query=", "")}"</span>
       </>
     )
   } else {
@@ -51,6 +51,12 @@ const APP_PATHS = [
     alwaysVisible: true
   },
   {
+    path: "/api-catalogue/search",
+    Component: ApiCataloguePage,
+    breadcrumb: SearchBreadcrumb,
+    alwaysVisible: false
+  },
+  {
     path: "/api-catalogue/api",
     breadcrumb: null,
     alwaysVisible: false
@@ -59,12 +65,6 @@ const APP_PATHS = [
     path: "/api-catalogue/api/:apiName",
     Component: ApiInformationPage,
     breadcrumb: ApiNameBreadcrumb,
-    alwaysVisible: false
-  },
-  {
-    path: "/api-catalogue/search",
-    Component: ApiCataloguePage,
-    breadcrumb: SearchBreadcrumb,
     alwaysVisible: false
   }
 ]

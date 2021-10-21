@@ -87,19 +87,19 @@ const ApiCataloguePage = () => {
       return Object.keys(queryParams).map(key => key + '=' + queryParams[key]).join('&');
     }
     resetState();
-
-    fetch(`https://api.swaggerhub.com/specs?${parseQueryParams()}${ searchQuery? `&query=${searchQuery}`: ""}`)
-      .then(res => res.json())
-      .then((result) => {
-        setApis(result.apis);
-        setApiMetadata(result);
-        setIsLoaded(true);
-      })
-      .catch((error) => {
-        setError(error);
-        setIsLoaded(true);
-      });
-  }, [queryParams, searchQuery]);
+    if(!(isSearch && !searchQuery)) // does not run on empty search page
+      fetch(`https://api.swaggerhub.com/specs?${parseQueryParams()}${ searchQuery? `&query=${searchQuery}`: ""}`)
+        .then(res => res.json())
+        .then((result) => {
+          setApis(result.apis);
+          setApiMetadata(result);
+          setIsLoaded(true);
+        })
+        .catch((error) => {
+          setError(error);
+          setIsLoaded(true);
+        });
+  }, [queryParams, isSearch, searchQuery]);
 
   const radioData = {
     legend: "Filter By",
