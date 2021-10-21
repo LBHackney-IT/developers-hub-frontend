@@ -1,24 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Search = ({onSubmit, label, placeholder}) => {
-    const [value, setValue] = useState("");
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(value);
-        // onSubmit(value);
-    }
+const Search = ({id, placeholder}) => {
     return(
-        <form className="govuk-form-group lbh-form-group lbh-search-box" onSubmit={handleSubmit}>
-            <label className="govuk-visually-hidden" htmlFor="search">{label}</label>
+        <form className="govuk-form-group lbh-form-group lbh-search-box">
+            <label className="govuk-visually-hidden" htmlFor="search">{placeholder}</label>
             <input
                 className="govuk-input lbh-input govuk-input--width-10"
-                id="search"
-                name="search"
+                id={id}
+                name={id}
                 type="search"
                 placeholder={placeholder}
-                value={value}
-                onChange={ e => setValue(e.target.value)}
             />
             <button 
                 type="submit"

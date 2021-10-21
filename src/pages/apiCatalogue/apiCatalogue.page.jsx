@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { useUser } from "../../context/user.context.js";
-import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import withUser from "../../HOCs/with-user.hoc.js";
 
 import ApiPreview from "../../components/apiPreview/apiPreview.component";
@@ -21,9 +21,7 @@ const ApiCataloguePage = () => {
 
   let location = useLocation();
   const isSearch = location.pathname.includes("search");
-  let { query } = useParams();
-  // eslint-disable-next-line
-  const [ searchQuery, setQuery ] = useState(query);
+  const searchQuery = location.search.replace("?query=", "");
 
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -109,27 +107,29 @@ const ApiCataloguePage = () => {
     values: Object.keys(apiParamsOptions.state)
   }
 
-  console.log( searchQuery, isSearch)
   return(
     <div className="lbh-container">
       <div id="apis-page" className="page">
           <BackToTop href="#header"/>
           <Breadcrumbs/>
-          { !searchQuery ^ !isSearch ? // xor: If both true or both false, shows results page
-            <Search/>
-            :
-            <>
+            { isSearch ?
+              <>
+                <h1>{`Search${ searchQuery ? ` for "${searchQuery}"` : ""}`}</h1>
+                <Search id={"query"} placeholder={searchQuery? "Search again..." : "Search for an API..."} />
+              </>
+              :
               <h1>API Catalogue</h1>
-              <Radios onChange={updateApiFilter} {...radioData}/>
-              <Details summary={"Advanced..."}>
-                <Select name={"SortBy"} label={"Sort by:"} options={Object.keys(apiParamsOptions.sort)} selectedOption={formatApiParam("sort", queryParams.sort)} onChange={updateSortBy} />
-                <Select name={"PageSize"} label={"Show: "} options={Object.keys(apiParamsOptions.limit)} selectedOption={formatApiParam("limit", queryParams.limit)} onChange={updatePageSize} />
-              </Details>
-              {
-                isLoaded ? (
-                  error ?
-                    <Error title="Oops! Something went wrong!" summary={error.message} />
-                    :
+            }
+            {((searchQuery && isSearch) || (!searchQuery && !isSearch)) && // If API Catalogue or Search results
+              <>
+                <Radios onChange={updateApiFilter} {...radioData}/>
+                <Details summary={"Advanced..."}>
+                  <Select name={"SortBy"} label={"Sort by:"} options={Object.keys(apiParamsOptions.sort)} selectedOption={formatApiParam("sort", queryParams.sort)} onChange={updateSortBy} />
+                  <Select name={"PageSize"} label={"Show: "} options={Object.keys(apiParamsOptions.limit)} selectedOption={formatApiParam("limit", queryParams.limit)} onChange={updatePageSize} />
+                </Details>
+                { !isLoaded && <h3>Loading..</h3> }
+                { error && <Error title="Oops! Something went wrong!" summary={error.message} /> }
+                { isLoaded && !error &&
                     <div className="lbh-container">
                       <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
                       <ul id="apisList">
@@ -138,12 +138,10 @@ const ApiCataloguePage = () => {
                         ))}
                       </ul>
                     </div>
-                )
-                :
-                <h3>Loading..</h3>
-              }
-            </>
-          }
+                }
+              </>
+            }
+            
       </div>
     </div>
   );
