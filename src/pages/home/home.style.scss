@@ -3,12 +3,12 @@
     align-items: flex-start;
     width: 100%;
     > .main-container {
-      height: calc(100vh - 162px);
+      display: block !important;
+
       position: relative;
       left: 240px;
       flex: 5;
-      padding: 30px 90px 30px 90px;
-      margin-top: 130px;
+      padding: 85px 90px 70px 90px;
       width: calc(100vw - 240px);
     }
     > .sidebar {
@@ -29,12 +29,32 @@
   //color: #00664D;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 951px) {
   #home-page {
     > .main-container {
-      left: 0px;
-      top: 250px;
-      width: 100vw;
+      padding-top: 200px;
     }
+  }
+}
+
+@media (max-width: 701px) {
+  #home-page {
+    position: relative;
+    top: 20px;
+    > .main-container {
+      display: block;
+      left: 0px;
+      width: 100vw;
+      padding: 15px;
+      width: 100%;
+      margin-top: 20px;
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 460px) {
+  #home-page {
+    top: 90px;
   }
 }

@@ -13,14 +13,14 @@ const pages = [
 ];
 
 const HomePage = () => {
-  const [currentItemId, setCurrentItemId] = useState(0);
+  const [currentitemID, setCurrentitemID] = useState(0);
 
-  const storeItemId = ({ target }) => {
-    const id = parseInt(target.getAttribute("itemId"));
+  const storeitemID = ({ target }) => {
+    const id = parseInt(target.getAttribute("itemID"));
     try {
       if (id === null || id === undefined || isNaN(id)) throw "Item ID is invalid!";
 
-      setCurrentItemId(id);
+      setCurrentitemID(id);
     } catch ({ message }) {
       console.error(message);
     }
@@ -30,13 +30,13 @@ const HomePage = () => {
     <>
       <div id="home-page" className="page">
         <Sidebar>
-          <a className="sidebarLink" href="#" itemId="0" onClick={storeItemId}>Mission</a>
-          <a className="sidebarLink" href="#" itemId="1" onClick={storeItemId}>The need of a developer hub</a>
-          <a className="sidebarLink" href="#" itemId="2" onClick={storeItemId}>API Specifications</a>
-          <a className="sidebarLink" href="#" itemId="3" onClick={storeItemId}>Our ways of working</a>
-        </Sidebar>
+          <a className="sidebarLink" href="#" itemID="0" onClick={storeitemID}>Mission</a>
+          <a className="sidebarLink" href="#" itemID="1" onClick={storeitemID}>The need of a developer hub</a>
+          <a className="sidebarLink" href="#" itemID="2" onClick={storeitemID}>API Specifications</a>
+          <a className="sidebarLink" href="#" itemID="3" onClick={storeitemID}>Our ways of working</a>
+        </Sidebar>  
         {
-          pages[currentItemId]
+          pages[currentitemID]
         }
       </div>
     </>

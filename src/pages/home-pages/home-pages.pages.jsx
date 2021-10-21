@@ -21,12 +21,14 @@ export const HomePage1 = () => {
         </p>
 
         <h2>Vision</h2>
+        <div>
         <ul>
           <li> To have a source of truth for all APIs at HackIT </li>
           <li> To prevent duplication between APIs, hence allows all APIs to be consistent and reusable </li>
           <li> To integrate with Swagger to provide swagger definition within our Developer Hub </li>
           <li> To provide detailed information for each of the APIs we have at HackIT </li>
         </ul>
+        </div>
     </div>
   );
 };
