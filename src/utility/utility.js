@@ -7,11 +7,11 @@ export const hyphenatedToTitleCase = function(string) {
         /\w\S*/g, (txt) => {
           return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         }
-    ).replace(/api/ig, "API"); // Make title case, API all capitalised
+    ).replace(/a ?p ?i/ig, "API"); // Make title case, API all capitalised
 }
 export const camelToTitleCase = function(string){
     const result = string.replace(/([A-Z])/g, " $1");
-    return (result.charAt(0).toUpperCase() + result.slice(1)).replace(/api/ig, "API");
+    return (result.charAt(0).toUpperCase() + result.slice(1)).replace(/a ?p ?i/ig, "API");
 }
 
 export const filterSwaggerPropertiesByType = (properties, filter) => {
