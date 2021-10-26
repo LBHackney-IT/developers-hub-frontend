@@ -5,7 +5,6 @@ orbs:
     aws-cli: circleci/aws-cli@2.0.0
     aws_assume_role: lbh-hackit/aws_assume_role@0.1.0
     cypress: cypress-io/cypress@1
-    react: thefrontside/react@0.1.0
 
 references:
     workspace_root: &workspace_root '~'
@@ -40,8 +39,6 @@ commands:
                   root: *workspace_root
                   paths:
                       - .aws
-                      - node_modules/*
-                      - cypress/*
 
     terraform-init-then-apply:
         description: "Initialize and apply the terraform configuration"
@@ -63,6 +60,30 @@ commands:
                       cd ./terraform/<<parameters.environment>>/
                       terraform apply -auto-approve
 jobs:
+    install-dependencies:
+        executor: node-executor
+        steps:
+            - *attach_workspace
+            - checkout
+            - restore_cache:
+                  key: dependency-cache-{{ checksum "yarn.lock" }}
+            - run:
+                  name: Install dependencies
+                  command: yarn
+            - save_cache:
+                  key: dependency-cache-{{ checksum "yarn.lock" }}
+                  paths:
+                      - ./node_modules
+            - persist_to_workspace:
+                  root: *workspace_root
+                  paths: .
+    run-lint:
+        executor: node-executor
+        steps:
+            - *attach_workspace
+            - run:
+                name: Run linter
+                command: yarn lint
         
     build-deploy-development:
         executor: node-executor
@@ -125,24 +146,22 @@ workflows:
     version: 2
     continuous-delivery-development:
         jobs:
-            - react/install
-            - react/eslint:
+            - install-dependencies
+            - run-lint:
                 requires:
-                      - react/install
+                    - install-dependencies
             - cypress/run:
                 yarn: true
                 start: yarn testStart
-                wait-on: 'http://localhost:3000'
-                no-workspace: true
                 store_artifacts: true
                 parallel: true
                 requires:
-                    -react/install
+                  - install-dependencies
             - assume-role-development:
                   context: api-assume-role-development-context
                   requires:
                       - cypress/run
-                      - react/eslint
+                      - run-lint
             - terraform-init-and-apply-to-development:
                   requires:
                       - assume-role-development
