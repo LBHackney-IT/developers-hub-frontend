@@ -133,7 +133,7 @@ workflows:
                 yarn: true
                 start: yarn testStart
                 wait-on: 'http://localhost:3000'
-                no-workspace: trye
+                no-workspace: true
                 store_artifacts: true
                 parallel: true
             - assume-role-development:
