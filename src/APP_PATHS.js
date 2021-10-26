@@ -18,7 +18,7 @@ const SearchBreadcrumb = ({match, location}) => {
         <span className="govuk-breadcrumbs__list-item">
           <Link className="govuk-breadcrumbs__link" href={match}>Search</Link>
         </span>
-        <span className="govuk-breadcrumbs__list-item" aria-current="page">Search for "{location.search.replace("?query=", "")}"</span>
+        <span className="govuk-breadcrumbs__list-item" aria-current="page">Search for "{decodeURIComponent(location.search.replace("?query=", "").replaceAll("+", " "))}"</span>
       </>
     )
   } else {

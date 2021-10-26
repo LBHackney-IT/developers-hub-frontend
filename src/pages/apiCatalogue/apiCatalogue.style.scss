@@ -1,5 +1,16 @@
 #apis-page {
-    h1 { margin-top: 0.5em; }
+    .heading{
+        margin-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        > * { margin: 0; }
+
+        @media (max-width: 600px) {
+            flex-flow: column;
+            gap: 1.5rem;
+        }
+    }
 
     .govuk-details__text {
         display: flex;

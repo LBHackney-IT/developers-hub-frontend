@@ -13,6 +13,7 @@ import BackToTop from "../../components/backToTop/backToTop.component";
 import Select from "../../components/select/select.component";
 import Details from "../../components/details/details.component";
 import Search from "../../components/search/search.component";
+import SearchIcon from "../../assets/icon-search.png";
 
 const ApiCataloguePage = () => {
   const currentuser = useUser();
@@ -21,7 +22,7 @@ const ApiCataloguePage = () => {
 
   let location = useLocation();
   const isSearch = location.pathname.includes("search");
-  const searchQuery = location.search.replace("?query=", "");
+  const searchQuery = decodeURIComponent(location.search.replace("?query=", "").replaceAll("+", " "));
 
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -91,6 +92,9 @@ const ApiCataloguePage = () => {
       fetch(`https://api.swaggerhub.com/specs?${parseQueryParams()}${ searchQuery? `&query=${searchQuery}`: ""}`)
         .then(res => res.json())
         .then((result) => {
+          if(result.totalCount === 0){
+            setError({ message: "No results found." })
+          }
           setApis(result.apis);
           setApiMetadata(result);
           setIsLoaded(true);
@@ -110,18 +114,25 @@ const ApiCataloguePage = () => {
   return(
     <div className="lbh-container">
       <div id="apis-page" className="page">
-          <BackToTop href="#header"/>
           <Breadcrumbs/>
+          <div className="heading">
             { isSearch ?
               <>
                 <h1>{`Search${ searchQuery ? ` for "${searchQuery}"` : ""}`}</h1>
                 <Search id={"query"} placeholder={searchQuery? "Search again..." : "Search for an API..."} />
               </>
               :
-              <h1>API Catalogue</h1>
+              <>
+                <h1>API Catalogue</h1>
+                <a className="searchIcon" href="/api-catalogue/search">
+                  <img src={SearchIcon} alt="Search Icon" />                  
+                </a>
+              </>
             }
+          </div>
             {((searchQuery && isSearch) || (!searchQuery && !isSearch)) && // If API Catalogue or Search results
               <>
+                <BackToTop href="#header"/>
                 <Radios onChange={updateApiFilter} {...radioData}/>
                 <Details summary={"Advanced..."}>
                   <Select name={"SortBy"} label={"Sort by:"} options={Object.keys(apiParamsOptions.sort)} selectedOption={formatApiParam("sort", queryParams.sort)} onChange={updateSortBy} />
