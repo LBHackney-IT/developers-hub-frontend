@@ -1,10 +1,12 @@
 #app-footer {
-  position: relative;
+  position: fixed;
   padding: 20px 20px 20px 10px;
   display: flex;
   background: black;
   flex-flow: row wrap;
   justify-content: space-around;
+  width: 100%;
+  bottom: 0px;
   .footer-col {
     text-align: center;
     position: relative;
