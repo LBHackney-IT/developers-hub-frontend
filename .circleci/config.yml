@@ -136,6 +136,8 @@ workflows:
                 no-workspace: true
                 store_artifacts: true
                 parallel: true
+                requires:
+                    -react/install
             - assume-role-development:
                   context: api-assume-role-development-context
                   requires:
