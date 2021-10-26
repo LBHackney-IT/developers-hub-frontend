@@ -151,8 +151,6 @@ workflows:
                 requires:
                     - install-dependencies
             - cypress/run:
-                requires:
-                    - cypress/install
                 yarn: true
                 start: yarn testStart
                 store_artifacts: true
