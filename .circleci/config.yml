@@ -150,7 +150,9 @@ workflows:
             - run-lint:
                 requires:
                     - install-dependencies
-            - cypress/install
+            - cypress/install:
+                requires:
+                    - install-dependencies
             - cypress/run:
                 yarn: true
                 start: yarn testStart
