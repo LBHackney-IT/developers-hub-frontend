@@ -14,7 +14,7 @@ describe("Preview an API", () => {
         });
     });
 
-    it.only("Redirects user to API Information Page when clicking on API name", function () {
+    it("Redirects user to API Information Page when clicking on API name", function () {
         cy.get(".title").contains(this.apiData.name).click();
         cy.url().should('include', `/api-catalogue/api/testApi`);
     });
