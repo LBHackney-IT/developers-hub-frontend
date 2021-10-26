@@ -73,7 +73,7 @@ jobs:
             - save_cache:
                   key: dependency-cache-{{ checksum "yarn.lock" }}
                   paths:
-                      - ./node_modules
+                      - ~/.cache
             - persist_to_workspace:
                   root: *workspace_root
                   paths: .
@@ -150,16 +150,13 @@ workflows:
             - run-lint:
                 requires:
                     - install-dependencies
-            - cypress/install:
-                requires:
-                    - install-dependencies
             - cypress/run:
                 yarn: true
                 start: yarn testStart
                 store_artifacts: true
                 parallel: true
                 requires:
-                  - cypress/install
+                  - install-dependencies
             - assume-role-development:
                   context: api-assume-role-development-context
                   requires:
