@@ -38,9 +38,11 @@ body {
 }
 
 #root {
-  margin-top: 0px !important;
+  margin-top: 0;
+  display: flex;
   min-height: 100vh;
-  overflow-x: hidden;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 #contact-page {
@@ -50,18 +52,8 @@ body {
   width: 80% !important;
 }
 
-.page {
-  min-height: 100vh;
-}
-
 #main-content{
   justify-content: center;
-}
-
-a {
-  &:hover {
-    cursor: pointer;
-  }
 }
 
 .navigation-header {

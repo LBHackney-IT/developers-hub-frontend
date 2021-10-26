@@ -1,5 +1,5 @@
 #app-footer {
-  position: fixed;
+  margin-top: auto;
   padding: 20px 20px 20px 10px;
   display: flex;
   background: black;
@@ -7,6 +7,7 @@
   justify-content: space-around;
   width: 100%;
   bottom: 0px;
+  position: relative;
   .footer-col {
     text-align: center;
     position: relative;

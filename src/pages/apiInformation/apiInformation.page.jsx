@@ -98,7 +98,7 @@ const ApiInformationPage = () => {
                     <Error title="Oops! Something went wrong!" summary={error.message} /> 
                     :
                     <>
-                        <div className="sidebar">
+                        <div className="sidePanel">
                             <Breadcrumbs />
                             <h1>{apiData.swaggerData.info.title}</h1>
                             <EnvironmentTags tags={apiData.swaggerData.tags && apiData.swaggerData.tags.map(tag =>(tag.name))} />
