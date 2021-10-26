@@ -146,23 +146,22 @@ workflows:
     version: 2
     continuous-delivery-development:
         jobs:
-            # - install-dependencies
-            # - run-lint:
-            #     requires:
-            #         - install-dependencies
-            # - cypress/install:
-            #     yarn: true
+            - install-dependencies
+            - run-lint:
+                requires:
+                    - install-dependencies
             - cypress/run:
-                # requires:
-                    # - cypress/install
+                requires:
+                    - cypress/install
                 yarn: true
                 start: yarn testStart
                 store_artifacts: true
+                parallel: true
             - assume-role-development:
                   context: api-assume-role-development-context
                   requires:
                       - cypress/run
-                    #   - run-lint
+                      - run-lint
             - terraform-init-and-apply-to-development:
                   requires:
                       - assume-role-development
