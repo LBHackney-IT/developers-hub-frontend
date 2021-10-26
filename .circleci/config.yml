@@ -4,7 +4,8 @@ orbs:
     aws-s3: circleci/aws-s3@2.0.0
     aws-cli: circleci/aws-cli@2.0.0
     aws_assume_role: lbh-hackit/aws_assume_role@0.1.0
-    cypress: cypress-io/cypress@1.28.0
+    cypress: cypress-io/cypress@1
+    react: thefrontside/react@0.1.0
 
 references:
     workspace_root: &workspace_root '~'
@@ -62,30 +63,6 @@ commands:
                       cd ./terraform/<<parameters.environment>>/
                       terraform apply -auto-approve
 jobs:
-    install-dependencies:
-        executor: node-executor
-        steps:
-            - *attach_workspace
-            - checkout
-            - restore_cache:
-                  key: dependency-cache-{{ checksum "yarn.lock" }}
-            - run:
-                  name: Install dependencies
-                  command: yarn
-            - save_cache:
-                  key: dependency-cache-{{ checksum "yarn.lock" }}
-                  paths:
-                      - ./node_modules
-            - persist_to_workspace:
-                  root: *workspace_root
-                  paths: .
-    run-lint:
-        executor: node-executor
-        steps:
-            - *attach_workspace
-            - run:
-                name: Run linter
-                command: yarn lint
         
     build-deploy-development:
         executor: node-executor
@@ -148,22 +125,22 @@ workflows:
     version: 2
     continuous-delivery-development:
         jobs:
-            - install-dependencies
-            - run-lint:
+            - react/install
+            - react/eslint:
                 requires:
-                    - install-dependencies
+                      - react/install
             - cypress/run:
                 yarn: true
                 start: yarn testStart
+                wait-on: 'http://localhost:3000'
+                no-workspace: trye
                 store_artifacts: true
                 parallel: true
-                requires:
-                  - install-dependencies
             - assume-role-development:
                   context: api-assume-role-development-context
                   requires:
                       - cypress/run
-                      - run-lint
+                      - react/eslint
             - terraform-init-and-apply-to-development:
                   requires:
                       - assume-role-development
