@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import withUser from "../../HOCs/with-user.hoc.js";
 import Sidebar from "../../components/sidebar/sidebar.component.jsx";
-// import { useUser } from "../../context/user.context.js";
+import Error from "../../components/error/error.component";
 import { HomePage1, HomePage2, HomePage3, HomePage4} from "../home-pages/home-pages.pages";
 
 const pages = [
@@ -14,17 +14,18 @@ const pages = [
 
 const HomePage = () => {
   const [currentitemID, setCurrentitemID] = useState(0);
+  const [error, setError] = useState();
 
   const storeitemID = ({ target }) => {
     const id = parseInt(target.getAttribute("itemID"));
-    try {
-      if (id === null || id === undefined || isNaN(id)) throw "Item ID is invalid!";
-
+    if (id === null || id === undefined || isNaN(id)){
+      const returnLink = { url: "/", text: "Click here to return to the homepage"}
+      setError({ title: "Sidebar Error", summary: "Item ID is invalid", link1: returnLink })
+    } else {
       setCurrentitemID(id);
-    } catch ({ message }) {
-      console.error(message);
     }
   };
+
 
   return (
     <>
@@ -35,7 +36,11 @@ const HomePage = () => {
           <a className="sidebarLink" href="#" itemID="2" onClick={storeitemID}>API Specifications</a>
           <a className="sidebarLink" href="#" itemID="3" onClick={storeitemID}>Our ways of working</a>
         </Sidebar>  
-        {
+        { error? 
+          <div className="main-container">
+            <Error {...error} />
+          </div>
+          :
           pages[currentitemID]
         }
       </div>
