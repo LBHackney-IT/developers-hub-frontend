@@ -150,7 +150,6 @@ workflows:
                 yarn: true
                 start: yarn testStart
                 store_artifacts: true
-                parallel: true
             - run-lint:
                 requires:
                     - cypress/run
