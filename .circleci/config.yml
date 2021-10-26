@@ -146,17 +146,17 @@ workflows:
     version: 2
     continuous-delivery-development:
         jobs:
-            - install-dependencies
-            - run-lint:
-                requires:
-                    - install-dependencies
+            # - install-dependencies
+            # - run-lint:
+            #     requires:
+            #         - install-dependencies
+            - cypress/install
             - cypress/run:
+                requires:
+                    - cypress/install
                 yarn: true
                 start: yarn testStart
                 store_artifacts: true
-                parallel: true
-                requires:
-                  - install-dependencies
             - assume-role-development:
                   context: api-assume-role-development-context
                   requires:
