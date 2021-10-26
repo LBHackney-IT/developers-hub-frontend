@@ -5,7 +5,7 @@
     justify-content: space-between;
 
     .main-container { width: 70%; }
-    .sidebar {
+    .sidePanel {
         width: 25%;
         text-align: left;
         word-wrap: break-word;
@@ -14,7 +14,7 @@
     }
     @media screen and (max-width: 1440px) { 
         flex-flow: column;
-        > .sidebar, .main-container { width: 100%;} 
+        > .sidePanel, .main-container { width: 100%;} 
     }
 }
 

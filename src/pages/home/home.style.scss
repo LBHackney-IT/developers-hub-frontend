@@ -4,11 +4,12 @@
     width: 100%;
     > .main-container {
       display: block !important;
-
+      margin: 0;
       position: relative;
       left: 240px;
       flex: 5;
-      padding: 85px 90px 70px 90px;
+      padding-left: 90px;
+      padding-right: 90px;
       width: calc(100vw - 240px);
     }
     > .sidebar {
@@ -23,10 +24,6 @@
   margin-left: 90px;
   margin-right: 90px;
   border-bottom: 1px solid #bfc1c3;
-}
-.lbh-main-wrapper :hover{
-  cursor: pointer;
-  //color: #00664D;
 }
 
 @media (max-width: 951px) {
