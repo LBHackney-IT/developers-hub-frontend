@@ -39,6 +39,8 @@ commands:
                   root: *workspace_root
                   paths:
                       - .aws
+                      - node_modules/*
+                      - cypress/*
 
     terraform-init-then-apply:
         description: "Initialize and apply the terraform configuration"
