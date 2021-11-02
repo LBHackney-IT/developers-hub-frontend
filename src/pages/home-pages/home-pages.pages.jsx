@@ -107,7 +107,7 @@ export const HomePage3 = () => {
         <a href = "https://playbook.hackney.gov.uk/api-specifications/ ">You can find our API Specification Playbook here</a>
         <br/><br/>
 
-    <h3>Why you might need an API ?</h3>
+    <h3>Why you might need an API?</h3>
         <br/>
       <ul>
         <li>Sharing your data - Secure, structured and real-time access to data can be provided by an API. </li>
