@@ -31,9 +31,10 @@ module "cloudfront-development" {
   s3_bucket_arn = aws_s3_bucket.frontend-bucket-development.arn
   s3_bucket_id = aws_s3_bucket.frontend-bucket-development.id
   orginin_access_identity_desc = "Developer Hub frontend cloudfront identity"
-  cname_aliases = []
+  cname_aliases = ["developer-api-development.hackney.gov.uk"]
   environment_name = "development"
   cost_code= "B0811"
   project_name= "Developer Hub"
-  use_cloudfront_cert = true
+  use_cloudfront_cert = false
+  hackney_cert_arn = "arn:aws:acm:us-east-1:859159924354:certificate/dbb3198e-b779-41b6-80b3-4ffd5dd19bf4"
 }
