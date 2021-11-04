@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import withUser from "../../HOCs/with-user.hoc.js";
 import Sidebar from "../../components/sidebar/sidebar.component.jsx";
-// import { useUser } from "../../context/user.context.js";
 import { HomePage1, HomePage2, HomePage3, HomePage4} from "../home-pages/home-pages.pages";
+import Error from "../../components/error/error.component";
 
 const pages = [
   <HomePage1 />,
@@ -34,7 +34,7 @@ const HomePage = () => {
           <a className="sidebarLink" href="#" itemID="1" onClick={storeitemID}>The need of a developer hub</a>
           <a className="sidebarLink" href="#" itemID="2" onClick={storeitemID}>API Specifications</a>
           <a className="sidebarLink" href="#" itemID="3" onClick={storeitemID}>Our ways of working</a>
-        </Sidebar>  
+        </Sidebar>
         {
           pages[currentitemID]
         }
