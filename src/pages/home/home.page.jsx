@@ -35,8 +35,9 @@ const HomePage = () => {
           <a className="sidebarLink" href="#" itemID="1" onClick={storeitemID}>The need of a developer hub</a>
           <a className="sidebarLink" href="#" itemID="2" onClick={storeitemID}>API Specifications</a>
           <a className="sidebarLink" href="#" itemID="3" onClick={storeitemID}>Our ways of working</a>
-        </Sidebar>  
-        { error? 
+        </Sidebar>
+        { error?
+
           <div className="main-container">
             <Error {...error} />
           </div>

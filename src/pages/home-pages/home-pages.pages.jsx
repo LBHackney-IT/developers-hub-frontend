@@ -59,7 +59,7 @@ export const HomePage2 = () => {
           <li>As a service user I would like to see the list of APIs available in the catalogue so that I can make an informed decision for the product development.</li>
         </ul>
 
-        <h3>As an Aplication Support Analyst</h3>
+        <h3>As an Application Support Analyst</h3>
           <ul>
             <li>As an application support analyst, I would like to know what endpoints and functionality an API has, so that I can familiarise myself with the types of support requests I may get.</li>
             <li> I need to understand the queries being used by the Developers Hub  so that I can deal with support requests accordingly and resolve the potential issues in the underlying data.</li>
@@ -107,7 +107,7 @@ export const HomePage3 = () => {
         <a href = "https://playbook.hackney.gov.uk/api-specifications/ ">You can find our API Specification Playbook here</a>
         <br/><br/>
 
-    <h3>Why you might need an API</h3>
+    <h3>Why you might need an API?</h3>
         <br/>
       <ul>
         <li>Sharing your data - Secure, structured and real-time access to data can be provided by an API. </li>
@@ -124,11 +124,11 @@ export const HomePage4 = () => {
         <h3> Our Ways of Working</h3>
 
         <p>All HackIT developed code should meet the <a href= "https://github.com/LBHackney-IT/Hackney-Development-Standards">12 Hackney Development Standards.</a>
-           around the world to ensure that HackIT APIs are consistent,supportable and of high quality.</p>
+           Our Team ensures that HackIT APIs are consistent,supportable and of high quality at all times.</p>
 
          <p>All newly created HackIT APIs will be developed using the guidelines in the HackIt API playbook.
             It provides clear guidance on the standards that are being followed when developing new APIs
-            and is also used whenever amending old APIs which were created prior to the existence of the Playbook.
+            and is also used whenever amending old APIs that were created prior to the existence of the Playbook.
             Both of these guides are constantly evolving over time alongside technological changes.</p>
     </div>
   );
