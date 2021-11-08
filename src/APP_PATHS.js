@@ -4,6 +4,7 @@ import HomePage from "./pages/home/home.page.jsx";
 import LoginPage from "./pages/login/login.page.jsx";
 import ApiCataloguePage from "./pages/apiCatalogue/apiCatalogue.page.jsx";
 import ApiInformationPage from "./pages/apiInformation/apiInformation.page.jsx";
+import ContactPage from "./pages/contact/contact.page.jsx";
 
 import Link from "./components/link/link.component.jsx";
 
@@ -65,6 +66,12 @@ const APP_PATHS = [
     path: "/api-catalogue/api/:apiName",
     Component: ApiInformationPage,
     breadcrumb: ApiNameBreadcrumb,
+    alwaysVisible: false
+  },
+  {
+    path: "/contact-us",
+    Component: ContactPage,
+    breadcrumb: "Contact Us",
     alwaysVisible: false
   }
 ]

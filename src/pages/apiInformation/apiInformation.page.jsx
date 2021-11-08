@@ -92,28 +92,30 @@ const ApiInformationPage = () => {
     }
 
     return (
-        <div id="api-info-page" className="lbh-container">
-            {isLoaded ? ( 
-                error ? 
-                    <Error title="Oops! Something went wrong!" summary={error.message} /> 
-                    :
-                    <>
-                        <div className="sidePanel">
-                            <Breadcrumbs />
-                            <h1>{apiData.swaggerData.info.title}</h1>
-                            <EnvironmentTags tags={apiData.swaggerData.tags && apiData.swaggerData.tags.map(tag =>(tag.name))} />
-                            <p className="lbh-body-m">{apiData.swaggerData.info.description}</p>
-                        </div>
-                        <div className="main-container table-container">
-                                <span className="govuk-caption-xl lbh-caption">API Information</span>
-                                <hr/>
-                                <Table tableData={TableData} />
-                        </div>
-                    </>
-            )
-            : 
-            <h3>Loading..</h3>}
-        </div>
+        <main className="lbh-main-wrapper" id="main-content" role="main">
+            <div id="api-info-page" className="lbh-container">
+                {isLoaded ? ( 
+                    error ? 
+                        <Error title="Oops! Something went wrong!" summary={error.message} /> 
+                        :
+                        <>
+                            <div className="sidePanel">
+                                <Breadcrumbs />
+                                <h1>{apiData.swaggerData.info.title}</h1>
+                                <EnvironmentTags tags={apiData.swaggerData.tags && apiData.swaggerData.tags.map(tag =>(tag.name))} />
+                                <p className="lbh-body-m">{apiData.swaggerData.info.description}</p>
+                            </div>
+                            <div className="main-container table-container">
+                                    <span className="govuk-caption-xl lbh-caption">API Information</span>
+                                    <hr/>
+                                    <Table tableData={TableData} />
+                            </div>
+                        </>
+                )
+                : 
+                <h3>Loading..</h3>}
+            </div>
+        </main>
     );
 };
 

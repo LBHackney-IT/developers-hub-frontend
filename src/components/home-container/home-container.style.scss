@@ -1,9 +1,14 @@
 #home-page{
   .main-container {
     padding: 2em;
-    width: 90%;
+    width: 70%;
+    @media (max-width: $mobile-width) { width: 100%; }
     flex-flow: column wrap;
-    list-style-position: inside;
+    margin: auto;
+  }
+
+  ul{
+    padding-left: 2em;
   }
   
   .info-wrapper {

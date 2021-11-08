@@ -13,7 +13,6 @@ import BackToTop from "../../components/backToTop/backToTop.component";
 import Select from "../../components/select/select.component";
 import Details from "../../components/details/details.component";
 import Search from "../../components/search/search.component";
-import SearchIcon from "../../assets/icon-search.png";
 import Sidebar from "../../components/sidebar/sidebar.component.jsx";
 
 const ApiCataloguePage = () => {
@@ -137,12 +136,7 @@ const ApiCataloguePage = () => {
                   <Search id={"query"} placeholder={searchQuery? "Search again..." : "Search for an API..."} />
                 </>
                 :
-                <>
-                  <h1>API Catalogue</h1>
-                  <a className="searchIcon" href="/api-catalogue/search">
-                    <img src={SearchIcon} alt="Search Icon" />                  
-                  </a>
-                </>
+                <h1>API Catalogue</h1>
               }
             </div>
               {((searchQuery && isSearch) || (!searchQuery && !isSearch)) && // If API Catalogue or Search results
