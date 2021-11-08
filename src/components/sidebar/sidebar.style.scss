@@ -1,62 +1,56 @@
-.sidebar {
-  position: fixed;
-  text-align: left;
-  left: 0px;
-  width: 240px;
-  top: 0px;
+.sidebar-page{
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  min-height: 100%;
+  flex: 2;
+  overflow: auto;
+  margin-top: auto;
 
-  > p {
-    margin-top: 100px;
-    margin-bottom: 10px;
-  }
-  a.sidebarLink {
-    display: block;
-    text-decoration: none;
-    word-wrap: break-word;
-    font-size: 18px;
-    color: #00664E;
+ .sidebar {
     text-align: left;
-  //  color: 	#bfc1c3;
-    padding-left: 20px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    width: 100%;
-    margin-top: 0px;
-    &:visited {
-      color: rgb(0,82,62);
+    min-height: 100%;
+    padding-right: 4em;
+    border-right: 2px solid #bfc1c3;
+    >* { display: block; }
+    
+    p {
+      margin-top: 100px;
+      margin-bottom: 10px;
     }
-    &:hover {
-      background:#00664E;
-      color: white;
-    }
-  }
-}
-
-@media (max-width: 951px) {
-  .sidebar {
-    > p {
-      padding-top: 150px !important;
-    }
-  }
-}
-
-@media (max-width: 700px) {
-  .sidebar {
-    background: white !important;
-    z-index: 1;
-    width: 100%;
-    border-right: none !important;
-    border-bottom: 2px solid #bfc1c3 !important;
-    position: relative;
-    > a {
-      text-align: center !important;
-    }
-    > p {
-      position: relative;
+  
+    a.sidebarLink {
+      word-wrap: break-word;
+      font-size: 18px;
+      color: #00664E;
+      padding-left: 20px;
+      padding-top: 8px;
+      padding-bottom: 8px;
       width: 100%;
-      text-align: center !important;
-      padding: 10px 0px 15px 20px !important;
-      top: 20px;
+      margin: 0;
+      &:visited { color: rgb(0,82,62); }
+      &:hover {
+        background:#00664E;
+        color: white;
+      }
+    }
+  }
+}
+
+
+@media (max-width: $mobile-width) {
+  .sidebar-page{
+    flex-flow: column;
+    .sidebar {
+      border-right: none;
+      border-bottom: 2px solid #bfc1c3;
+      text-align: center;
+      padding: 0;
+      > p {
+        width: 100%;
+        padding: 10px 0px 15px 20px;
+        top: 20px;
+      }
     }
   }
 }

@@ -1,10 +1,10 @@
+@import "./utility/variables";
+
 // Font
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
 
 // Import LBH Frontend library
-$lbh-asset-path: "~lbh-frontend/lbh/assets";
 @import "~lbh-frontend/lbh/all";
-// @import "node_modules/js-cookie/dist/js.cookie/all";
 
 // Component Styling
 @import "./components/header/header.style.scss";
@@ -50,15 +50,4 @@ body {
   flex-flow: row wrap;
   justify-content: center;
   width: 80% !important;
-}
-
-#main-content{
-  justify-content: center;
-}
-
-.navigation-header {
-  padding: 20px;
-  margin-left: 90px;
-  margin-right: 90px;
-  border-bottom: 1px solid gray;
 }

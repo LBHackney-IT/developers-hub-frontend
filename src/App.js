@@ -15,13 +15,11 @@ const App = () => {
   return (
     <UserProvider>
       <Header />
-      <main className="lbh-main-wrapper" id="main-content" role="main">
           <Switch>
             {APP_PATHS.map(({ path, Component }, key) => (
               <Route exact path={path} key={key} render={() => (<Component currentUser={currentUser} />) } />
             ))}
           </Switch>
-      </main>
       <Footer />
     </UserProvider>
   );

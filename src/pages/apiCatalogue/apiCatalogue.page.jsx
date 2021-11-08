@@ -14,6 +14,7 @@ import Select from "../../components/select/select.component";
 import Details from "../../components/details/details.component";
 import Search from "../../components/search/search.component";
 import SearchIcon from "../../assets/icon-search.png";
+import Sidebar from "../../components/sidebar/sidebar.component.jsx";
 
 const ApiCataloguePage = () => {
   const currentuser = useUser();
@@ -111,50 +112,65 @@ const ApiCataloguePage = () => {
     values: Object.keys(apiParamsOptions.state)
   }
 
+  const searchPageStyling ={
+    flexDirection: "column",
+    alignItems: "baseline",
+    gap: "2em"
+  }
+
   return(
-    <div className="lbh-container">
-      <div id="apis-page" className="page">
-          <Breadcrumbs/>
-          <div className="heading">
-            { isSearch ?
-              <>
-                <h1>{`Search${ searchQuery ? ` for "${searchQuery}"` : ""}`}</h1>
-                <Search id={"query"} placeholder={searchQuery? "Search again..." : "Search for an API..."} />
-              </>
-              :
-              <>
-                <h1>API Catalogue</h1>
-                <a className="searchIcon" href="/api-catalogue/search">
-                  <img src={SearchIcon} alt="Search Icon" />                  
-                </a>
-              </>
-            }
-          </div>
-            {((searchQuery && isSearch) || (!searchQuery && !isSearch)) && // If API Catalogue or Search results
-              <>
-                <BackToTop href="#header"/>
-                <Radios onChange={updateApiFilter} {...radioData}/>
-                <Details summary={"Advanced..."}>
-                  <Select name={"SortBy"} label={"Sort by:"} options={Object.keys(apiParamsOptions.sort)} selectedOption={formatApiParam("sort", queryParams.sort)} onChange={updateSortBy} />
-                  <Select name={"PageSize"} label={"Show: "} options={Object.keys(apiParamsOptions.limit)} selectedOption={formatApiParam("limit", queryParams.limit)} onChange={updatePageSize} />
-                </Details>
-                { !isLoaded && <h3>Loading..</h3> }
-                { error && <Error title="Oops! Something went wrong!" summary={error.message} /> }
-                { isLoaded && !error &&
-                    <div className="lbh-container">
-                      <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
-                      <ul id="apisList">
-                        {apis.map((item, index) => (
-                          < ApiPreview key={index} {...item} />
-                        ))}
-                      </ul>
-                    </div>
-                }
-              </>
-            }
-            
+    <>
+      <div id="apis-page" className="sidebar-page">
+        <Sidebar>
+          <a className="sidebarLink" href="/api-catalogue">API Catalogue</a>
+          <a className="sidebarLink" href="/api-catalogue/search">Search</a>
+        </Sidebar>
+
+        <main className="lbh-main-wrapper" id="main-content" role="main">
+          <div className="lbh-container">
+            <Breadcrumbs/>
+            <div className="heading" style={(!searchQuery && isSearch) ? searchPageStyling : {}}>
+              {/* Search bar & heading appear in column layout on search page */}
+              { isSearch ?
+                <>
+                  <h1>{`Search${ searchQuery ? ` for "${searchQuery}"` : ""}`}</h1>
+                  <Search id={"query"} placeholder={searchQuery? "Search again..." : "Search for an API..."} />
+                </>
+                :
+                <>
+                  <h1>API Catalogue</h1>
+                  <a className="searchIcon" href="/api-catalogue/search">
+                    <img src={SearchIcon} alt="Search Icon" />                  
+                  </a>
+                </>
+              }
+            </div>
+              {((searchQuery && isSearch) || (!searchQuery && !isSearch)) && // If API Catalogue or Search results
+                <>
+                  <BackToTop href="#header"/>
+                  <Radios onChange={updateApiFilter} {...radioData}/>
+                  <Details summary={"Advanced..."}>
+                    <Select name={"SortBy"} label={"Sort by:"} options={Object.keys(apiParamsOptions.sort)} selectedOption={formatApiParam("sort", queryParams.sort)} onChange={updateSortBy} />
+                    <Select name={"PageSize"} label={"Show: "} options={Object.keys(apiParamsOptions.limit)} selectedOption={formatApiParam("limit", queryParams.limit)} onChange={updatePageSize} />
+                  </Details>
+                  { !isLoaded && <h3>Loading..</h3> }
+                  { error && <Error title="Oops! Something went wrong!" summary={error.message} /> }
+                  { isLoaded && !error &&
+                      <>
+                        <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
+                        <ul id="apisList">
+                          {apis.map((item, index) => (
+                            < ApiPreview key={index} {...item} />
+                          ))}
+                        </ul>
+                      </>
+                  }
+                </>
+              }
+            </div>
+          </main>
       </div>
-    </div>
+    </>
   );
 };
 
