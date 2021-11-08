@@ -2,7 +2,10 @@
     #main-content{
         padding: 4em;
         padding-top: 6em;
-        @media (max-width: $mobile-width) { padding: 0; }
+        @media (max-width: $mobile-width) { 
+            padding: 0; 
+            padding-bottom: 3em;
+        }
     }
     .heading{
         margin-top: 2rem;
