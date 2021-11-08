@@ -1,19 +1,34 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import withUser from "../../HOCs/with-user.hoc.js";
 import Sidebar from "../../components/sidebar/sidebar.component.jsx";
 import Error from "../../components/error/error.component";
 import { HomePage1, HomePage2, HomePage3, HomePage4} from "../home-pages/home-pages.pages";
+import { useLocation } from "react-router";
 
 const pages = [
-  <HomePage1 />,
-  <HomePage2 />,
-  <HomePage3 />,
-  <HomePage4 />,
+  {
+    page: <HomePage1 />,
+    id: "#mission"
+  },
+  {
+    page: <HomePage2 />,
+    id: "#need-of-dev-hub"
+  },
+  {
+    page: <HomePage3 />,
+    id: "#api-specifications"
+  },
+  {
+    page: <HomePage4 />,
+    id: "#ways-of-working"
+  }
 ];
 
 const HomePage = () => {
-  const [currentitemID, setCurrentitemID] = useState(0);
+  const location = useLocation();
+  const selectedPage = location.hash ? pages.findIndex(page => page.id === location.hash) : 0
+
+  const [currentitemID, setCurrentitemID] = useState(selectedPage);
   const [error, setError] = useState();
 
   const storeitemID = ({ target }) => {
@@ -31,10 +46,10 @@ const HomePage = () => {
     <>
       <div id="home-page" className="sidebar-page">
         <Sidebar>
-          <a className="sidebarLink" href="#" itemID="0" onClick={storeitemID}>Mission</a>
-          <a className="sidebarLink" href="#" itemID="1" onClick={storeitemID}>The need of a developer hub</a>
-          <a className="sidebarLink" href="#" itemID="2" onClick={storeitemID}>API Specifications</a>
-          <a className="sidebarLink" href="#" itemID="3" onClick={storeitemID}>Our ways of working</a>
+          <a className="sidebarLink" href="#mission" itemID="0" onClick={storeitemID}>Mission</a>
+          <a className="sidebarLink" href="#need-of-dev-hub" itemID="1" onClick={storeitemID}>The need of a Developer Hub</a>
+          <a className="sidebarLink" href="#api-specifications" itemID="2" onClick={storeitemID}>API Specifications</a>
+          <a className="sidebarLink" href="#ways-of-working" itemID="3" onClick={storeitemID}>Our Ways of Working</a>
         </Sidebar>
         <main className="lbh-main-wrapper" id="main-content" role="main">
           { error?
@@ -42,7 +57,7 @@ const HomePage = () => {
                 <Error {...error} />
               </div>
             :
-            pages[currentitemID]
+            pages[currentitemID].page
           }
         </main>
       </div>
