@@ -1,12 +1,11 @@
 #home-page{
   .main-container {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    padding: 20px 0px 20px 0px;
-    width: 70%;
+    padding: 2em;
+    width: 90%;
     flex-flow: column wrap;
+    list-style-position: inside;
   }
+  
   .info-wrapper {
     display: flex;
     flex-flow: row wrap;

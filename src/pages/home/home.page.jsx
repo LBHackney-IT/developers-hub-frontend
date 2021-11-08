@@ -29,21 +29,22 @@ const HomePage = () => {
 
   return (
     <>
-      <div id="home-page" className="page">
+      <div id="home-page" className="sidebar-page">
         <Sidebar>
           <a className="sidebarLink" href="#" itemID="0" onClick={storeitemID}>Mission</a>
           <a className="sidebarLink" href="#" itemID="1" onClick={storeitemID}>The need of a developer hub</a>
           <a className="sidebarLink" href="#" itemID="2" onClick={storeitemID}>API Specifications</a>
           <a className="sidebarLink" href="#" itemID="3" onClick={storeitemID}>Our ways of working</a>
         </Sidebar>
-        { error?
-
-          <div className="main-container">
-            <Error {...error} />
-          </div>
-          :
-          pages[currentitemID]
-        }
+        <main className="lbh-main-wrapper" id="main-content" role="main">
+          { error?
+              <div className="main-container">
+                <Error {...error} />
+              </div>
+            :
+            pages[currentitemID]
+          }
+        </main>
       </div>
     </>
   );

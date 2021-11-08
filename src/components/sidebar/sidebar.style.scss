@@ -1,55 +1,58 @@
 .sidebar-page{
   display: flex;
   flex-flow: row;
-  justify-content: space-around;
-  min-height: 100%;
   flex: 2;
+  justify-content: space-between;
   overflow: auto;
   margin-top: auto;
 
+  @media (max-width: $mobile-width) {
+    flex-flow: column;
+    gap: 2em;
+  }
+
+  #main-content{ flex: 1 }
+
  .sidebar {
     text-align: left;
-    min-height: 100%;
-    padding-right: 4em;
     border-right: 2px solid #bfc1c3;
-    >* { display: block; }
+    min-width: fit-content;
+    
+    @media (max-width: $mobile-width){
+      text-align: center;
+      border-right: none;
+      border-bottom: 2px solid #bfc1c3;
+    }
+
+    > * { 
+      display: block; 
+      width: 100%;
+      margin: 0;
+      padding-right: 4em;
+      @media (max-width: $mobile-width) {
+        margin-bottom: 0.5em; 
+        padding: 0;
+      }
+    }
     
     p {
       margin-top: 100px;
       margin-bottom: 10px;
+      @media (max-width: $mobile-width) { margin-top: 20px; }
     }
   
-    a.sidebarLink {
+    a {
       word-wrap: break-word;
       font-size: 18px;
       color: #00664E;
       padding-left: 20px;
+      @media (max-width: $mobile-width) { padding-left: 0; }
       padding-top: 8px;
       padding-bottom: 8px;
-      width: 100%;
-      margin: 0;
       &:visited { color: rgb(0,82,62); }
       &:hover {
         background:#00664E;
         color: white;
-      }
-    }
-  }
-}
-
-
-@media (max-width: $mobile-width) {
-  .sidebar-page{
-    flex-flow: column;
-    .sidebar {
-      border-right: none;
-      border-bottom: 2px solid #bfc1c3;
-      text-align: center;
-      padding: 0;
-      > p {
-        width: 100%;
-        padding: 10px 0px 15px 20px;
-        top: 20px;
       }
     }
   }
