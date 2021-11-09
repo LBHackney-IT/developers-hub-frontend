@@ -9,8 +9,8 @@ describe("Log in functionality", () => {
     cy.url().should("eq", "http://localhost:3000/");
   });
 
-  it("Displays a welcome message when signed in", () => {
+  it("Displays username when signed in", () => {
     cy.login();
-    cy.contains('Welcome');
+    cy.contains('Hackney Test');
   });
 });

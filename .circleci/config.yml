@@ -73,7 +73,7 @@ jobs:
             - save_cache:
                   key: dependency-cache-{{ checksum "yarn.lock" }}
                   paths:
-                      - ./node_modules
+                      - ~/.cache
             - persist_to_workspace:
                   root: *workspace_root
                   paths: .
@@ -154,9 +154,6 @@ workflows:
                 yarn: true
                 start: yarn testStart
                 store_artifacts: true
-                parallel: true
-                requires:
-                  - install-dependencies
             - assume-role-development:
                   context: api-assume-role-development-context
                   requires:

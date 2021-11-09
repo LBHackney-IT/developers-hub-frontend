@@ -1,6 +1,22 @@
 import { screenSizes } from "../support/screenSizes";
 import { filterSwaggerPropertiesByType } from "../../src/utility/utility"
 
+describe("Click on API Name to go to API Info page", () => {
+    it("Redirects user to API Information Page when clicking on API name", function () {
+        cy.login();
+        cy.intercept('GET', '/specs*').as("getAllApis");
+        cy.visit("/api-catalogue");
+        
+        cy.wait("@getAllApis").then((interception) => {
+            const api = interception.response.body.apis[0];
+            const apiId = filterSwaggerPropertiesByType(api.properties, "Swagger").url.split("/")[5];
+            cy.get(".title").contains(api.name).click();
+            cy.url().should('include', `/api-catalogue/api/${apiId}`);
+        })
+        
+    });
+});
+
 describe("Preview an API", () => {
 
     beforeEach(function () {
@@ -10,6 +26,7 @@ describe("Preview an API", () => {
             this.apiData = allApis.apis[0];
             cy.intercept('GET', '/specs*', allApis).as("getAllApis");
             cy.visit("/api-catalogue");
+            cy.wait("@getAllApis");
         });
     });
 

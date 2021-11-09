@@ -2,7 +2,7 @@ import React from 'react';
 
 export const HomePage1 = () => {
   return (
-    <div className="main-container">
+    <div id="mission" className="main-container">
       <h2>Mission/Overview</h2>
         <p>At Hackney Council we believe in the potential of digital technologies to rapidly improve public sector services.
           By unlocking the capabilities of our platforms and developing open standards and APIs,
@@ -35,7 +35,7 @@ export const HomePage1 = () => {
 
 export const HomePage2 = () => {
   return (
-    <div className="main-container">
+    <div id="need-of-dev-hub" className="main-container">
       <h2>The need of a Developer Hub</h2><br/>
 
     <h3> As a Developer</h3>
@@ -101,8 +101,8 @@ export const HomePage2 = () => {
 
 export const HomePage3 = () => {
   return (
-    <div className="main-container">
-      <h3>API Specifications </h3>
+    <div id="api-specifications" className="main-container">
+      <h2>API Specifications </h2>
       <br/>
         <a href = "https://playbook.hackney.gov.uk/api-specifications/ ">You can find our API Specification Playbook here</a>
         <br/><br/>
@@ -120,8 +120,8 @@ export const HomePage3 = () => {
 
 export const HomePage4 = () => {
   return (
-    <div className="main-container">
-        <h3> Our Ways of Working</h3>
+    <div id="ways-of-working" className="main-container">
+        <h2> Our Ways of Working</h2>
 
         <p>All HackIT developed code should meet the <a href= "https://github.com/LBHackney-IT/Hackney-Development-Standards">12 Hackney Development Standards.</a>
            Our Team ensures that HackIT APIs are consistent,supportable and of high quality at all times.</p>

@@ -1,10 +1,20 @@
 @import "node_modules/lbh-frontend/lbh/components/lbh-header/header";
 
-.nav-items {
+.lbh-header__title-link{
+  text-align: center;
+}
+
+.lbh-header__links {
   margin-top: 0px;
+  align-items: center;
+  gap: 1em;
+  > p, .nav-item { 
+    margin: 0; 
+    padding: 0; 
+  }
   .nav-item {
     color: white !important;
-    margin: 8px !important;
+    cursor: pointer;
     font-weight: bold !important;
     &:hover {
       opacity: 0.8;
@@ -15,73 +25,14 @@
   }
 }
 
-.lbh-header__logo-text {
-  color: white !important;
-}
-.lbh-logo-and-title {
-  display: flex;
-  align-items: center;
-  flex-flow: row wrap;
-}
-.name{
-  margin-top: 10px;
-  font-weight: bold;
-cursor:pointer;
-&:hover {
-  opacity: 0.8;
-  }
-&:active {
-  opacity: 0.6;
-  }
-}
-
-.name-tag{
-  margin-top: 15px;
-}
-
-
-@media (max-width: 460px) {
-  .lbh-container {
-    .name {
-      position: relative !important;
-      margin-top: 0px;
-      margin-bottom: 20px;
-      left: 0% !important;
-      top: 10px;
-    }
-    .lbh-header__title {
-      left: 0px !important;
-    }
-  }
-}
-
-@media (max-width: 576px) {
-  .lbh-container {
-    flex-flow: column wrap;
-    justify-content: left;
-    align-items: left;
-  }
-}
-
-@media (max-width: 950px) {
+@media (max-width: $mobile-width) {
   .lbh-container {
     flex-flow: column wrap;
     justify-content: center;
     align-items: center;
-    .name {
-      position: absolute;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      left: 50%;
-      top: 10px;
-    }
-    .lbh-header__title {
-      position: relative;
-      left: -98px;
-    }
-    .lbh-header__logo {
-      width: 215px !important;
-      height: auto !important;
+    > * {
+      margin-left: 0;
+      margin-right: 0;
     }
   }
 }

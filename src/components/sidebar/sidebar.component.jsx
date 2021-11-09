@@ -10,11 +10,11 @@ const Sidebar = (props) => {
 };
 
 const TitleStyling = {
-  padding: "15px 20px 15px 20px",
+  paddingTop: "15px",
+  paddingBottom: "15px",
   letterSpacing: "4px",
   color: "gray",
-  fontSize: "14px",
-  textAlign: "left"
+  fontSize: "14px"
 };
 
 export default Sidebar;

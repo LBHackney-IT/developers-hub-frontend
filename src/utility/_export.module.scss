@@ -1,0 +1,7 @@
+@import "variables";
+
+// exports variables for js files
+
+:export {
+  mobileWidth: $mobile-width;
+}

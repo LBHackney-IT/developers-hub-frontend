@@ -1,5 +1,24 @@
 #apis-page {
-    h1 { margin-top: 0.5em; }
+    #main-content{
+        padding: 4em;
+        padding-top: 6em;
+        @media (max-width: $mobile-width) { 
+            padding: 0; 
+            padding-bottom: 3em;
+        }
+    }
+    .heading{
+        margin-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        > * { margin: 0; }
+
+        @media (max-width: $mobile-width) {
+            flex-flow: column;
+            gap: 1.5rem;
+        }
+    }
 
     .govuk-details__text {
         display: flex;
