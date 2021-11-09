@@ -93,7 +93,7 @@ const ApiCataloguePage = () => {
         .then(res => res.json())
         .then((result) => {
           if(result.totalCount === 0){
-            setError({ message: "No results found." })
+            setError({ code: "No results", message: "No results found." })
           }
           setApis(result.apis);
           setApiMetadata(result);
@@ -148,7 +148,7 @@ const ApiCataloguePage = () => {
                     <Select name={"PageSize"} label={"Show: "} options={Object.keys(apiParamsOptions.limit)} selectedOption={formatApiParam("limit", queryParams.limit)} onChange={updatePageSize} />
                   </Details>
                   { !isLoaded && <h3>Loading..</h3> }
-                  { error && <Error title="Oops! Something went wrong!" summary={error.message} /> }
+                  { error && <Error title={error.code !== "No results" && "Oops! Something went wrong!"} summary={error.message} className={error.code === "No results" && "noResults"}/> }
                   { isLoaded && !error &&
                       <>
                         <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />

@@ -1,7 +1,7 @@
-const Error = ({title, summary, link1, link2}) => {
+const Error = ({className, title, summary, link1, link2}) => {
     return(
         <div
-            className="govuk-error-summary optional-extra-class lbh-error-summary"
+            className={`govuk-error-summary optional-extra-class lbh-error-summary ${className}`}
             aria-labelledby="error-summary-title"
             role="alert"
             tabIndex="-1"

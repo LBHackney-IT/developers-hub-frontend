@@ -9,7 +9,6 @@ describe("Search Page is limited to signed in users", () => {
 describe("Search for APIs", function() {
     beforeEach(function () {
         cy.login();
-        cy.intercept('/specs*').as('getApiDefinitions');
         cy.visit("/api-catalogue/search");
     });
 
@@ -39,8 +38,16 @@ describe("Search for APIs", function() {
         it(`Shows an error message when no results are returned on ${screenSize} screen`, function() {
             cy.viewport(screenSize);
             const query = "query for api that doesn't exist";
+            cy.intercept('/specs*', { totalCount: 0 });
             cy.visit(`/api-catalogue/search?query=${query}`);
-            cy.intercept('@getApiDefinitions', {totalCount: 0});
+            cy.get(".lbh-error-summary.noResults").should('be.visible');
+        });
+
+        it(`Shows an error message when the API returns an error on ${screenSize} screen`, function() {
+            cy.viewport(screenSize);
+            const query = "query that returns an API error";
+            cy.intercept('/specs*', { statusCode: 500, body: "Server Error" });
+            cy.visit(`/api-catalogue/search?query=${query}`);
             cy.get(".lbh-error-summary").should('be.visible');
         });
     
@@ -54,6 +61,7 @@ describe("Search for APIs", function() {
     });
 
     it(`Queries the SwaggerHub API with the form response`, function() {
+        cy.intercept('/specs*').as('getApiDefinitions');
         const query = "Tenure"
         cy.get("#query").type(query);
         cy.get(".lbh-search-box__action").click();
@@ -61,6 +69,7 @@ describe("Search for APIs", function() {
     });
 
     it(`Queries the SwaggerHub API with the query from the url`, function() {
+        cy.intercept('/specs*').as('getApiDefinitions');
         const query = "queryString";
         cy.visit(`/api-catalogue/search?query=${query}`)
         cy.wait('@getApiDefinitions').its('request.url').should('include', `query=${query}`);
