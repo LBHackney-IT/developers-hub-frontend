@@ -23,6 +23,14 @@
   }
 }
 
+.welcome{
+  align-items: right !important;
+  right: 0px !important;
+  justify-content: right !important;
+  align-items: right !important;
+  //border: 12px solid #73AD21;
+}
+
 .lbh-header__logo-text {
   color: white !important;
 }
@@ -44,7 +52,9 @@ cursor:pointer;
 }
 
 .name-tag{
-  margin-top: 15px;
+  margin-top: 1px;
+  float: right;
+  margin-right: 20%
 }
 
 
