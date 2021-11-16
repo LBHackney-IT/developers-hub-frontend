@@ -60,7 +60,7 @@ const Header = () => {
             </div>
 
               <div className="nav-items">
-              <div className="lbh-container lbh-header__wrapper--stacked welcome">
+              <div className="welcome">
                { currentUser && <p>Welcome <b>{currentUser.name}</b> </p>}
                       </div>
                 {

@@ -6,8 +6,8 @@
   top: 0px;
 
   > p {
-    margin-top: 100px;
-    margin-bottom: 10px;
+    margin-top: 117px;
+
   }
   a.sidebarLink {
     display: block;
@@ -35,7 +35,7 @@
 @media (max-width: 951px) {
   .sidebar {
     > p {
-      padding-top: 150px !important;
+      padding-top: 100px !important;
     }
   }
 }
@@ -55,8 +55,27 @@
       position: relative;
       width: 100%;
       text-align: center !important;
-      padding: 10px 0px 15px 20px !important;
+      padding: 10px 0px 30px 20px !important;
       top: 20px;
     }
+  }
+}
+
+@media (max-width: 460px) {
+  .main-container{
+    padding-top: 0px !important
+  }
+  .homepage{
+    padding-top: 0px !important;
+  }
+  .header{
+    padding-bottom: 0px !important;
+  }
+  .sidebar{
+    padding-bottom: 5px !important;
+  }
+  > p {
+    padding-top: 10px !important;
+    margin: 20px !important;
   }
 }
