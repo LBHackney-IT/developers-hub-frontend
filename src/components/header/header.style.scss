@@ -8,9 +8,9 @@
   margin-top: 0px;
   align-items: center;
   gap: 1em;
-  > p, .nav-item { 
-    margin: 0; 
-    padding: 0; 
+  > p, .nav-item {
+    margin: 0;
+    padding: 0;
   }
   .nav-item {
     color: white !important;
@@ -24,7 +24,12 @@
     }
   }
 }
-
+.name-tag{
+align-items: right !important;
+margin-right: 10px !important;
+justify-content: right !important;
+text-align: center;
+}
 @media (max-width: $mobile-width) {
   .lbh-container {
     flex-flow: column wrap;
