@@ -20,6 +20,19 @@ describe("Developer Hub Header", () => {
       headerTitle.contains("Developer Hub");
     });
 
+    it(`Does not show welcome message when logged out on ${screenSize}`, () => {
+      cy.viewport(screenSize);
+      const welcomeMessage = cy.get(".welcome");
+      welcomeMessage.should("not.contain", "Welcome ");
+    });
+
+    it(`Renders welcome message when logged in on ${screenSize}`, () => {
+      cy.viewport(screenSize);
+      cy.login();
+      const welcomeMessage = cy.get(".welcome");
+      welcomeMessage.contains("Welcome ");
+    });
+
     it(`Renders navigation links on ${screenSize}`, () => {
       cy.viewport(screenSize);
       cy.visit("/");

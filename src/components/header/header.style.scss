@@ -6,13 +6,16 @@
 
 .lbh-header__links {
   margin-top: 0px;
+  display: flex;
+  justify-content: center;
   align-items: center;
   gap: 1em;
-  > p, .nav-item { 
-    margin: 0; 
-    padding: 0; 
+  > p {
+    margin: 0;
+    padding: 0;
   }
   .nav-item {
+    margin: 8px;
     color: white !important;
     cursor: pointer;
     font-weight: bold !important;
@@ -21,6 +24,23 @@
     }
     &:active {
       opacity: 0.6;
+    }
+  }
+}
+.welcome{
+  align-items: right !important;
+  margin-top: 0px !important;
+  padding-bottom: 50px !important;
+  text-align: center !important;
+  position: absolute !important;
+  > p {
+    width: auto !important;
+    margin: 0;
+    padding: 0;
+    > p {
+        font-size: 14.5px !important;
+      margin: 0;
+      padding: 0;
     }
   }
 }
@@ -34,5 +54,11 @@
       margin-left: 0;
       margin-right: 0;
     }
+  }
+}
+
+@media (max-width: 640px) {
+  .name-tag{
+    padding-bottom: 40px !important;
   }
 }
