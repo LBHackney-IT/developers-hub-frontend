@@ -68,7 +68,7 @@ const Header = () => {
             </a>
           </div>
           <div className="lbh-header__links">
-          <div className="name-tag">
+          <div className="welcome">
             <p>{currentUser ? <WelcomeMessage/> : ""}</p>
           </div>
             {
