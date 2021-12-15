@@ -58,11 +58,6 @@ const ApiCataloguePage = () => {
       "A-Z": { sort: "TITLE", order: "ASC" },
       "Z-A": { sort: "TITLE", order: "DESC" },
       ...(searchQuery && { "Relevance": "BEST_MATCH" })
-    },
-    limit: {
-      "5 items": 5,
-      "10 items": 10,
-      "15 items": 15
     }
   }
 
@@ -75,9 +70,6 @@ const ApiCataloguePage = () => {
   const updateApiFilter = (newApiFilter) => {
     setQueryParams({...queryParams, state: apiParamsOptions.state[newApiFilter], page: 0 });
     // reset pagination when switching filters
-  }
-  const updatePageSize = (pageSize) => {
-    setQueryParams({...queryParams, limit: apiParamsOptions.limit[pageSize], page: 0 });
   }
   const updateSortBy = (sortBy) => {
     setQueryParams({...queryParams, ...apiParamsOptions.sort[sortBy], page: 0 });
@@ -145,7 +137,6 @@ const ApiCataloguePage = () => {
                   <Radios onChange={updateApiFilter} {...radioData}/>
                   <Details summary={"Advanced..."}>
                     <Select name={"SortBy"} label={"Sort by:"} options={Object.keys(apiParamsOptions.sort)} selectedOption={formatApiParam("sort", queryParams.sort)} onChange={updateSortBy} />
-                    <Select name={"PageSize"} label={"Show: "} options={Object.keys(apiParamsOptions.limit)} selectedOption={formatApiParam("limit", queryParams.limit)} onChange={updatePageSize} />
                   </Details>
                   { !isLoaded && <h3>Loading..</h3> }
                   { error && <Error title={error.code !== "No results" && "Oops! Something went wrong!"} summary={error.message} className={error.code === "No results" && "noResults"}/> }

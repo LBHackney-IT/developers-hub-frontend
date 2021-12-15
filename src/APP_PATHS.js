@@ -35,7 +35,7 @@ const APP_PATHS = [
     Component: HomePage,
     breadcrumb: 'Home',
     headingName: 'HOME',
-    alwaysVisible: false
+    alwaysVisible: true
   },
   {
     path: "/login",
