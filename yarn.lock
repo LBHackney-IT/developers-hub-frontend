@@ -7660,7 +7660,7 @@ lazy-ass@^1.6.0:
   resolved "https://registry.yarnpkg.com/lazy-ass/-/lazy-ass-1.6.0.tgz#7999655e8646c17f089fdd187d150d3324d54513"
   integrity sha1-eZllXoZGwX8In90YfRUNMyTVRRM=
 
-lbh-frontend@^3.6.0:
+lbh-frontend@^3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/lbh-frontend/-/lbh-frontend-3.6.1.tgz#ed04aab7ce339ead80c564cc01a37df6caceb86f"
   integrity sha512-hlKsXb6MLWogDga0fKczT5FU1jm2+ozKVwiKxsRi6eFq2+kXnpuld7zgzb/2jPAobYYJTBX24nBWyz9iWQlOhQ==
