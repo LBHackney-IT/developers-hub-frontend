@@ -361,6 +361,18 @@
         {
             "name": "Development",
             "description": "Marks this API as available in its development enviroment."
+        },
+        {
+            "name": "Staging",
+            "description": "Marks this API as available in its staging enviroment."
+        },
+        {
+            "name": "Production",
+            "description": "Marks this API as available in its production enviroment."
+        },
+        {
+            "name": "Deprecated",
+            "description": "Marks this API as deprecated. It is no longer being used."
         }
     ],
     "schemes": [

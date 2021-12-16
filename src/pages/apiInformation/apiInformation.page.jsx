@@ -19,7 +19,7 @@ const ApiInformationPage = () => {
     
     const { apiName } = useParams();
     const apiRequestUrl = `https://api.swaggerhub.com/apis/Hackney/${apiName}`;
-    const passedParams = useLocation().state || {versions: null, currentVersion: null };
+    const passedParams = useLocation().state || { versions: null, currentVersion: null };
 
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -46,9 +46,9 @@ const ApiInformationPage = () => {
         }
 
         const handleApiVersioning = (result) => {
-            const versions = result.apis.map( api => filterSwaggerPropertiesByType(api.properties, "X-Version").value);
-            setVersions(versions);
-            setCurrentVersion(versions[0]);
+            const apiVersions = result.apis.map( api => filterSwaggerPropertiesByType(api.properties, "X-Version").value);
+            setVersions(apiVersions);
+            setCurrentVersion(apiVersions[0]);
         }
 
         window.scrollTo(0, 0);
@@ -66,7 +66,7 @@ const ApiInformationPage = () => {
 
     const formatApiData = () => {
         const changeVersion = (version) => { setCurrentVersion(version); }
-        const SelectVersion = <Select name={"VersionNo"} options={versions} selectedOption={currentVersion} onChange={changeVersion} />;
+        const SelectVersion = <Select name={"VersionNo"} options={versions.map(v => v.replace(/^\*(.*)/gm, 'v$1 [PUBLISHED]'))} selectedOption={currentVersion} onChange={changeVersion} />;
 
         const Links = [
             {linkText: `${apiData.swaggerData.info.title} Specification`, url: apiData.apiSpecificationLink},
