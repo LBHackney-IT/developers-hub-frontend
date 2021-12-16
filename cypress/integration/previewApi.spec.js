@@ -60,26 +60,12 @@ describe("Preview an API", () => {
         it(`View active status tag on ${screenSize} screen`, function () {
             cy.viewport(screenSize);
             const isPublished = filterSwaggerPropertiesByType(this.apiData.properties, "X-Published").value.toLowerCase() == "true";
-            const expectedClass = isPublished ? "lbh-tag" : "lbh-tag--grey";
+            const expectedClass = isPublished ? "lbh-tag" : "lbh-tag--red";
             cy.get(".apiPreview").find(".top > span.govuk-tag").first().should(($tag) => {
                 const tagText = $tag.text();
                 const expectedTagText = isPublished ? "Active" : "Inactive";
                 expect(tagText).to.equal(expectedTagText);
             }).should('have.class', expectedClass);
-        });
-
-        it(`View environment status tags on ${screenSize} screen`, function () {
-            cy.viewport(screenSize);
-            const expectedEnvTagsNo = 3;
-            cy.get(".apiPreview").find(".env-tags").first().children()
-                .should('have.length', expectedEnvTagsNo)
-                .each((tag) => {
-                    if (this.apiData.tags.includes(tag.text())){
-                        expect(tag).to.have.class("lbh-tag--green");
-                    } else {
-                        expect(tag).to.have.class("lbh-tag--grey");
-                    }
-                });
         });
     });
 });
