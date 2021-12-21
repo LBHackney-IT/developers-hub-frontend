@@ -65,8 +65,11 @@ const ApiInformationPage = () => {
     }, [apiRequestUrl, currentVersion]);
 
     const formatApiData = () => {
-        const changeVersion = (version) => { setCurrentVersion(version); }
-        const SelectVersion = <Select name={"VersionNo"} options={versions.map(v => v.replace(/^\*(.*)/gm, 'v$1 [PUBLISHED]'))} selectedOption={currentVersion} onChange={changeVersion} />;
+        const changeVersion = (versionFormatted) => { 
+            const version = versionFormatted.replace(/^((\d\.?)*) \[PUBLISHED]/gm, "$1")
+            setCurrentVersion(version); 
+        }
+        const SelectVersion = <Select name={"VersionNo"} options={versions.map(v => v.replace(/^\*(.*)/gm, '$1 [PUBLISHED]'))} selectedOption={currentVersion} onChange={changeVersion} />;
 
         const Links = [
             {linkText: `${apiData.swaggerData.info.title} Specification`, url: apiData.apiSpecificationLink},
