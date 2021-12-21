@@ -1,5 +1,7 @@
 import { React, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
+import axios from "axios";
+import Cookies from 'js-cookie';
 
 import withUser from "../../HOCs/with-user.hoc.js";
 import { filterSwaggerPropertiesByType } from "../../utility/utility";
@@ -18,7 +20,8 @@ const ApiInformationPage = () => {
     if (!currentuser) history.push("/");
     
     const { apiName } = useParams();
-    const apiRequestUrl = `https://api.swaggerhub.com/apis/Hackney/${apiName}`;
+    const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiName}`;
+    const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api`}/${apiName}`;
     const passedParams = useLocation().state || { versions: null, currentVersion: null };
 
     const [error, setError] = useState(null);
@@ -40,9 +43,13 @@ const ApiInformationPage = () => {
 
     useEffect(() => {
 
-        const handleApiData = (result) => {
+        const handleSwaggerData = (result) => {
             setApiData((previousData) => ({ ...previousData, swaggerData: result}));
             setIsLoaded(true);
+        }
+
+        const handleApiData = (result) => {
+            setApiData((previousData) => ({ ...previousData, ...result }));
         }
 
         const handleApiVersioning = (result) => {
@@ -51,18 +58,33 @@ const ApiInformationPage = () => {
             setCurrentVersion(apiVersions[0]);
         }
 
+        const getSwaggerHubData = () => {
+            return axios.get(`${swaggerHubUrl}/${currentVersion || ''}`);
+        }
+        
+        const getApiData = () => {
+            return axios.get(apiUrl, {
+                headers: {
+                    'Authorization': Cookies.get('hackneyToken')
+                }
+            });
+        }
         window.scrollTo(0, 0);
         resetState();
 
-        fetch(`${apiRequestUrl}/${currentVersion || ''}`)
-            .then(res => res.json())
-            .then( result => { currentVersion ? handleApiData(result) : handleApiVersioning(result) })
+        Promise.all([getSwaggerHubData(), getApiData()])
+            .then((results) => {
+                const swaggerData  = results[0];
+                const apiData  = results[1];
+                currentVersion ? handleSwaggerData(swaggerData) : handleApiVersioning(swaggerData);
+                handleApiData(apiData);
+            })
             .catch((error) => {
                 setError(error);
                 setIsLoaded(true);
-            })
+            });
 
-    }, [apiRequestUrl, currentVersion]);
+    }, [swaggerHubUrl, apiUrl, currentVersion]);
 
     const formatApiData = () => {
         const changeVersion = (versionFormatted) => { 
@@ -73,7 +95,7 @@ const ApiInformationPage = () => {
 
         const Links = [
             {linkText: `${apiData.swaggerData.info.title} Specification`, url: apiData.apiSpecificationLink},
-            {linkText: `${apiData.swaggerData.info.title} on SwaggerHub`, url: `${apiRequestUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs") },
+            {linkText: `${apiData.swaggerData.info.title} on SwaggerHub`, url: `${swaggerHubUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs") },
             {linkText: `${apiData.swaggerData.info.title} GitHub Repository`, url: apiData.githubLink }
         ];
 
