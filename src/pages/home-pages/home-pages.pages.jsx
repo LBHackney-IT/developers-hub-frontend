@@ -133,3 +133,20 @@ export const HomePage4 = () => {
     </div>
   );
 };
+
+export const HomePage5 = () => {
+  return (
+    <div id="api-authentication" className='main-container'>
+      <h2> Api Authentication </h2>
+
+      <p>Authentication involves identifying/verifying who is requesting access to your api whilst authorization is determining the degree of access that is available for the user, i.e. verifying what specific files, applications, data the user can access.</p>
+      
+      <p>When a consumer makes a request to an API, Each consumer should provide their access token in an Authorization header when making a request. Our custom lambda authorizer will take this token and will validate and decrypt it. The lambda authorizer will retrieve information about the token from the database and compare this data with the API request information.</p>
+      <p>A second authentication flow that we have implemented was produced for internal staff members. This solution leverages Google SSO as it enables users to log in to the Google hackney domain and generates a JWT following a successful login, which would be used on internal-facing Hackney services that also include their group information. 
+      This solution maps the API name along with the allowed Google groups for it. After the token is successfully validated and the data from it is read (email and Google groups the user belongs to), the Lambda function assumes the LBH_Api_Gateway_Allow_GET IAM role in the account, where the API is deployed. This is so the API ID received as part of the request can be mapped to the actual API name.
+
+      </p>
+
+    </div>
+  )
+};

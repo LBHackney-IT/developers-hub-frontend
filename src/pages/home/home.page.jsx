@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import withUser from "../../HOCs/with-user.hoc.js";
 import Sidebar from "../../components/sidebar/sidebar.component.jsx";
 import Error from "../../components/error/error.component";
-import { HomePage1, HomePage2, HomePage3, HomePage4} from "../home-pages/home-pages.pages";
+import { HomePage1, HomePage2, HomePage3, HomePage4, HomePage5} from "../home-pages/home-pages.pages";
 import { useLocation } from "react-router";
 
 const pages = [
@@ -21,6 +21,10 @@ const pages = [
   {
     page: <HomePage4 />,
     id: "#ways-of-working"
+  },
+  {
+    page: <HomePage5 />,
+    id: "#api-authentication"
   }
 ];
 
@@ -50,6 +54,7 @@ const HomePage = () => {
           <a className="sidebarLink" href="#need-of-dev-hub" itemID="1" onClick={storeitemID}>The need of a Developer Hub</a>
           <a className="sidebarLink" href="#api-specifications" itemID="2" onClick={storeitemID}>API Specifications</a>
           <a className="sidebarLink" href="#ways-of-working" itemID="3" onClick={storeitemID}>Our Ways of Working</a>
+          <a className="sidebarLink" href="#api-authentication" itemID="4" onClick={storeitemID}>Api Authentication</a>
         </Sidebar>
         <main className="lbh-main-wrapper" id="main-content" role="main">
           { error?
