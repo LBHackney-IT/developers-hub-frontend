@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import axios from "axios";
 import Cookies from 'js-cookie';
+import Skeleton from 'react-loading-skeleton';
 
 import withUser from "../../HOCs/with-user.hoc.js";
 import { filterSwaggerPropertiesByType } from "../../utility/utility";
@@ -25,17 +26,18 @@ const ApiInformationPage = () => {
     const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api`}/${apiName}`;
     const passedParams = useLocation().state || { versions: null, currentVersion: null };
 
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [versions, setVersions] = useState(passedParams.versions);
+    const [swaggerStatus, setSwaggerStatus] = useState({isLoaded: false, error: null });
+    const [apiStatus, setApiStatus] = useState({isLoaded: false, error: null });
+
+    const [versions, setVersions] = useState(passedParams.versions || []);
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
-    const [apiData, setApiData] = useState();
-    const [swaggerData, setSwaggerData] = useState();
+    const [apiData, setApiData] = useState({});
+    const [swaggerData, setSwaggerData] = useState({});
 
     const resetState = () => {
         window.scrollTo(0, 0);
-        setError(null);
-        setIsLoaded(false);
+        setSwaggerStatus({isLoaded: false, error: null });
+        setApiStatus({isLoaded: false, error: null });
     }
 
     // Get data from API
@@ -46,10 +48,10 @@ const ApiInformationPage = () => {
             headers: { 'Authorization': Cookies.get('hackneyToken') }
         }).then((result) => {
                 setApiData(result.data);
+                setApiStatus({ isLoaded: true, error: null });
             })
             .catch((error) => {
-                setError(error);
-                setIsLoaded(true);
+                setApiStatus({ isLoaded: true, error: error });
             });
     }, [apiUrl]);
 
@@ -57,10 +59,12 @@ const ApiInformationPage = () => {
     useEffect(() => {
         const handleSwaggerData = (result) => {
             setSwaggerData(result);
-            setIsLoaded(true);
+            setSwaggerStatus({ isLoaded: true, error: null });
         };
         const handleApiVersioning = (result) => {
-            const apiVersions = result.apis.map( api => filterSwaggerPropertiesByType(api.properties, "X-Version").value);
+            const apiVersions = result.apis.map( api => 
+                filterSwaggerPropertiesByType(api.properties, "X-Version").value
+            );
             setVersions(apiVersions);
             setCurrentVersion(apiVersions[0]);
         };
@@ -72,8 +76,7 @@ const ApiInformationPage = () => {
                 currentVersion ? handleSwaggerData(result.data) : handleApiVersioning(result.data) 
             })
             .catch((error) => {
-                setError(error);
-                setIsLoaded(true);
+                setSwaggerStatus({ isLoaded: true, error: error });
             });
     }, [swaggerHubUrl, currentVersion]);
 
@@ -86,52 +89,71 @@ const ApiInformationPage = () => {
         }
         const SelectVersion = <Select name={"VersionNo"} options={versions.map(v => v.replace(/^\*(.*)/gm, '$1 [PUBLISHED]'))} selectedOption={currentVersion} onChange={changeVersion} />;
 
-        const Links = [
-            {linkText: `${apiData.apiName} Specification`, url: apiData.apiSpecificationLink},
-            {linkText: `${apiData.apiName} on SwaggerHub`, url: `${swaggerHubUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs") },
-            {linkText: `${apiData.apiName} GitHub Repository`, url: apiData.githubLink }
-        ];
+        var links;
+
+        if(apiStatus.error){
+            links =  <p>We're having difficulty fetching this data.</p>
+        } else {
+            links = apiStatus.isLoaded ?
+            (<ul>
+                <li><ApiInformationLink linkText={`${apiData.apiName} Specification`} url={apiData.apiSpecificationLink} /></li>
+                <li><ApiInformationLink linkText={`${apiData.apiName} on SwaggerHub`} url={`${swaggerHubUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs")} /></li>
+                <li><ApiInformationLink linkText={`${apiData.apiName} GitHub Repository`} url={apiData.githubLink} /></li>
+            </ul>) : 
+            (<ul>
+                <li><Skeleton/></li>
+                <li><Skeleton/></li>
+                <li><Skeleton/></li>
+            </ul>);
+        }
 
         TableData.push(
             ["Version", SelectVersion],
-            ["Development Base URL", (<ApiInformationLink linkText={apiData.developmentBaseURL} url={apiData.developmentBaseURL}/>)],
-            ["Staging Base URL", (<ApiInformationLink linkText={apiData.stagingBaseURL} url={apiData.stagingBaseURL}/>)],
-            ["Relevant Links", Links.map(linkData => (
-                <li key={linkData.url} >
-                    <ApiInformationLink {...linkData} /> 
-                </li>
-            ))]
+            ["Development Base URL", apiStatus.error ? <p>We're having difficulty fetching this data.</p> : (<ApiInformationLink linkText={apiData.developmentBaseURL} url={apiData.developmentBaseURL}/>)],
+            ["Staging Base URL", apiStatus.error ? <p>We're having difficulty fetching this data.</p> : (<ApiInformationLink linkText={apiData.stagingBaseURL} url={apiData.stagingBaseURL}/>)],
+            ["Relevant Links", links]
         );
     }
-
-    const TableData = [];
-    if (isLoaded && !error){
-        formatApiData();
+    
+    if(swaggerStatus.error && apiStatus.error){
+        return(
+            <main className="lbh-main-wrapper" id="main-content" role="main">
+                <div id="api-info-page" className="lbh-container">
+                    <Error title="Oops! Something went wrong!" summary={swaggerStatus.error + " | " + apiStatus.error} /> 
+                </div>
+            </main>
+        );
     }
+    
+    const TableData = [];
+    formatApiData();
 
     return (
         <main className="lbh-main-wrapper" id="main-content" role="main">
             <div id="api-info-page" className="lbh-container">
-                {isLoaded ? ( 
-                    error ? 
-                        <Error title="Oops! Something went wrong!" summary={error.message} /> 
-                        :
-                        <>
-                            <div className="sidePanel">
-                                <Breadcrumbs />
-                                <h1>{apiData.apiName}</h1>
-                                <EnvironmentTags tags={swaggerData.tags && swaggerData.tags.map(tag =>(tag.name))} />
-                                <p className="lbh-body-m">{apiData.description}</p>
-                            </div>
-                            <div className="main-container table-container">
-                                    <span className="govuk-caption-xl lbh-caption">API Information</span>
-                                    <hr/>
-                                    <Table tableData={TableData} />
-                            </div>
-                        </>
-                )
-                : 
-                <h3>Loading..</h3>}
+                <div className="sidePanel">
+                    <Breadcrumbs />
+                    <h1>
+                        {!apiStatus.error && (apiData.apiName || <Skeleton/>)}
+                        {(apiStatus.error && (swaggerStatus.isLoaded ? swaggerData.info.title : <Skeleton/>))}
+                    </h1>
+                    
+                    {!swaggerStatus.isLoaded && <Skeleton count={2}/>}
+                    {(swaggerStatus.isLoaded && !swaggerStatus.error) && <EnvironmentTags tags={swaggerData.tags && swaggerData.tags.map(tag =>(tag.name))} />}
+                    {swaggerStatus.error && <EnvironmentTags error={true} />}
+                    
+                    <p className="lbh-body-m">
+                        {!apiStatus.error && (apiData.description || <Skeleton/>)}
+                        {(apiStatus.error && (swaggerStatus.isLoaded ? swaggerData.info.description : <Skeleton/>))}
+                    </p>
+                </div>
+                <div className="main-container table-container">
+                        <span className="govuk-caption-xl lbh-caption">API Information</span>
+                        <hr/>
+                        <Table tableData={TableData} />
+                        {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
+                        {apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}
+                </div>
             </div>
         </main>
     );
