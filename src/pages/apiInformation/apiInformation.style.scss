@@ -33,6 +33,7 @@
         list-style-type: circle;
         margin: 0;
     }
+    p { display: inline; }
 
     @media screen and (max-width: 1024px) { 
         .govuk-table__row {

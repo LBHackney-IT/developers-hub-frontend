@@ -13,6 +13,7 @@ import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx"
 import Select from "../../components/select/select.component.jsx";
 import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
+import ApiInformationLink from "../../components/apiInformationLink/apiInformationLink.component.jsx";
 
 const ApiInformationPage = () => {
     const currentuser = useUser();
@@ -28,65 +29,57 @@ const ApiInformationPage = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [versions, setVersions] = useState(passedParams.versions);
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
-    const [apiData, setApiData] = useState({
-        githubLink: null,
-        developmentBaseUrl: null,
-        stagingBaseUrl: null,
-        apiSpecificationLink: null,
-        // fields that will be populated by an API call later
-    });
+    const [apiData, setApiData] = useState();
+    const [swaggerData, setSwaggerData] = useState();
 
     const resetState = () => {
+        window.scrollTo(0, 0);
         setError(null);
         setIsLoaded(false);
     }
 
+    // Get data from API
     useEffect(() => {
-
-        const handleSwaggerData = (result) => {
-            setApiData((previousData) => ({ ...previousData, swaggerData: result}));
-            setIsLoaded(true);
-        }
-
-        const handleApiData = (result) => {
-            setApiData((previousData) => ({ ...previousData, ...result }));
-        }
-
-        const handleApiVersioning = (result) => {
-            const apiVersions = result.apis.map( api => filterSwaggerPropertiesByType(api.properties, "X-Version").value);
-            setVersions(apiVersions);
-            setCurrentVersion(apiVersions[0]);
-        }
-
-        const getSwaggerHubData = () => {
-            return axios.get(`${swaggerHubUrl}/${currentVersion || ''}`);
-        }
-        
-        const getApiData = () => {
-            return axios.get(apiUrl, {
-                headers: {
-                    'Authorization': Cookies.get('hackneyToken')
-                }
-            });
-        }
-        window.scrollTo(0, 0);
         resetState();
 
-        Promise.all([getSwaggerHubData(), getApiData()])
-            .then((results) => {
-                const swaggerData  = results[0];
-                const apiData  = results[1];
-                currentVersion ? handleSwaggerData(swaggerData) : handleApiVersioning(swaggerData);
-                handleApiData(apiData);
+        axios.get(apiUrl, { 
+            headers: { 'Authorization': Cookies.get('hackneyToken') }
+        }).then((result) => {
+                setApiData(result.data);
             })
             .catch((error) => {
                 setError(error);
                 setIsLoaded(true);
             });
+    }, [apiUrl]);
 
-    }, [swaggerHubUrl, apiUrl, currentVersion]);
+    // Get SwaggerHub data
+    useEffect(() => {
+        const handleSwaggerData = (result) => {
+            setSwaggerData(result);
+            setIsLoaded(true);
+        };
+        const handleApiVersioning = (result) => {
+            const apiVersions = result.apis.map( api => filterSwaggerPropertiesByType(api.properties, "X-Version").value);
+            setVersions(apiVersions);
+            setCurrentVersion(apiVersions[0]);
+        };
+
+        resetState();
+
+        axios.get(`${swaggerHubUrl}/${currentVersion || ''}`)
+            .then( result => { 
+                currentVersion ? handleSwaggerData(result.data) : handleApiVersioning(result.data) 
+            })
+            .catch((error) => {
+                setError(error);
+                setIsLoaded(true);
+            });
+    }, [swaggerHubUrl, currentVersion]);
+
 
     const formatApiData = () => {
+
         const changeVersion = (versionFormatted) => { 
             const version = versionFormatted.replace(/^((\d\.?)*) \[PUBLISHED]/gm, "$1")
             setCurrentVersion(version); 
@@ -94,18 +87,18 @@ const ApiInformationPage = () => {
         const SelectVersion = <Select name={"VersionNo"} options={versions.map(v => v.replace(/^\*(.*)/gm, '$1 [PUBLISHED]'))} selectedOption={currentVersion} onChange={changeVersion} />;
 
         const Links = [
-            {linkText: `${apiData.swaggerData.info.title} Specification`, url: apiData.apiSpecificationLink},
-            {linkText: `${apiData.swaggerData.info.title} on SwaggerHub`, url: `${swaggerHubUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs") },
-            {linkText: `${apiData.swaggerData.info.title} GitHub Repository`, url: apiData.githubLink }
+            {linkText: `${apiData.apiName} Specification`, url: apiData.apiSpecificationLink},
+            {linkText: `${apiData.apiName} on SwaggerHub`, url: `${swaggerHubUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs") },
+            {linkText: `${apiData.apiName} GitHub Repository`, url: apiData.githubLink }
         ];
 
         TableData.push(
             ["Version", SelectVersion],
-            ["Development Base URL", apiData.developmentBaseUrl],
-            ["Staging Base URL", apiData.stagingBaseUrl],
-            ["Relevant Links", Links.map(link => (
-                <li key={link} >   
-                    <a className="lbh-link lbh-link--no-visited-state" href={link.url} >{link.linkText} {!link.url && "(TBC)"}</a>
+            ["Development Base URL", (<ApiInformationLink linkText={apiData.developmentBaseURL} url={apiData.developmentBaseURL}/>)],
+            ["Staging Base URL", (<ApiInformationLink linkText={apiData.stagingBaseURL} url={apiData.stagingBaseURL}/>)],
+            ["Relevant Links", Links.map(linkData => (
+                <li key={linkData.url} >
+                    <ApiInformationLink {...linkData} /> 
                 </li>
             ))]
         );
@@ -126,9 +119,9 @@ const ApiInformationPage = () => {
                         <>
                             <div className="sidePanel">
                                 <Breadcrumbs />
-                                <h1>{apiData.swaggerData.info.title}</h1>
-                                <EnvironmentTags tags={apiData.swaggerData.tags && apiData.swaggerData.tags.map(tag =>(tag.name))} />
-                                <p className="lbh-body-m">{apiData.swaggerData.info.description}</p>
+                                <h1>{apiData.apiName}</h1>
+                                <EnvironmentTags tags={swaggerData.tags && swaggerData.tags.map(tag =>(tag.name))} />
+                                <p className="lbh-body-m">{apiData.description}</p>
                             </div>
                             <div className="main-container table-container">
                                     <span className="govuk-caption-xl lbh-caption">API Information</span>
