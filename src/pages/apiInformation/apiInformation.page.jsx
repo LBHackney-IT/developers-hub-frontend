@@ -89,28 +89,33 @@ const ApiInformationPage = () => {
         }
         const SelectVersion = <Select name={"VersionNo"} options={versions.map(v => v.replace(/^\*(.*)/gm, '$1 [PUBLISHED]'))} selectedOption={currentVersion} onChange={changeVersion} />;
 
-        var links;
+        var links; var devUrl; var stagingUrl;  
 
         if(apiStatus.error){
-            links =  <p>We're having difficulty fetching this data.</p>
+            devUrl = stagingUrl = links =  <p>We're having difficulty fetching this data.</p>
         } else {
-            links = apiStatus.isLoaded ?
-            (<ul>
-                <li><ApiInformationLink linkText={`${apiData.apiName} Specification`} url={apiData.apiSpecificationLink} /></li>
-                <li><ApiInformationLink linkText={`${apiData.apiName} on SwaggerHub`} url={`${swaggerHubUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs")} /></li>
-                <li><ApiInformationLink linkText={`${apiData.apiName} GitHub Repository`} url={apiData.githubLink} /></li>
-            </ul>) : 
-            (<ul>
-                <li><Skeleton/></li>
-                <li><Skeleton/></li>
-                <li><Skeleton/></li>
-            </ul>);
+            if(apiStatus.isLoaded){
+                links = <ul>
+                            <li><ApiInformationLink linkText={`${apiData.apiName} Specification`} url={apiData.apiSpecificationLink} /></li>
+                            <li><ApiInformationLink linkText={`${apiData.apiName} on SwaggerHub`} url={`${swaggerHubUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs")} /></li>
+                            <li><ApiInformationLink linkText={`${apiData.apiName} GitHub Repository`} url={apiData.githubLink} /></li>
+                        </ul>
+                devUrl = <ApiInformationLink linkText={apiData.developmentBaseURL} url={apiData.developmentBaseURL}/>
+                stagingUrl = <ApiInformationLink linkText={apiData.stagingBaseURL} url={apiData.stagingBaseURL}/>
+            } else {
+                links = <ul>
+                            <li><Skeleton/></li>
+                            <li><Skeleton/></li>
+                            <li><Skeleton/></li>
+                        </ul>
+                devUrl = stagingUrl = <Skeleton/>
+            }
         }
 
         TableData.push(
             ["Version", SelectVersion],
-            ["Development Base URL", apiStatus.error ? <p>We're having difficulty fetching this data.</p> : (<ApiInformationLink linkText={apiData.developmentBaseURL} url={apiData.developmentBaseURL}/>)],
-            ["Staging Base URL", apiStatus.error ? <p>We're having difficulty fetching this data.</p> : (<ApiInformationLink linkText={apiData.stagingBaseURL} url={apiData.stagingBaseURL}/>)],
+            ["Development Base URL", devUrl],
+            ["Staging Base URL", stagingUrl],
             ["Relevant Links", links]
         );
     }
