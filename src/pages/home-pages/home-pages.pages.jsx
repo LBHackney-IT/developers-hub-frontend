@@ -58,6 +58,7 @@ export const HomePage1 = () => {
 export const HomePage2 = () => {
   return (
     <div className="main-container" id='user-needs'>
+      <h2>The Need of a Developer Hub</h2>
       <MyCollapsible title='As a Developer'>
       <ul>
           <li>As a developer I would like consistency between the developer hub and swagger so that any changes to the APIs can be reflected straight away. </li>

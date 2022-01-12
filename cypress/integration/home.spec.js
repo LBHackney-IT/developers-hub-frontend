@@ -7,8 +7,8 @@ const homepages = [
     id: "mission"
   },
   {
-    sidebarText: "The need of a Developer Hub",
-    heading: "The need of a Developer Hub",
+    sidebarText: "The Need of a Developer Hub",
+    heading: "The Need of a Developer Hub",
     id: "need-of-dev-hub"
   },
   {

@@ -62,7 +62,7 @@ const HomePage = () => {
       <div id="home-page" className="sidebar-page">
         <Sidebar>
           <a className="sidebarLink" href="#mission" itemID="0" onClick={storeitemID}>Mission</a>
-          <a className="sidebarLink" href="#need-of-dev-hub" itemID="1" onClick={storeitemID}>The need of a Developer Hub</a>
+          <a className="sidebarLink" href="#need-of-dev-hub" itemID="1" onClick={storeitemID}>The Need of a Developer Hub</a>
           <a className="sidebarLink" href="#api-specifications" itemID="2" onClick={storeitemID}>API Specifications</a>
           <a className="sidebarLink" href="#ways-of-working" itemID="3" onClick={storeitemID}>Our Ways of Working</a>
           <a className="sidebarLink" href="#api-authentication" itemID="4" onClick={storeitemID}>API Authentication</a>
