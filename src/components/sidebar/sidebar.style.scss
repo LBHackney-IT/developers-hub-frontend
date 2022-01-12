@@ -29,10 +29,16 @@
       width: 100%;
       margin: 0;
       padding-left: 2em;
+      &.indented {
+        padding-left: 3em;
+      }
       padding-right: 5em;
       @media (max-width: $mobile-width) {
         margin-bottom: 0.5em; 
         padding: 0;
+        &.indented {
+          padding-left: 0;
+        }
       }
     }
     
