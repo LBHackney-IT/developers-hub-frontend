@@ -20,7 +20,28 @@ const homepages = [
     sidebarText: "Our Ways of Working",
     heading: "Our Ways of Working",
     id: "ways-of-working"
-  }
+  },
+  {
+      sidebarText: "API Authentication",
+      heading: "API Authentication",
+      id: "api-authentication"
+  },
+  {
+  sidebarText: "How The Authentication Works",
+  heading: "How The Authentication Works",
+  id: "how-the-authentication-works"
+  },
+  {
+  sidebarText: "How to setup your API Authenticator",
+  heading: "How to setup your API Authenticator",
+  id: "setting-up-api-authenticator"
+  },
+  {
+    sidebarText: "How to amend access to your API",
+    heading: "How to amend access to your API",
+    id: "how-to-amend-acess-to-an-api"
+  } 
+
 ]
 
 describe("Sidebar", () => {
@@ -36,8 +57,9 @@ describe("Sidebar", () => {
       sidebar.contains("CONTENTS");
   
       const sidebarLinks = sidebar.get(".sidebarLink");
-      sidebarLinks.should("have.length", 4);
-
+      sidebarLinks.should("have.length", 8);
+      
+   
       sidebarLinks.each(($link, i) => {
         expect($link.text()).to.equal(homepages[i].sidebarText);
       });

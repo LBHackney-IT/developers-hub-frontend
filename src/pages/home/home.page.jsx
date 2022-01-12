@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import withUser from "../../HOCs/with-user.hoc.js";
 import Sidebar from "../../components/sidebar/sidebar.component.jsx";
 import Error from "../../components/error/error.component";
-import { HomePage1, HomePage2, HomePage3, HomePage4, HomePage5} from "../home-pages/home-pages.pages";
+import { HomePage1, HomePage2, HomePage3, HomePage4, HomePage5, HomePage6, HomePage7, HomePage8} from "../home-pages/home-pages.pages";
 import { useLocation } from "react-router";
 
 const pages = [
@@ -25,6 +25,18 @@ const pages = [
   {
     page: <HomePage5 />,
     id: "#api-authentication"
+  },
+  {
+    page: <HomePage6 />,
+    id: "#how-the-authentication-works"
+  },
+  {
+    page: <HomePage7 />,
+    id: "#setting-up-api-authenticator"
+  },  
+  {
+    page: <HomePage8 />,
+    id: "#how-to-amend-acess-to-an-api"
   }
 ];
 
@@ -45,7 +57,6 @@ const HomePage = () => {
     }
   };
 
-
   return (
     <>
       <div id="home-page" className="sidebar-page">
@@ -54,7 +65,10 @@ const HomePage = () => {
           <a className="sidebarLink" href="#need-of-dev-hub" itemID="1" onClick={storeitemID}>The need of a Developer Hub</a>
           <a className="sidebarLink" href="#api-specifications" itemID="2" onClick={storeitemID}>API Specifications</a>
           <a className="sidebarLink" href="#ways-of-working" itemID="3" onClick={storeitemID}>Our Ways of Working</a>
-          <a className="sidebarLink" href="#api-authentication" itemID="4" onClick={storeitemID}>Api Authentication</a>
+          <a className="sidebarLink" href="#api-authentication" itemID="4" onClick={storeitemID}>API Authentication</a>
+          <a className="sidebarLink indented" href="#how-the-authentication-works" itemID="5" onClick={storeitemID}>How The Authentication Works</a>
+          <a className="sidebarLink indented" href="#setting-up-api-authenticator" itemID="6" onClick={storeitemID}>How to setup your API Authenticator</a>
+          <a className="sidebarLink indented" href="#how-to-amend-acess-to-an-api" itemID="7" onClick={storeitemID}>How to amend access to your API</a>
         </Sidebar>
         <main className="lbh-main-wrapper" id="main-content" role="main">
           { error?
