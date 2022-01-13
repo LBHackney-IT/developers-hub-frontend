@@ -15,6 +15,7 @@
     padding: 0;
   }
   .nav-item {
+    z-index: 2;
     margin: 8px;
     color: white !important;
     cursor: pointer;
@@ -28,6 +29,7 @@
   }
 }
 .welcome{
+  z-index: 1;
   align-items: right !important;
   margin-top: 0px !important;
   padding-bottom: 50px !important;

@@ -1,9 +1,8 @@
 import React from "react";
-import EnvironmentTags from "../environmentTags/environmentTags.component";
 import { Link } from "react-router-dom";
 import { filterSwaggerPropertiesByType } from "../../utility/utility";
 
-const ApiPreview = ({name, description, tags, properties}) => {
+const ApiPreview = ({name, description, properties}) => {
 
   const id = filterSwaggerPropertiesByType(properties, "Swagger").url.split("/")[5];
   const isPublished = filterSwaggerPropertiesByType(properties, "X-Published").value.toLowerCase() === "true";
@@ -26,10 +25,9 @@ const ApiPreview = ({name, description, tags, properties}) => {
             <p className="lbh-body-xs"><span className="version">v{selectedVersion}</span> &#183; <span className="edited">Edited {lastModified}</span></p>
           </div>
         </div>
-        <span className={`govuk-tag lbh-tag${isPublished ? "" : "--grey"}`}>{ isPublished ? "Active" : "Inactive" }</span>
+        <span className={`govuk-tag lbh-tag${isPublished ? "" : "--red"}`}>{ isPublished ? "Active" : "Inactive" }</span>
       </div>
       <p className="description">{description}</p>
-      <EnvironmentTags tags={tags} />
     </li>
   );
 };

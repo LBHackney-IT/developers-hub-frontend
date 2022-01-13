@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import withUser from "../../HOCs/with-user.hoc.js";
 import Sidebar from "../../components/sidebar/sidebar.component.jsx";
 import Error from "../../components/error/error.component";
-import { HomePage1, HomePage2, HomePage3, HomePage4, HomePage5, HomePage6, HomePage7, HomePage8} from "../home-pages/home-pages.pages";
+import { HomePage1, HomePage2, HomePage3, HomePage4, HomePage5, HomePage6, HomePage7, HomePage8 } from "../home-pages/home-pages.pages";
 import { useLocation } from "react-router";
+
 
 const pages = [
   {
@@ -17,6 +18,7 @@ const pages = [
   {
     page: <HomePage3 />,
     id: "#api-specifications"
+
   },
   {
     page: <HomePage4 />,

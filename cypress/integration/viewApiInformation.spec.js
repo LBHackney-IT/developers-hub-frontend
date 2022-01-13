@@ -38,14 +38,26 @@ describe("View API Information page", () => {
 
         it(`View environment status tags on ${screenSize} screen`, function () {
             cy.viewport(screenSize);
-            const expectedEnvTagsNo = 3;
+            const expectedEnvTagsNo = 4;
             cy.get(".sidePanel").find(".env-tags").first().children()
                 .should('have.length', expectedEnvTagsNo)
                 .each((tag) => {
-                    if (this.apiData.tags.filter( apiTag => apiTag.name === tag.text()).length > 0){
-                        expect(tag).to.have.class("lbh-tag--green");
+                    const tagText = tag.text();
+                    if (this.apiData.tags.filter( apiTag => apiTag.name === tagText).length > 0){
+                        var tagColour;
+                        switch(tagText){
+                            case "Development":
+                                tagColour = "yellow"; break;
+                            case "Staging":
+                                tagColour = "yellow"; break;
+                            case "Production":
+                                tagColour = "green"; break;
+                            case "Deprecated":
+                                tagColour = "red"; break;
+                        }
+                        expect(tag).to.have.class(`lbh-tag--${tagColour}`);
                     } else {
-                        expect(tag).to.have.class("lbh-tag--grey");
+                        expect(tag).to.have.class(`lbh-tag--${tagText === "Deprecated"? "hidden" : "grey"}`);
                     }
                 });
         });

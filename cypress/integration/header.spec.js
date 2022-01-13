@@ -1,6 +1,7 @@
 import { screenSizes } from "../support/screenSizes";
 
 const headerItemText = [
+  "HOME",
   "API CATALOGUE",
   "SIGN IN",
 ];
