@@ -290,7 +290,7 @@ export const HomePage7 = () => {
         The API authenticator arn must be included since it links to the
         api-authenticator lambda function which would require anyone calling the
         API to provide a JWT token that would only be accepted if the user is in
-        any of the allowed Google Groups. The method type which is “”request”
+        any of the allowed Google Groups. The method type which is ”request”
         and the identity source is the method.request.header.authorization which
         is what the where the tokens will be read from
       </p>
