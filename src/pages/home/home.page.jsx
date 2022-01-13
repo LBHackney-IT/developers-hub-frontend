@@ -68,7 +68,7 @@ const HomePage = () => {
           <a className="sidebarLink" href="#api-specifications" itemID="2" onClick={storeitemID}>API Specifications</a>
           <a className="sidebarLink" href="#ways-of-working" itemID="3" onClick={storeitemID}>Our Ways of Working</a>
           <a className="sidebarLink" href="#api-authentication" itemID="4" onClick={storeitemID}>API Authentication</a>
-          <a className="sidebarLink indented" href="#how-the-authentication-works" itemID="5" onClick={storeitemID}> How The API Authentication process works</a>
+          <a className="sidebarLink indented" href="#how-the-authentication-works" itemID="5" onClick={storeitemID}>How The API Authentication process works</a>
           <a className="sidebarLink indented" href="#setting-up-api-authenticator" itemID="6" onClick={storeitemID}>How to setup your API Authenticator</a>
           <a className="sidebarLink indented" href="#how-to-amend-acess-to-an-api" itemID="7" onClick={storeitemID}>How to amend access to your API</a>
         </Sidebar>
