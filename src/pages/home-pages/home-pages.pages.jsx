@@ -217,7 +217,7 @@ export const HomePage5 = () => {
 export const HomePage6 = () => {
   return (
     <div id="how-the-authentication-works" className="main-container">
-      <h2> How The API Authentication process Works </h2>
+      <h2>How The API Authentication process works </h2>
       <div>
         <img src={apiflow} alt="" className="center"></img>
 
