@@ -92,7 +92,7 @@ const ApiInformationPage = () => {
         var links; var devUrl; var stagingUrl;  
 
         if(apiStatus.error){
-            devUrl = stagingUrl = links =  <p>We're having difficulty fetching this data.</p>
+            devUrl = stagingUrl = links =  <p>We're having difficulty loading this data.</p>
         } else {
             if(apiStatus.isLoaded){
                 links = <ul>
@@ -143,7 +143,7 @@ const ApiInformationPage = () => {
                         {(apiStatus.error && (swaggerStatus.isLoaded ? swaggerData.info.title : <Skeleton/>))}
                     </h1>
                     
-                    {!swaggerStatus.isLoaded && <Skeleton count={2}/>}
+                    {!swaggerStatus.isLoaded && <Skeleton/>}
                     {(swaggerStatus.isLoaded && !swaggerStatus.error) && <EnvironmentTags tags={swaggerData.tags && swaggerData.tags.map(tag =>(tag.name))} />}
                     {swaggerStatus.error && <EnvironmentTags error={true} />}
                     
