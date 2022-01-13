@@ -1,6 +1,5 @@
 const EnvironmentTags = ({tags, error}) => {
   if(!tags) tags = [];
-  const errorStyling = { textDecoration: "line-through"};
 
   if(error){
     return( 
