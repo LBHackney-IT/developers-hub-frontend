@@ -1,6 +1,14 @@
 #home-page {
 // moved the sidebar positioning into the sidebar.style.scss file so can be used across the project
+}
+
+
+.center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+      }
 #user-needs{
     width: 90%;
-}
 }
