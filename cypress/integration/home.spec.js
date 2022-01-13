@@ -27,7 +27,7 @@ const homepages = [
       id: "api-authentication"
   },
   {
-  sidebarText: "How The Authentication Works",
+  sidebarText: "How The API Authentication process Works",
   heading: " How The API Authentication process Works",
   id: "how-the-authentication-works"
   },
