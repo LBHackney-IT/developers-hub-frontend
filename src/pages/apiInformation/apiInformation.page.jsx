@@ -23,7 +23,7 @@ const ApiInformationPage = () => {
     
     const { apiName } = useParams();
     const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiName}`;
-    const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api`}/${apiName}`;
+    const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiName}`;
     const passedParams = useLocation().state || { versions: null, currentVersion: null };
 
     const [swaggerStatus, setSwaggerStatus] = useState({isLoaded: false, error: null });
