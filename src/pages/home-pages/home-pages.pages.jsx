@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import arn from "../../assets/arn.png";
 import apiflow from "../../assets/apiflow.png";
 import ssogroups from "../../assets/ssogroups.png";
@@ -60,7 +60,7 @@ export const HomePage2 = () => {
     <div className="main-container" id='user-needs'>
       <h2>The Need of a Developer Hub</h2>
       <MyCollapsible title='As a Developer'>
-      <ul>
+        <ul>
           <li>As a developer I would like consistency between the developer hub and swagger so that any changes to the APIs can be reflected straight away. </li>
           <li>As a developer I want a way to easily find APIs so that I can use these APIs effectively as well as stay up to date with any changes that might come up .</li>
           <li>As a developer I need to make sure that access to the APIs  is secure so that only authorised users can make requests to Hackney APIs.</li>
@@ -68,8 +68,8 @@ export const HomePage2 = () => {
           <li>As a developer I would like to build and reuse the Organisations APIs so that development efforts can focus on other requirements </li>
           <li>As a user I can log in with my google account associated with Hackney, so that my identity can easily be verified and my permissions can be managed effectively and efficiently. </li>
         </ul>
-        </MyCollapsible>
-        <MyCollapsible title='As a Service User'>
+      </MyCollapsible>
+      <MyCollapsible title='As a Service User'>
         <ul>
           <li> I want the ability to view the details of the results returned in a search so that I can easily look through the different results and make the correct selection.</li>
           <li>I want to be able to register for the application by entering my name, email address, my password and confirming my password so that I can feel secure. </li>
@@ -79,44 +79,44 @@ export const HomePage2 = () => {
           <li>I can edit my details such as the email address so that I can continue using the same account </li>
           <li>As a service user I would like to see the list of APIs available in the catalogue so that I can make an informed decision for the product development.</li>
         </ul>
-        </MyCollapsible>
-        <MyCollapsible title='As an Application Support Analyst'>
-          <ul>
-            <li>As an application support analyst, I would like to know what endpoints and functionality an API has, so that I can familiarise myself with the types of support requests I may get.</li>
-            <li> I need to understand the queries being used by the Developers Hub  so that I can deal with support requests accordingly and resolve the potential issues in the underlying data.</li>
-          </ul>
-        </MyCollapsible>
-        <MyCollapsible title='As a Data Analyst'>
-          <ul>
-            <li>I need to connect to the API so that data is easy to interpret and available for further reporting purposes and analysis.</li>
-            <li>As a user, I would like to see Data in a format that's structured e.g. csv or JSON, so that I can easily manipulate the data.</li>
-            <li>I would like to have data in a format that can be linked into programmes such as Tableau or Qlik sense so that I can create reports and data visualisation</li>
-          </ul>
-        </MyCollapsible>
-        <MyCollapsible title='As a Solution Architect'>
-          <ul>
-            <li>I need to connect to the API so that data is easy to interpret and available for further reporting purposes and analysis.</li>
-            <li>As a user, I would like to see Data in a format that's structured e.g. csv or JSON, so that I can easily manipulate the data.</li>
-            <li>I would like to have data in a format that can be linked into programmes such as Tableau or Qlik sense so that I can create reports and data visualisation</li>
-          </ul>
-        </MyCollapsible>
-        <MyCollapsible title='As a QA Analyst'>
-          <ul>
-            <li>As a tester I would like to view use cases so that I can test the required functionality. </li>
-            <li>As at tester I would like to view all API Endpoints so that I can complete thorough E2E testing. </li>
-            <li>I would like to be able to view all existing APIs and endpoints to ensure the final product of the API I am testing meets the organisation standards. </li>
-          </ul>
-        </MyCollapsible>
-        <MyCollapsible title='As a Cyber Silver Member'>
+      </MyCollapsible>
+      <MyCollapsible title='As an Application Support Analyst'>
         <ul>
-              <li>As a member of Cyber Silver, I would like to ensure nobody can access live data through the APIs without being registered and logged in, so that cybersecurity is not compromised. </li>
-            </ul>
-        </MyCollapsible>
-        <MyCollapsible title='As a Product Owner'>
-            <ul>
-              <li>As a product owner, I want to confirm that the data from an API is correct, based on the business area understanding of the wider team and any prior discovery work completed.</li>
-            </ul>
-        </MyCollapsible>  
+          <li>As an application support analyst, I would like to know what endpoints and functionality an API has, so that I can familiarise myself with the types of support requests I may get.</li>
+          <li> I need to understand the queries being used by the Developers Hub  so that I can deal with support requests accordingly and resolve the potential issues in the underlying data.</li>
+        </ul>
+      </MyCollapsible>
+      <MyCollapsible title='As a Data Analyst'>
+        <ul>
+          <li>I need to connect to the API so that data is easy to interpret and available for further reporting purposes and analysis.</li>
+          <li>As a user, I would like to see Data in a format that's structured e.g. csv or JSON, so that I can easily manipulate the data.</li>
+          <li>I would like to have data in a format that can be linked into programmes such as Tableau or Qlik sense so that I can create reports and data visualisation</li>
+        </ul>
+      </MyCollapsible>
+      <MyCollapsible title='As a Solution Architect'>
+        <ul>
+          <li>I need to connect to the API so that data is easy to interpret and available for further reporting purposes and analysis.</li>
+          <li>As a user, I would like to see Data in a format that's structured e.g. csv or JSON, so that I can easily manipulate the data.</li>
+          <li>I would like to have data in a format that can be linked into programmes such as Tableau or Qlik sense so that I can create reports and data visualisation</li>
+        </ul>
+      </MyCollapsible>
+      <MyCollapsible title='As a QA Analyst'>
+        <ul>
+          <li>As a tester I would like to view use cases so that I can test the required functionality. </li>
+          <li>As at tester I would like to view all API Endpoints so that I can complete thorough E2E testing. </li>
+          <li>I would like to be able to view all existing APIs and endpoints to ensure the final product of the API I am testing meets the organisation standards. </li>
+        </ul>
+      </MyCollapsible>
+      <MyCollapsible title='As a Cyber Silver Member'>
+        <ul>
+          <li>As a member of Cyber Silver, I would like to ensure nobody can access live data through the APIs without being registered and logged in, so that cybersecurity is not compromised. </li>
+        </ul>
+      </MyCollapsible>
+      <MyCollapsible title='As a Product Owner'>
+        <ul>
+          <li>As a product owner, I want to confirm that the data from an API is correct, based on the business area understanding of the wider team and any prior discovery work completed.</li>
+        </ul>
+      </MyCollapsible>  
     </div>
   );
 };
@@ -179,10 +179,16 @@ export const HomePage4 = () => {
 };
 
 export const HomePage5 = () => {
+  const [selectedItem, setSelectedItem] = useState(5);
+
+  const increasePage = () => {
+    setSelectedItem(selectedItem + 1)
+  }
+
   return (
     <div id="api-authentication" className="main-container">
       <h2> API Authentication </h2>
-      <h3> What is an API Authentication </h3>
+      <h3> What is API Authentication?</h3>
       <p>
         Authentication involves verifying who is requesting access to your API
       </p>
@@ -192,13 +198,22 @@ export const HomePage5 = () => {
         available for the user. i.e. verifying what specific files,
         applications, data the user can access.
       </p>
+      <span style={{float: "right"}}>
+        <button
+          className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
+          onClick={increasePage}
+    
+        >
+          Next
+        </button>
+      </span>
     </div>
   );
 };
 export const HomePage6 = () => {
   return (
     <div id="how-the-authentication-works" className="main-container">
-      <h2> How The Authentication Works </h2>
+      <h2>How The API Authentication process works </h2>
       <div>
         <img src={apiflow} alt="" className="center"></img>
 
@@ -247,7 +262,7 @@ export const HomePage6 = () => {
       </p>
       <p>
         {" "}
-        for eg : if a user is a housing officer, they should not be able to see
+        For example : If a user is a housing officer, they should not be able to see
         notes generated by social care. However, an advantage of this is that it
         removes the necessity to manage API keys in the infrastructure.
         Furthermore, this business is empowered to manage their own resources
@@ -260,7 +275,7 @@ export const HomePage6 = () => {
 export const HomePage7 = () => {
   return (
     <div id="setting-up-api-authenticator" className="main-container">
-      <h2> How to setup your API Authenticator </h2>
+      <h2> How to set up your API Authenticator </h2>
       <h4> Adding the authenticator to serverless</h4>
       <p>
         To add the Lambda Authorizer to serverless you would need to call it in
@@ -271,9 +286,9 @@ export const HomePage7 = () => {
         The API authenticator arn must be included since it links to the
         api-authenticator lambda function which would require anyone calling the
         API to provide a JWT token that would only be accepted if the user is in
-        any of the allowed Google Groups. The method type which is “”request”
-        and the identity source is the method.request.header.authorization which
-        is what the where the tokens will be read from
+        any of the allowed Google Groups. The method type which is ”request”
+        and the identity source is the method.request.header.authorization, which
+        is where the tokens will be read from.
       </p>
     </div>
   );
@@ -283,7 +298,7 @@ export const HomePage8 = () => {
   return (
     <div id="how-to-amend-acess-to-an-api" className="main-container">
       <h2> How to amend access to your API</h2>
-      <h4>How to Setup API Authenticator for your API</h4>
+      <h4>How to Set Up the API Authenticator for your API</h4>
       <p> To allow a certain Google group to access an API: </p>
       <ul>
         <li>
@@ -347,7 +362,7 @@ export const HomePage8 = () => {
       </ul>
       <p>
         Going forward we have a new standard for authentication to authenticate
-        our API
+        our API.
       </p>
     </div>
   );

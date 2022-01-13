@@ -22,19 +22,19 @@ const homepages = [
     id: "ways-of-working"
   },
   {
-      sidebarText: "API Authentication",
-      heading: "API Authentication",
-      id: "api-authentication"
+    sidebarText: "API Authentication",
+    heading: "API Authentication",
+    id: "api-authentication"
   },
   {
-  sidebarText: "How The Authentication Works",
-  heading: "How The Authentication Works",
-  id: "how-the-authentication-works"
+    sidebarText: "How The API Authentication process works",
+    heading: "How The API Authentication process works",
+    id: "how-the-authentication-works"
   },
   {
-  sidebarText: "How to setup your API Authenticator",
-  heading: "How to setup your API Authenticator",
-  id: "setting-up-api-authenticator"
+    sidebarText: "How to setup your API Authenticator",
+    heading: "How to setup your API Authenticator",
+    id: "setting-up-api-authenticator"
   },
   {
     sidebarText: "How to amend access to your API",
