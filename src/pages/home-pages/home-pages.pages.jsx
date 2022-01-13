@@ -202,15 +202,6 @@ export const HomePage5 = () => {
         available for the user. i.e. verifying what specific files,
         applications, data the user can access.
       </p>
-      <span style={{float: "right"}}>
-        <button
-          className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
-          onClick={increasePage}
-    
-        >
-          Next
-        </button>
-      </span>
     </div>
   );
 };
