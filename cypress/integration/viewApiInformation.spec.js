@@ -7,24 +7,29 @@ describe("API Information Page is limited to signed in users", () => {
 });
 
 describe("View API Information page", () => {
-
     beforeEach(function () {
         cy.login()
+
         // Stub API responses
         cy.intercept('GET', '/specs*', {fixture: "allApis"}).as("getAllApis");
+        cy.fixture("testApiSwagger").then((swaggerData) => {
+            this.swaggerData = swaggerData;
+            cy.intercept({method: 'GET', url: /apis/gm}, swaggerData).as("getSwaggerInfo");
+        });
         cy.fixture("testApi").then((apiData) => {
             this.apiData = apiData;
-            cy.intercept({method: 'GET', url: /apis/gm}, apiData).as("getApiInfo");
+            cy.intercept({method: 'GET', url: /api\/v1/gm}, apiData).as("getApiInfo");
         });
 
         cy.visit("/api-catalogue");
         cy.get(".apiPreview").find("a").first().click();
         // navigate from API Catalogue
+        cy.wait(["@getSwaggerInfo", "@getApiInfo"]);
     });
 
     it("Navigate directly to page", function() {
         cy.visit("/api-catalogue/api/testApi");
-        const expectedUrl = this.apiData.basePath.split("/")[2];
+        const expectedUrl = this.swaggerData.basePath.split("/")[2];
         cy.url().should('include', expectedUrl);
 
     });
@@ -32,8 +37,8 @@ describe("View API Information page", () => {
     screenSizes.forEach((screenSize) => {
         it(`View title and description on ${screenSize} screen`, function() {
             cy.viewport(screenSize);
-            cy.contains(this.apiData.info.title).should('be.visible');
-            cy.contains(this.apiData.info.description).should('be.visible');
+            cy.contains(this.apiData.apiName).should('be.visible');
+            cy.contains(this.apiData.description).should('be.visible');
         });
 
         it(`View environment status tags on ${screenSize} screen`, function () {
@@ -43,7 +48,7 @@ describe("View API Information page", () => {
                 .should('have.length', expectedEnvTagsNo)
                 .each((tag) => {
                     const tagText = tag.text();
-                    if (this.apiData.tags.filter( apiTag => apiTag.name === tagText).length > 0){
+                    if (this.swaggerData.tags.filter( apiTag => apiTag.name === tagText).length > 0){
                         var tagColour;
                         switch(tagText){
                             case "Development":
@@ -61,12 +66,32 @@ describe("View API Information page", () => {
                     }
                 });
         });
+
+        it(`View API Base URLs on ${screenSize} screen`, function() {
+            cy.viewport(screenSize);
+            cy.contains(this.apiData.developmentBaseURL).should('be.visible');
+            cy.contains(this.apiData.stagingBaseURL).should('be.visible');
+        });
+
+        it(`View relevant links on ${screenSize} screen`, function() {
+            cy.viewport(screenSize);
+            var links = [
+                {text: "Specification", url: this.apiData.apiSpecificationLink},
+                {text: "GitHub Repository", url: this.apiData.githubLink},
+            ]
+
+            links.forEach(link => {
+                cy.contains(link.text).click();
+                cy.url().should("include", link.url);
+                cy.go('back');
+            });
+        });
     })
 
     it("Should automatically have API version selected", function() {
-        cy.get('select#VersionNo option:selected').should('have.text', this.apiData.info.version);
+        cy.get('select#VersionNo option:selected').should('have.text', this.swaggerData.info.version);
         cy.contains("SwaggerHub").click();
-        const expectedUrl = this.apiData.basePath;
+        const expectedUrl = this.swaggerData.basePath;
         cy.url().should('include', expectedUrl);
     });
 
@@ -78,15 +103,53 @@ describe("View API Information page", () => {
 
 });
 
-describe("Test error response", () => {
-    it("View error response if API error occurs", () => {
-        cy.login();
+describe("Error Handling", () => {
+    beforeEach(function () {
+        cy.login()
         cy.intercept('GET', '/specs*', {fixture: "allApis"}).as("getAllApis");
-        cy.intercept({method: 'GET', url: /apis/gm}, { statusCode: 500 })
+    });
 
+    it("View error response if Swagger API error occurs", function(){
+        cy.intercept({method: 'GET', url: /api\/v1/gm}, { fixture: "testApi.json"}).as("getApiInfo");
+        cy.intercept({method: 'GET', url: /apis/gm}, { statusCode: 500 }).as("getSwaggerInfo");
+        // arrange
         cy.visit("/api-catalogue");
         cy.get(".apiPreview").find("a").first().click();
-
+        // act
         cy.get(".lbh-error-summary").should('be.visible');
+        cy.get(".govuk-error-summary__body").should("contain", "Request failed with status code 500");
+        cy.get(".env-tags").should("contain", "Sorry, we're having difficulty loading this data");
+        // assert
+    });
+
+    it("View error response if API error occurs", function(){
+        cy.intercept({method: 'GET', url: /apis/gm}, { fixture: "testApiSwagger.json"}).as("getSwaggerInfo");
+        cy.intercept({method: 'GET', url: /api\/v1/gm}, { statusCode: 500}).as("getApiInfo");
+        // arrange
+        cy.visit("/api-catalogue");
+        cy.get(".apiPreview").find("a").first().click();
+        // act
+        cy.get(".lbh-error-summary").should('be.visible');
+        cy.get(".govuk-error-summary__body").should("contain", "Request failed with status code 500");
+        const tableHeaders = ["Development Base URL", "Staging Base URL", "Relevant Links"];
+        tableHeaders.forEach(header => {
+            cy.contains(header)
+                .next(".govuk-table__cell")
+                .should("contain", "We're having difficulty loading this data");
+        });
+        // assert
+    });
+
+    it("View error response if both APIs have errors", function(){
+        cy.intercept({method: 'GET', url: /api\/v1/gm}, { statusCode: 500}).as("getApiInfo");
+        cy.intercept({method: 'GET', url: /apis/gm}, { statusCode: 500 }).as("getSwaggerInfo");
+        // arrange
+        cy.visit("/api-catalogue");
+        cy.get(".apiPreview").find("a").first().click();
+        // act
+        cy.wait(["@getSwaggerInfo", "@getApiInfo"]);
+        cy.get(".lbh-error-summary").should('be.visible');
+        cy.get(".govuk-error-summary__body").should("contain", "Error: Request failed with status code 500 | Error: Request failed with status code 500");
+        // assert
     });
 });

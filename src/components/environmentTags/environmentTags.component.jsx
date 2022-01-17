@@ -1,8 +1,14 @@
-const EnvironmentTags = ({tags}) => {
+const EnvironmentTags = ({tags, error}) => {
   if(!tags) tags = [];
 
+  if(error){
+    return( 
+      <div className="env-tags">
+        <p>Sorry, we're having difficulty loading this data</p>                    
+      </div>);
+  }
   return(
-  <div className="env-tags">
+    <div className="env-tags">
       <span className={`govuk-tag lbh-tag lbh-tag${tags.includes("Development") ? "--yellow" : "--grey"}`}>Development</span>
       <span className={`govuk-tag lbh-tag lbh-tag${tags.includes("Staging") ? "--yellow" : "--grey"}`}>Staging</span>
       <span className={`govuk-tag lbh-tag lbh-tag${tags.includes("Production") ? "--green" : "--grey"}`}>Production</span>

@@ -1,10 +1,9 @@
 @import "./utility/variables";
 
-// Font
+// External
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
-
-// Import LBH Frontend library
 @import "~lbh-frontend/lbh/all";
+@import 'react-loading-skeleton/dist/skeleton.css';
 
 // Component Styling
 @import "./components/header/header.style.scss";

@@ -9,6 +9,14 @@ Run `yarn` to install dependencies.
 ## To run:
 In the project directory, you can run:
 
+### Setting up environment variables
+
+The API base URL is retrieved from environment variables. If you don't set this up, you may experience errors.
+
+To add the API URL, duplicate the `env.sample` and rename to `env.local`. Then add the base URL to the `REACT_APP_API_URL` variable.
+
+_Note: You may need to restart your application before this change is applied._
+
 ### `yarn start`
 
 Runs the app in development mode
