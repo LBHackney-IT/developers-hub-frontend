@@ -183,12 +183,6 @@ export const HomePage4 = () => {
 };
 
 export const HomePage5 = () => {
-  const [selectedItem, setSelectedItem] = useState(5);
-
-  const increasePage = () => {
-    
-    setSelectedItem(selectedItem + 1)
-  }
   return (
     <div id="api-authentication" className="main-container">
       <h2> API Authentication </h2>
