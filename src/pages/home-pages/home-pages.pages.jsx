@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import arn from "../../assets/arn.png";
 import apiflow from "../../assets/apiflow.png";
 import ssogroups from "../../assets/ssogroups.png";
@@ -179,12 +179,6 @@ export const HomePage4 = () => {
 };
 
 export const HomePage5 = () => {
-  const [selectedItem, setSelectedItem] = useState(5);
-
-  const increasePage = () => {
-    setSelectedItem(selectedItem + 1)
-  }
-
   return (
     <div id="api-authentication" className="main-container">
       <h2> API Authentication </h2>
@@ -198,15 +192,6 @@ export const HomePage5 = () => {
         available for the user. i.e. verifying what specific files,
         applications, data the user can access.
       </p>
-      <span style={{float: "right"}}>
-        <button
-          className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
-          onClick={increasePage}
-    
-        >
-          Next
-        </button>
-      </span>
     </div>
   );
 };
