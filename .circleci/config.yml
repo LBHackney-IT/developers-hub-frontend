@@ -97,7 +97,9 @@ jobs:
             - aws-cli/install
             - run:
                   name: Build
-                  command: yarn build
+                  command: |
+                    export REACT_APP_API_URL=$(aws ssm get-parameter --name /developer-hub/development/developer-hub-api-url --query Parameter.Value --output text)
+                    yarn build
             - run:
                   name: Deploy to S3
                   command: aws s3 sync build s3://lbh-developer-hub-development.hackney.gov.uk
@@ -114,7 +116,9 @@ jobs:
             - aws-cli/install
             - run:
                   name: Build
-                  command: yarn build
+                  command: |
+                    export REACT_APP_API_URL=$(aws ssm get-parameter --name /developer-hub/production/developer-hub-api-url --query Parameter.Value --output text)
+                    yarn build
             - run:
                   name: Deploy to S3
                   command: aws s3 sync build s3://lbh-developer-hub-production.hackney.gov.uk
