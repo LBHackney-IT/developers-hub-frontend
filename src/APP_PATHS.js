@@ -17,9 +17,9 @@ const ApiCatalogueBreadcrumb = ({match, location}) => {
     return (
       <>
         <span className="govuk-breadcrumbs__list-item">
-          <Link className="govuk-breadcrumbs__link" href={match}>Search</Link>
+          <Link className="govuk-breadcrumbs__link" href={match}>API Catalogue</Link>
         </span>
-        <span className="govuk-breadcrumbs__list-item" aria-current="page">Search for "{decodeURIComponent(location.search.replace("?query=", "").replaceAll("+", " "))}"</span>
+        <span className="govuk-breadcrumbs__list-item" aria-current="page">Search for "{decodeURIComponent(location.search.replace("?search=", "").replaceAll("+", " "))}"</span>
       </>
     )
   } else {
