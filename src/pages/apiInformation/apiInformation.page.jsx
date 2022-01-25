@@ -37,7 +37,6 @@ const ApiInformationPage = () => {
     const resetState = () => {
         window.scrollTo(0, 0);
         setSwaggerStatus({isLoaded: false, error: null });
-        setApiStatus({isLoaded: false, error: null });
     }
 
     // Get data from API
