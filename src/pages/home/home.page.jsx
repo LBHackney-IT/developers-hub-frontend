@@ -35,7 +35,7 @@ const pages = [
   {
     page: <HomePage7 />,
     id: "#setting-up-api-authenticator"
-  },  
+  },
   {
     page: <HomePage8 />,
     id: "#how-to-amend-acess-to-an-api"
@@ -49,7 +49,7 @@ const HomePage = () => {
   const [currentitemID, setCurrentitemID] = useState(selectedPage);
   const [error, setError] = useState();
 
-  const storeitemID = ({ target }) => {
+ const storeitemID = ({ target }) => {
     const id = parseInt(target.getAttribute("itemID"));
     if (id === null || id === undefined || isNaN(id)){
       const returnLink = { url: "/", text: "Click here to return to the homepage"}
