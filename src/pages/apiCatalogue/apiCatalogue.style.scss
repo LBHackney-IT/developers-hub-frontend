@@ -1,11 +1,9 @@
 #apis-page {
-    #main-content{
-        padding: 4em;
-        padding-top: 6em;
-        @media (max-width: $mobile-width) { 
-            padding: 0; 
-            padding-bottom: 3em;
-        }
+    padding: 4em;
+    padding-top: 6em;
+    @media (max-width: $mobile-width) { 
+        padding-left: 1em;
+        padding-right: 1em;
     }
     .heading{
         margin-top: 2rem;
@@ -17,6 +15,11 @@
         @media (max-width: $mobile-width) {
             flex-flow: column;
             gap: 1.5rem;
+            align-items: baseline;
+            .lbh-search-box{
+                width: 100%;
+                input { max-width: 100%; }
+            }
         }
     }
 

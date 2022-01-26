@@ -12,19 +12,19 @@ const ApiNameBreadcrumb = ({ match }) => {
   return <span>{match.params.apiName.includes("-") ? hyphenatedToTitleCase(match.params.apiName) : camelToTitleCase(match.params.apiName) }</span>
 }
 
-const SearchBreadcrumb = ({match, location}) => {
+const ApiCatalogueBreadcrumb = ({match, location}) => {
   if(location.search){
     return (
       <>
         <span className="govuk-breadcrumbs__list-item">
-          <Link className="govuk-breadcrumbs__link" href={match}>Search</Link>
+          <Link className="govuk-breadcrumbs__link" href={match}>API Catalogue</Link>
         </span>
-        <span className="govuk-breadcrumbs__list-item" aria-current="page">Search for "{decodeURIComponent(location.search.replace("?query=", "").replaceAll("+", " "))}"</span>
+        <span className="govuk-breadcrumbs__list-item" aria-current="page">Search for "{decodeURIComponent(location.search.replace("?search=", "").replaceAll("+", " "))}"</span>
       </>
     )
   } else {
     return(
-      <span>Search</span>
+      <span>API Catalogue</span>
     )
   }
 }
@@ -47,23 +47,12 @@ const APP_PATHS = [
   {
     path: "/api-catalogue",
     Component: ApiCataloguePage,
-    breadcrumb: 'API Catalogue',
+    breadcrumb: ApiCatalogueBreadcrumb,
     headingName: 'API CATALOGUE',
     alwaysVisible: true
   },
   {
-    path: "/api-catalogue/search",
-    Component: ApiCataloguePage,
-    breadcrumb: SearchBreadcrumb,
-    alwaysVisible: false
-  },
-  {
-    path: "/api-catalogue/api",
-    breadcrumb: null,
-    alwaysVisible: false
-  },
-  {
-    path: "/api-catalogue/api/:apiName",
+    path: "/api-catalogue/:apiName",
     Component: ApiInformationPage,
     breadcrumb: ApiNameBreadcrumb,
     alwaysVisible: false

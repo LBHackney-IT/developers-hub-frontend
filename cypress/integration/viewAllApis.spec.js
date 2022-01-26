@@ -14,12 +14,6 @@ describe("View API Catalogue page", () => {
 
     screenSizes.forEach((screenSize) => {
 
-        it("Is accessible through the sidebar", function() {
-            cy.viewport(screenSize);
-            cy.get(".sidebarLink").contains("API Catalogue").click();
-            cy.url().should("contain", "/api-catalogue");
-        });
-
         it(`View title on ${screenSize} screen`, () => {
             cy.viewport(screenSize);
             cy.intercept('/specs*').as('getApiDefinitions')

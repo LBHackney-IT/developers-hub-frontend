@@ -15,7 +15,7 @@ const ApiPreview = ({name, description, properties}) => {
       <div className="top">
         <div className="title">
           <Link to={{
-            pathname: `/api-catalogue/api/${id}`, 
+            pathname: `/api-catalogue/${id}`, 
             state: { versions: Versions, currentVersion: selectedVersion }
           }} 
           className="lbh-link">
