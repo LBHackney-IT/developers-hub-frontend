@@ -90,6 +90,11 @@ const HomePage = () => {
             :
             <>
               {pages[currentitemID].page}
+              <span style={{float: "left"}}>
+                <button  className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
+                onClick={decreasePage}>Previous</button>
+              </span>
+
               <span style={{float: "right"}}>
                 <button  className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
                 onClick={increasePage}>Next</button>
