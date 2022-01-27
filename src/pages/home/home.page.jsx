@@ -59,6 +59,16 @@ const HomePage = () => {
     }
   };
 
+  const increasePage = () => {
+    window.history.pushState(null, null, pages[currentitemID + 1].id);
+    setCurrentitemID(currentitemID + 1);
+  }
+
+  const decreasePage = () => {
+    window.history.pushState(null, null, pages[currentitemID - 1].id);
+    setCurrentitemID (currentitemID - 1);
+  }
+
   return (
     <>
       <div id="home-page" className="sidebar-page">
@@ -78,7 +88,13 @@ const HomePage = () => {
                 <Error {...error} />
               </div>
             :
-            pages[currentitemID].page
+            <>
+              {pages[currentitemID].page}
+              <span style={{float: "right"}}>
+                <button  className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
+                onClick={increasePage}>Next</button>
+              </span>
+            </>
           }
         </main>
       </div>
