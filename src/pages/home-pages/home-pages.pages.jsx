@@ -181,14 +181,6 @@ export const HomePage4 = () => {
 };
 
 export const HomePage5 = () => {
-  const history = useHistory({forceRefresh:true});
-  const state = null;
-  const title = '';
-  const url   = '/#how-the-authentication-works';
-
-  const nextPage = useCallback(() => {
-    history.push(url);
-  });
 
    return (
     <div id="api-authentication" className="main-container">
@@ -203,10 +195,6 @@ export const HomePage5 = () => {
         available for the user. i.e. verifying what specific files,
         applications, data the user can access.
       </p>
-      <span style={{float: "right"}}>
-      <button  className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
-        onClick={nextPage}>Next</button>
-      </span>
 </div>
 );
 };
@@ -268,15 +256,6 @@ export const HomePage6 = () => {
         Furthermore, this business is empowered to manage their own resources
         and determine who has access to them which gives them more flexibility.
       </p>
-
-      <span style={{float: "left"}}>
-        <Link to="" className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button">Previous</Link>
-      </span>
-
-      <span style={{float: "right"}}>
-        <Link to="" className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button">Next</Link>
-      </span>
-
     </div>
   );
 };
@@ -299,15 +278,6 @@ export const HomePage7 = () => {
         and the identity source is the method.request.header.authorization, which
         is where the tokens will be read from.
       </p>
-
-
-      <span style={{float: "left"}}>
-        <Link to="" className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button">Previous</Link>
-      </span>
-
-      <span style={{float: "right"}}>
-        <Link to="" className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button">Next</Link>
-      </span>
     </div>
   );
 };
@@ -382,11 +352,6 @@ export const HomePage8 = () => {
         Going forward we have a new standard for authentication to authenticate
         our API.
       </p>
-
-      <span style={{float: "left"}}>
-        <Link to="" className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button">Previous</Link>
-      </span>
-
     </div>
   );
 };
