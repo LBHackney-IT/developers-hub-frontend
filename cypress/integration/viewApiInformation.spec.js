@@ -103,7 +103,7 @@ describe("View API Information page", () => {
 
 });
 
-describe("Error Handling", () => {
+describe("Edge Cases", () => {
     beforeEach(function () {
         cy.login()
         cy.intercept('GET', '/specs*', {fixture: "allApis"}).as("getAllApis");
@@ -151,5 +151,19 @@ describe("Error Handling", () => {
         cy.get(".lbh-error-summary").should('be.visible');
         cy.get(".govuk-error-summary__body").should("contain", "Error: Request failed with status code 500 | Error: Request failed with status code 500");
         // assert
+    });
+    
+    it("Shows environment tags that are case insensitive", function () {
+        cy.fixture("testApiSwagger").then((apiSwagger) => {
+            const devTagIndex = apiSwagger.tags.findIndex(x => x.name == "Development");
+            apiSwagger.tags[devTagIndex] = { "name": "dEveLOPmenT", "description": "Marks this API as available in its development enviroment."}
+            cy.intercept('GET', /apis/gm, apiSwagger).as("getSwaggerInfo");
+        });
+        cy.intercept({method: 'GET', url: /api\/v1/gm}, { fixture: "testApi.json"}).as("getApiInfo");
+
+        cy.visit("/api-catalogue");
+        cy.get(".apiPreview").find("a").first().click();
+        // navigate from API Catalogue
+        cy.get(".lbh-tag").contains("Development").should("have.class", "lbh-tag--yellow");
     });
 });
