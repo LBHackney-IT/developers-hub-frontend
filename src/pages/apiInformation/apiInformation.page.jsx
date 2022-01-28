@@ -15,6 +15,7 @@ import Select from "../../components/select/select.component.jsx";
 import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
 import ApiInformationLink from "../../components/apiInformationLink/apiInformationLink.component.jsx";
+import NotFoundPage from "../error/NotFound.page.jsx";
 
 const ApiInformationPage = () => {
     const currentuser = useUser();
@@ -120,6 +121,9 @@ const ApiInformationPage = () => {
     }
     
     if(swaggerStatus.error && apiStatus.error){
+        if(swaggerStatus.error.response.status === 404 && apiStatus.error.response.status === 404)
+            return <NotFoundPage/>;
+        
         return(
             <main className="lbh-main-wrapper" id="main-content" role="main">
                 <div id="api-info-page" className="lbh-container">

@@ -9,6 +9,7 @@ import APP_PATHS from "./APP_PATHS.js";
 // Components
 import Header from "./components/header/header.component.jsx";
 import Footer from "./components/footer/footer.component.jsx";
+import NotFoundPage from "./pages/error/NotFound.page";
 
 const App = () => {
   const currentUser = null;
@@ -19,6 +20,7 @@ const App = () => {
             {APP_PATHS.map(({ path, Component }, key) => (
               <Route exact path={path} key={key} render={() => (<Component currentUser={currentUser} />) } />
             ))}
+            <Route component={NotFoundPage}/>
           </Switch>
       <Footer />
     </UserProvider>

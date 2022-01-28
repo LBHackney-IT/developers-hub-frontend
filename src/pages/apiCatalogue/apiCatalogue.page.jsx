@@ -116,7 +116,7 @@ const ApiCataloguePage = () => {
           <Select name={"SortBy"} label={"Sort by:"} options={Object.keys(apiParamsOptions.sort)} selectedOption={formatApiParam("sort", queryParams.sort)} onChange={updateSortBy} />
         </Details>
         { !isLoaded && <h3>Loading..</h3> }
-        { error && <Error title={error.code !== "No results" && "Oops! Something went wrong!"} summary={error.message} className={error.code === "No results" && "noResults"}/> }
+        { error && <Error title={error.code !== "No results" && "Oops! Something went wrong!"} summary={error.message} className={error.code === "No results" && "secondary"}/> }
         { isLoaded && !error &&
             <>
               <Pagination onChange={updatePagination} limit={queryParams.limit} {...apiMetadata} />
