@@ -21,9 +21,9 @@ const ApiInformationPage = () => {
     const history = useHistory();
     if (!currentuser) history.push("/");
     
-    const { apiName } = useParams();
-    const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiName}`;
-    const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiName}`;
+    const { apiId } = useParams();
+    const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiId}`;
+    const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}`;
     const passedParams = useLocation().state || { versions: null, currentVersion: null };
 
     const [swaggerStatus, setSwaggerStatus] = useState({isLoaded: false, error: null });
@@ -87,7 +87,17 @@ const ApiInformationPage = () => {
             setCurrentVersion(version); 
         }
         const SelectVersion = <Select name={"VersionNo"} options={versions.map(v => v.replace(/^\*(.*)/gm, '$1 [PUBLISHED]'))} selectedOption={currentVersion} onChange={changeVersion} />;
+        
+        var swaggerLink;
 
+        const isLoaded = apiStatus.error ? swaggerStatus.isLoaded : apiStatus.isLoaded;
+        if(isLoaded){
+            const apiName = apiStatus.error ? swaggerData.info.title : apiData.apiName;
+            swaggerLink = <ApiInformationLink linkText={`${apiName} on SwaggerHub`} url={`${swaggerHubUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs")} />;
+        } else {
+            swaggerLink = <Skeleton/>
+        }
+            
         var links; var devUrl; var stagingUrl;  
 
         if(apiStatus.error){
@@ -96,7 +106,6 @@ const ApiInformationPage = () => {
             if(apiStatus.isLoaded){
                 links = <ul>
                             <li><ApiInformationLink linkText={`${apiData.apiName} Specification`} url={apiData.apiSpecificationLink} /></li>
-                            <li><ApiInformationLink linkText={`${apiData.apiName} on SwaggerHub`} url={`${swaggerHubUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs")} /></li>
                             <li><ApiInformationLink linkText={`${apiData.apiName} GitHub Repository`} url={apiData.githubLink} /></li>
                         </ul>
                 devUrl = <ApiInformationLink linkText={apiData.developmentBaseURL} url={apiData.developmentBaseURL}/>
@@ -113,6 +122,7 @@ const ApiInformationPage = () => {
 
         TableData.push(
             ["Version", SelectVersion],
+            ["SwaggerHub Specification", swaggerLink],
             ["Development Base URL", devUrl],
             ["Staging Base URL", stagingUrl],
             ["Relevant Links", links]
@@ -130,7 +140,8 @@ const ApiInformationPage = () => {
     }
     
     const TableData = [];
-    formatApiData();
+    if(!(apiStatus.error && swaggerStatus.error))
+        formatApiData();
 
     return (
         <main className="lbh-main-wrapper" id="main-content" role="main">

@@ -9,7 +9,7 @@ import ContactPage from "./pages/contact/contact.page.jsx";
 import Link from "./components/link/link.component.jsx";
 
 const ApiNameBreadcrumb = ({ match }) => {
-  return <span>{match.params.apiName.includes("-") ? hyphenatedToTitleCase(match.params.apiName) : camelToTitleCase(match.params.apiName) }</span>
+  return <span>{match.params.apiId.includes("-") ? hyphenatedToTitleCase(match.params.apiId) : camelToTitleCase(match.params.apiId) }</span>
 }
 
 const ApiCatalogueBreadcrumb = ({match, location}) => {
@@ -52,7 +52,7 @@ const APP_PATHS = [
     alwaysVisible: true
   },
   {
-    path: "/api-catalogue/:apiName",
+    path: "/api-catalogue/:apiId",
     Component: ApiInformationPage,
     breadcrumb: ApiNameBreadcrumb,
     alwaysVisible: false
