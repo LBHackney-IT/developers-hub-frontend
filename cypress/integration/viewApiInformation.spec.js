@@ -76,7 +76,7 @@ describe("View API Information page", () => {
         it(`View relevant links on ${screenSize} screen`, function() {
             cy.viewport(screenSize);
             var links = [
-                {text: "Specification", url: this.apiData.apiSpecificationLink},
+                {text: `${this.apiData.apiName} Specification`, url: this.apiData.apiSpecificationLink},
                 {text: "GitHub Repository", url: this.apiData.githubLink},
             ]
 
@@ -90,7 +90,7 @@ describe("View API Information page", () => {
 
     it("Should automatically have API version selected", function() {
         cy.get('select#VersionNo option:selected').should('have.text', this.swaggerData.info.version);
-        cy.contains("SwaggerHub").click();
+        cy.get("a").contains("SwaggerHub").click();
         const expectedUrl = this.swaggerData.basePath;
         cy.url().should('include', expectedUrl);
     });
@@ -103,7 +103,7 @@ describe("View API Information page", () => {
 
 });
 
-describe("Error Handling", () => {
+describe("Edge Cases", () => {
     beforeEach(function () {
         cy.login()
         cy.intercept('GET', '/specs*', {fixture: "allApis"}).as("getAllApis");
@@ -119,6 +119,10 @@ describe("Error Handling", () => {
         cy.get(".lbh-error-summary").should('be.visible');
         cy.get(".govuk-error-summary__body").should("contain", "Request failed with status code 500");
         cy.get(".env-tags").should("contain", "Sorry, we're having difficulty loading this data");
+
+        cy.contains("SwaggerHub Specification")
+            .next(".govuk-table__cell")
+            .should("contain", "on SwaggerHub");
         // assert
     });
 
@@ -137,6 +141,9 @@ describe("Error Handling", () => {
                 .next(".govuk-table__cell")
                 .should("contain", "We're having difficulty loading this data");
         });
+        cy.contains("SwaggerHub Specification")
+            .next(".govuk-table__cell")
+            .should("contain", "on SwaggerHub");
         // assert
     });
 
@@ -151,6 +158,20 @@ describe("Error Handling", () => {
         cy.get(".lbh-error-summary").should('be.visible');
         cy.get(".govuk-error-summary__body").should("contain", "Error: Request failed with status code 500 | Error: Request failed with status code 500");
         // assert
+    });
+
+    it("Shows environment tags that are case insensitive", function () {
+        cy.fixture("testApiSwagger").then((apiSwagger) => {
+            const devTagIndex = apiSwagger.tags.findIndex(x => x.name == "Development");
+            apiSwagger.tags[devTagIndex] = { "name": "dEveLOPmenT", "description": "Marks this API as available in its development enviroment."}
+            cy.intercept('GET', /apis/gm, apiSwagger).as("getSwaggerInfo");
+        });
+        cy.intercept({method: 'GET', url: /api\/v1/gm}, { fixture: "testApi.json"}).as("getApiInfo");
+
+        cy.visit("/api-catalogue");
+        cy.get(".apiPreview").find("a").first().click();
+        // navigate from API Catalogue
+        cy.get(".lbh-tag").contains("Development").should("have.class", "lbh-tag--yellow");
     });
 
     it("View not found page if both APIs have errors", function(){

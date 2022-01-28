@@ -17,3 +17,7 @@ export const camelToTitleCase = function(string){
 export const filterSwaggerPropertiesByType = (properties, filter) => {
     return properties.filter( property => property.type === filter)[0];
 }
+
+export const includesCaseInsensitive = (array, searchString)=> {
+    return array.some(x => x.toLowerCase() === searchString.toLowerCase());
+}
