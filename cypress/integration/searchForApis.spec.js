@@ -32,7 +32,7 @@ describe("Search for APIs", function() {
             const query = "query for api that doesn't exist";
             cy.intercept('/specs*', { totalCount: 0 });
             cy.visit(`/api-catalogue?search=${query}`);
-            cy.get(".lbh-error-summary.noResults").should('be.visible');
+            cy.get(".lbh-error-summary.secondary").should('be.visible');
         });
 
         it(`Shows an error message when the API returns an error on ${screenSize} screen`, function() {

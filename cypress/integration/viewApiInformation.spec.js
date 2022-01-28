@@ -159,7 +159,7 @@ describe("Edge Cases", () => {
         cy.get(".govuk-error-summary__body").should("contain", "Error: Request failed with status code 500 | Error: Request failed with status code 500");
         // assert
     });
-    
+
     it("Shows environment tags that are case insensitive", function () {
         cy.fixture("testApiSwagger").then((apiSwagger) => {
             const devTagIndex = apiSwagger.tags.findIndex(x => x.name == "Development");
@@ -172,5 +172,18 @@ describe("Edge Cases", () => {
         cy.get(".apiPreview").find("a").first().click();
         // navigate from API Catalogue
         cy.get(".lbh-tag").contains("Development").should("have.class", "lbh-tag--yellow");
+    });
+
+    it("View not found page if both APIs have errors", function(){
+        cy.intercept({method: 'GET', url: /api\/v1/gm}, { statusCode: 404}).as("getApiInfo");
+        cy.intercept({method: 'GET', url: /apis/gm}, { statusCode: 404 }).as("getSwaggerInfo");
+        // arrange
+        cy.visit("/api-catalogue");
+        cy.get(".apiPreview").find("a").first().click();
+        // act
+        cy.wait(["@getSwaggerInfo", "@getApiInfo"]);
+        cy.get(".lbh-error-summary.secondary").should('be.visible');
+        cy.get(".govuk-error-summary__body").should("contain", "404: Page not Found");
+        // assert
     });
 });
