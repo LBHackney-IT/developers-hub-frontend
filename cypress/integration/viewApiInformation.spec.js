@@ -103,7 +103,7 @@ describe("View API Information page", () => {
 
 });
 
-describe.only("Error Handling", () => {
+describe("Error Handling", () => {
     beforeEach(function () {
         cy.login()
         cy.intercept('GET', '/specs*', {fixture: "allApis"}).as("getAllApis");

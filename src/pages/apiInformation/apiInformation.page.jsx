@@ -89,7 +89,6 @@ const ApiInformationPage = () => {
         const SelectVersion = <Select name={"VersionNo"} options={versions.map(v => v.replace(/^\*(.*)/gm, '$1 [PUBLISHED]'))} selectedOption={currentVersion} onChange={changeVersion} />;
         
         var swaggerLink;
-
         const isLoaded = apiStatus.error ? swaggerStatus.isLoaded : apiStatus.isLoaded;
         if(isLoaded){
             const apiName = apiStatus.error ? swaggerData.info.title : apiData.apiName;
@@ -99,7 +98,6 @@ const ApiInformationPage = () => {
         }
             
         var links; var devUrl; var stagingUrl;  
-
         if(apiStatus.error){
             devUrl = stagingUrl = links =  <p>We're having difficulty loading this data.</p>
         } else {
