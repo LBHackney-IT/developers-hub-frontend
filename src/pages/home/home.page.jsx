@@ -42,11 +42,13 @@ const pages = [
   }
 ];
 
+const numberOfPages = pages.length;
+
 const HomePage = () => {
   const location = useLocation();
-  const selectedPage = location.hash ? pages.findIndex(page => page.id === location.hash) : 0
+  const selectedPage = location.hash ? pages.findIndex(page => page.id === location.hash) : 0;
 
-  const [currentitemID, setCurrentitemID] = useState(selectedPage);
+  const [currentItemID, setCurrentitemID] = useState(selectedPage);
   const [error, setError] = useState();
 
  const storeitemID = ({ target }) => {
@@ -60,13 +62,21 @@ const HomePage = () => {
   };
 
   const increasePage = () => {
-    window.history.pushState(null, null, pages[currentitemID + 1].id);
-    setCurrentitemID(currentitemID + 1);
+    let nextID = currentItemID + 1;
+    // reset index once the ID goes over the last element in the pages array
+    if (nextID === numberOfPages) nextID = 0;
+
+    window.history.pushState(null, null, pages[nextID].id);
+    setCurrentitemID(nextID);
   }
 
   const decreasePage = () => {
-    window.history.pushState(null, null, pages[currentitemID - 1].id);
-    setCurrentitemID (currentitemID - 1);
+    let nextID = currentItemID - 1;
+    // reset index once the ID goes under the first element in the pages array
+    if (nextID < 0) nextID = numberOfPages - 1;
+
+    window.history.pushState(null, null, pages[nextID].id);
+    setCurrentitemID(nextID);
   }
 
   return (
@@ -89,7 +99,7 @@ const HomePage = () => {
               </div>
             :
             <>
-              {pages[currentitemID].page}
+              {pages[currentItemID].page}
               <span style={{float: "left"}}>
                 <button  className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
                 onClick={decreasePage}>Previous</button>
