@@ -4,6 +4,18 @@
   margin-right: auto;
   width: 100%;
 }
+
+.buttonStyling {
+  padding-left: 10% !important;
+  padding-right: 10% !important;
+}
 #user-needs{
     width: 90%;
+}
+
+@media (max-width: 349px) {
+  .buttonStyling{
+    padding-left: 5% !important;
+    padding-right: 5% !important;
+  }
 }
