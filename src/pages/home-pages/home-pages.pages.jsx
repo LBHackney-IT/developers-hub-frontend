@@ -1,10 +1,8 @@
-import {useHistory} from "react-router-dom";
-import React, { useState, useCallback } from "react";
+import React from "react";
 import arn from "../../assets/arn.png";
 import apiflow from "../../assets/apiflow.png";
 import ssogroups from "../../assets/ssogroups.png";
 import MyCollapsible from "../../components/accordion/accordion.jsx";
-import Link from "../../components/link/link.component.jsx";
 
 export const HomePage1 = () => {
   return (
