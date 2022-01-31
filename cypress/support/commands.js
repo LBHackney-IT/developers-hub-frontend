@@ -33,7 +33,21 @@ Cypress.Commands.add('login', () => {
     } catch(e) {
       return null;
     }
-}
+  }
+  cy.visit('/login')
+  cy.setCookie('hackneyToken', mockToken)
+  cy.getCookie('hackneyToken').should('have.property', 'value', mockToken)
+  cy.visit('/')
+})
+
+Cypress.Commands.add('nextPage', () => {
+  cy.visit('/login')
+  cy.setCookie('hackneyToken', mockToken)
+  cy.getCookie('hackneyToken').should('have.property', 'value', mockToken)
+  cy.visit('/')
+})
+
+Cypress.Commands.add('previousPage', () => {
   cy.visit('/login')
   cy.setCookie('hackneyToken', mockToken)
   cy.getCookie('hackneyToken').should('have.property', 'value', mockToken)
