@@ -100,15 +100,19 @@ const HomePage = () => {
             :
             <>
               {pages[currentItemID].page}
+              {currentItemID > 0 ?
               <span className="homepage-nav-button" style={{float: "left"}}>
                 <button  className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
                 onClick={decreasePage}>Previous</button>
               </span>
+              : ""}
 
+              {currentItemID < 7 ?
               <span className="homepage-nav-button" style={{float: "right"}}>
                 <button  className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
                 onClick={increasePage}>Next</button>
               </span>
+              : ""}
             </>
           }
         </main>
