@@ -100,12 +100,12 @@ const HomePage = () => {
             :
             <>
               {pages[currentItemID].page}
-              <span className="buttonStyling" style={{float: "left"}}>
+              <span className="homepage-nav-button" style={{float: "left"}}>
                 <button  className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
                 onClick={decreasePage}>Previous</button>
               </span>
 
-              <span className="buttonStyling" style={{float: "right"}}>
+              <span className="homepage-nav-button" style={{float: "right"}}>
                 <button  className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
                 onClick={increasePage}>Next</button>
               </span>
