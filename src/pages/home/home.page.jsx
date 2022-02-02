@@ -35,21 +35,23 @@ const pages = [
   {
     page: <HomePage7 />,
     id: "#setting-up-api-authenticator"
-  },  
+  },
   {
     page: <HomePage8 />,
     id: "#how-to-amend-acess-to-an-api"
   }
 ];
 
+const numberOfPages = pages.length;
+
 const HomePage = () => {
   const location = useLocation();
-  const selectedPage = location.hash ? pages.findIndex(page => page.id === location.hash) : 0
+  const selectedPage = location.hash ? pages.findIndex(page => page.id === location.hash) : 0;
 
-  const [currentitemID, setCurrentitemID] = useState(selectedPage);
+  const [currentItemID, setCurrentitemID] = useState(selectedPage);
   const [error, setError] = useState();
 
-  const storeitemID = ({ target }) => {
+ const storeitemID = ({ target }) => {
     const id = parseInt(target.getAttribute("itemID"));
     if (id === null || id === undefined || isNaN(id)){
       const returnLink = { url: "/", text: "Click here to return to the homepage"}
@@ -58,6 +60,24 @@ const HomePage = () => {
       setCurrentitemID(id);
     }
   };
+
+  const increasePage = () => {
+    let nextID = currentItemID + 1;
+    // reset index once the ID goes over the last element in the pages array
+    if (nextID === numberOfPages) nextID = 0;
+
+    window.history.pushState(null, null, pages[nextID].id);
+    setCurrentitemID(nextID);
+  }
+
+  const decreasePage = () => {
+    let nextID = currentItemID - 1;
+    // reset index once the ID goes under the first element in the pages array
+    if (nextID < 0) nextID = numberOfPages - 1;
+
+    window.history.pushState(null, null, pages[nextID].id);
+    setCurrentitemID(nextID);
+  }
 
   return (
     <>
@@ -78,7 +98,22 @@ const HomePage = () => {
                 <Error {...error} />
               </div>
             :
-            pages[currentitemID].page
+            <>
+              {pages[currentItemID].page}
+              {currentItemID > 0 ?
+              <span className="homepage-nav-button" style={{float: "left"}}>
+                <button  className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
+                onClick={decreasePage}>Previous</button>
+              </span>
+              : ""}
+
+              {currentItemID < 7 ?
+              <span className="homepage-nav-button" style={{float: "right"}}>
+                <button  className="govuk-button govuk-secondary lbh-button lbh-button--secondary about-button"
+                onClick={increasePage}>Next</button>
+              </span>
+              : ""}
+            </>
           }
         </main>
       </div>

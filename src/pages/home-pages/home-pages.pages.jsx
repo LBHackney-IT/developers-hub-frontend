@@ -116,7 +116,7 @@ export const HomePage2 = () => {
         <ul>
           <li>As a product owner, I want to confirm that the data from an API is correct, based on the business area understanding of the wider team and any prior discovery work completed.</li>
         </ul>
-      </MyCollapsible>  
+      </MyCollapsible>
     </div>
   );
 };
@@ -179,7 +179,8 @@ export const HomePage4 = () => {
 };
 
 export const HomePage5 = () => {
-  return (
+
+   return (
     <div id="api-authentication" className="main-container">
       <h2> API Authentication </h2>
       <h3> What is API Authentication?</h3>
@@ -192,16 +193,16 @@ export const HomePage5 = () => {
         available for the user. i.e. verifying what specific files,
         applications, data the user can access.
       </p>
-    </div>
-  );
+</div>
+);
 };
+
 export const HomePage6 = () => {
   return (
     <div id="how-the-authentication-works" className="main-container">
       <h2>How the API Authentication process works </h2>
       <div>
         <img src={apiflow} alt="" className="center"></img>
-
         <p>
           When a consumer makes a request to an API, the consumer provide their
           JWT access token in the authorization header of the request. Our
@@ -209,7 +210,7 @@ export const HomePage6 = () => {
           decrypt it. The lambda authorizer will retrieve information about the
           token from the database and compare this data with the API request
           information which would be used on internal-facing Hackney services
-          that also include their group information. 
+          that also include their group information.
           The lambda authorizor is configured to map the API
           name along with the allowed Google groups for it. After the token is
           successfully validated and the data from it is read (email and Google
