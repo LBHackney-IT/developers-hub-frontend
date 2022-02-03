@@ -36,5 +36,5 @@ module "cloudfront-production" {
   cost_code= "B0811"
   project_name= "Developer Hub"
   use_cloudfront_cert = false
-  hackney_cert_arn = "arn:aws:acm:us-east-1:153306643385:certificate/71728a39-cd3e-4570-a440-e87f84ef9a0d"
+  hackney_cert_arn = "arn:aws:acm:us-east-1:153306643385:certificate/3e7dd3eb-f1b1-480f-aab5-07dc4d9ac5b3"
 }
