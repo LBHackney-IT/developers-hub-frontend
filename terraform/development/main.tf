@@ -24,6 +24,8 @@ resource "aws_s3_bucket" "frontend-bucket-development" {
   }
 }
 
+data "aws_caller_identity" "current" {}
+
 module "cloudfront-development" {
   source = "github.com/LBHackney-IT/aws-hackney-common-terraform.git//modules/cloudfront/s3_distribution"
   s3_domain_name = aws_s3_bucket.frontend-bucket-development.bucket_regional_domain_name
