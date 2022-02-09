@@ -24,6 +24,8 @@ resource "aws_s3_bucket" "frontend-bucket-development" {
   }
 }
 
+data "aws_caller_identity" "current" {}
+
 module "cloudfront-development" {
   source = "github.com/LBHackney-IT/aws-hackney-common-terraform.git//modules/cloudfront/s3_distribution"
   s3_domain_name = aws_s3_bucket.frontend-bucket-development.bucket_regional_domain_name
@@ -36,5 +38,5 @@ module "cloudfront-development" {
   cost_code= "B0811"
   project_name= "Developer Hub"
   use_cloudfront_cert = false
-  hackney_cert_arn = "arn:aws:acm:us-east-1:859159924354:certificate/dbb3198e-b779-41b6-80b3-4ffd5dd19bf4"
+  hackney_cert_arn = "arn:aws:acm:us-east-1:${data.aws_caller_identity.current.account_id}:certificate/5aae4fdb-c637-49f4-a105-c91f55722149"
 }
