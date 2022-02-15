@@ -18,7 +18,7 @@ import Sidebar from "../../components/sidebar/sidebar.component.jsx";
 const ApiCataloguePage = () => {
   const currentuser = useUser();
   const history = useHistory();
-  if (!currentuser) history.push("/");
+  
 
   let location = useLocation();
   const isSearch = location.pathname.includes("search");
@@ -45,6 +45,11 @@ const ApiCataloguePage = () => {
     setIsLoaded(false);
     setApis([]);
   }
+
+  const redirectLogin = useEffect(() =>{
+    if (!currentuser) history.push("/login");
+    if (currentuser) history.push('./');
+  }, [history])
 
   const apiParamsOptions = {
     // From SwaggerHub Registry API Documentation
@@ -113,7 +118,7 @@ const ApiCataloguePage = () => {
     <>
       <div id="apis-page" className="sidebar-page">
         <Sidebar>
-          <a className="sidebarLink" href="/api-catalogue">API Catalogue</a>
+          <a className="sidebarLink" href="/api-catalogue" onClick={redirectLogin}>API Catalogue</a>
           <a className="sidebarLink" href="/api-catalogue/search">Search</a>
         </Sidebar>
 
