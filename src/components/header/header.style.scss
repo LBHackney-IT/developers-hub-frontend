@@ -28,6 +28,7 @@
     }
   }
 }
+
 .welcome{
   z-index: 1;
   align-items: right !important;
@@ -55,6 +56,10 @@
     > * {
       margin-left: 0;
       margin-right: 0;
+    }
+    .lbh-header__links{
+      flex-direction: column;
+      gap: 0;
     }
   }
 }

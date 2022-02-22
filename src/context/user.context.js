@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useCallback } from "react";
-import { useHistory } from "react-router-dom";
 import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 
@@ -20,15 +19,13 @@ const parseToken = () => {
 
 export const UserProvider = ({ children }) => {
   // decode cookie value
-  const history = useHistory()
   const [ user, setUser ]= useState(parseToken())
 
   const logoutUser = useCallback(() => {
     setUser(null);
     // delete cookie
     Cookies.remove('hackneyToken', {domain: 'hackney.gov.uk'});
-    history.push("/login");
-  }, [history])
+  }, [])
 
   return <UserContext.Provider value={{ user, logout: logoutUser }}>{children}</UserContext.Provider>;
 }
