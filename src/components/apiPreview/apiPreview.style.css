@@ -1,0 +1,40 @@
+#apisList > .apiPreview {
+  padding: 10px;
+  border: 1px solid rgba(173, 171, 171, 0.4);
+  border-radius: 3px;
+  list-style-type: none;
+}
+
+#apisList > .apiPreview .description {
+  margin-bottom: 0.5em;
+}
+
+#apisList > .apiPreview .top {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-flow: wrap;
+      flex-flow: wrap;
+}
+
+#apisList > .apiPreview .top .govuk-tag {
+  margin: 0px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+#apisList > .apiPreview .top .title .metadata {
+  margin-top: 0;
+  text-align: left;
+}
+
+#apisList > .apiPreview .top .title .metadata p {
+  margin-top: 0;
+}
+/*# sourceMappingURL=apiPreview.style.css.map */

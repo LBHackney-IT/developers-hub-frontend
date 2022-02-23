@@ -1,0 +1,13 @@
+.govuk-breadcrumbs {
+  margin: 0;
+}
+
+.govuk-breadcrumbs a, .govuk-breadcrumbs a:visited {
+  color: #025EA6;
+  font-weight: 400;
+}
+
+.govuk-breadcrumbs__list-item > .govuk-breadcrumbs__list-item {
+  margin-bottom: 0;
+}
+/*# sourceMappingURL=breadcrumbs.style.css.map */

@@ -1,0 +1,20 @@
+.env-tags {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-flow: wrap;
+      flex-flow: wrap;
+  gap: 10px;
+}
+
+.env-tags .lbh-tag {
+  margin: 0;
+}
+
+.env-tags .lbh-tag--hidden {
+  display: none;
+}
+/*# sourceMappingURL=environmentTags.style.css.map */

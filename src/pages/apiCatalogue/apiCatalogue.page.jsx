@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-
-import { useUser } from "../../context/user.context.js";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import withUser from "../../HOCs/with-user.hoc.js";
-
 import ApiPreview from "../../components/apiPreview/apiPreview.component";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component";
 import Error from "../../components/error/error.component"
@@ -16,10 +13,6 @@ import Search from "../../components/search/search.component";
 import Sidebar from "../../components/sidebar/sidebar.component.jsx";
 
 const ApiCataloguePage = () => {
-  const currentuser = useUser();
-  const history = useHistory();
-  
-
   let location = useLocation();
   const isSearch = location.pathname.includes("search");
   const searchQuery = decodeURIComponent(location.search.replace("?query=", "").replaceAll("+", " "));
@@ -45,11 +38,6 @@ const ApiCataloguePage = () => {
     setIsLoaded(false);
     setApis([]);
   }
-
-  const redirectLogin = useEffect(() =>{
-    if (!currentuser) history.push("/login");
-    if (currentuser) history.push('./');
-  }, [history])
 
   const apiParamsOptions = {
     // From SwaggerHub Registry API Documentation
@@ -118,7 +106,7 @@ const ApiCataloguePage = () => {
     <>
       <div id="apis-page" className="sidebar-page">
         <Sidebar>
-          <a className="sidebarLink" href="/api-catalogue" onClick={redirectLogin}>API Catalogue</a>
+          <a className="sidebarLink" href="/api-catalogue">API Catalogue</a>
           <a className="sidebarLink" href="/api-catalogue/search">Search</a>
         </Sidebar>
 
@@ -130,7 +118,7 @@ const ApiCataloguePage = () => {
               { isSearch ?
                 <>
                   <h1>{`Search${ searchQuery ? ` for "${searchQuery}"` : ""}`}</h1>
-                  <Search id={"query"} placeholder={searchQuery? "Search again..." : "Search for an API..."} />
+                  <Search id={"query"} placeholder={searchQuery? "Search again..." : "Search for an API..."}/>
                 </>
                 :
                 <h1>API Catalogue</h1>

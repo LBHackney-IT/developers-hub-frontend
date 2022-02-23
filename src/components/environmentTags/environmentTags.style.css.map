@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,SAAS,CAAC;EACN,WAAW,EAAE,MAAM;EACnB,OAAO,EAAE,WAAW;EACpB,SAAS,EAAE,IAAI;EACf,GAAG,EAAE,IAAI;CAKZ;;AATD,AAKI,SALK,CAKL,QAAQ,CAAC;EACL,MAAM,EAAE,CAAC;CACZ;;AAPL,AAQI,SARK,CAQL,gBAAgB,CAAC;EAAE,OAAO,EAAE,IAAI;CAAI",
+    "sources": [
+        "environmentTags.style.scss"
+    ],
+    "names": [],
+    "file": "environmentTags.style.css"
+}
