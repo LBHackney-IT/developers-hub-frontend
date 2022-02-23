@@ -45,11 +45,29 @@ const homepages = [
 ]
 
 describe("Homepages", () => {
-  homepages.forEach((homepage) => {
+  homepages.forEach((homepage, index) => {
 
     it(`Can navigate to ${homepage.heading} by URL`, () => {
       cy.visit(`/#${homepage.id}`);
       cy.get("h2").contains(homepage.heading).should('be.visible');
+    });
+
+    it("Has a next button & redirects to next page", () => {
+      cy.visit(`/#${homepage.id}`);
+      if(index < homepages.length - 1){
+        const nextButton = cy.get(".about-button").contains("Next");
+        nextButton.click();
+        cy.url().should("eq", `http://localhost:3000/#${homepages[index + 1].id}`)
+      }
+    });
+  
+    it("Has a previous button & redirects to previous page", () => {
+      cy.visit(`/#${homepage.id}`);
+      if(index > 0){
+        const previousButton = cy.get(".about-button").contains("Previous");
+        previousButton.click();
+        cy.url().should("eq", `http://localhost:3000/#${homepages[index - 1].id}`)
+      }
     });
 
   });
@@ -77,6 +95,23 @@ describe("Sidebar", () => {
 
   });
   
+});
+
+describe("Homepage navigation buttons", () => {
+
+  beforeEach(function () {
+    cy.visit("/");
+  });
+
+  it("First page does not have a Previous Button", () => {
+    cy.get(".about-button").should('not.have.value', 'Previous')
+  })
+
+  it("Last page does not have a Next Button", () => {
+    cy.visit("/#how-to-amend-acess-to-an-api");
+    cy.get(".about-button").should('not.have.value', 'Next')
+  })
+
 });
 
 describe('Api Authentication Pages', () => {
