@@ -39,22 +39,3 @@ Cypress.Commands.add('login', () => {
   cy.getCookie('hackneyToken').should('have.property', 'value', mockToken)
   cy.visit('/')
 })
-
-Cypress.Commands.add('nextPage', () => {
-  cy.visit('/login')
-  cy.setCookie('hackneyToken', mockToken)
-  cy.getCookie('hackneyToken').should('have.property', 'value', mockToken)
-  cy.visit('/')
-})
-
-Cypress.Commands.add('previousPage', () => {
-  cy.visit('/login')
-  cy.setCookie('hackneyToken', mockToken)
-  cy.getCookie('hackneyToken').should('have.property', 'value', mockToken)
-  cy.visit('/')
-})
-
-Cypress.Commands.add('testIfLimitedToSignedInUsers', (path) => {
-  cy.visit(path);
-  cy.url().should("eq", Cypress.config().baseUrl + "/");
-})

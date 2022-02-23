@@ -1,11 +1,5 @@
 import { screenSizes } from "../support/screenSizes";
 
-describe("API Information Page is limited to signed in users", () => {
-    it("Redirects to homepage if user is not signed in", () => {
-        cy.testIfLimitedToSignedInUsers("/api-catalogue/testApi");
-    });
-});
-
 describe("View API Information page", () => {
     beforeEach(function () {
         cy.login()

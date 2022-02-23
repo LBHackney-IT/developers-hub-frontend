@@ -1,10 +1,4 @@
 import { screenSizes } from "../support/screenSizes";
-describe("Search Page is limited to signed in users", () => {
-    it("Redirects to homepage if user is not signed in", () => {
-        cy.testIfLimitedToSignedInUsers("/api-catalogue/search");
-        cy.testIfLimitedToSignedInUsers("/api-catalogue/search?query=test");
-    });
-});
 
 describe("Search for APIs", function() {
     beforeEach(function () {
