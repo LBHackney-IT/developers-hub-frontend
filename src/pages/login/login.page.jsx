@@ -4,7 +4,7 @@ import Announcement from "../../components/announcement/announcment.component.js
 
 const LoginPage = () => {
   const state = useLocation().state;
-  const redirectUri = state ? state.referrer.pathname : "";
+  const redirectUri = state ? `${state.referrer.pathname}${state.referrer.search}${state.referrer.hash}` : "";
 
   const privatePageMessage = <>
     The page you tried to access is private. Please sign in below to gain access.<br/>
