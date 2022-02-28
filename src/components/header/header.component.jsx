@@ -9,9 +9,11 @@ const Header = () => {
   const alwaysVisibleLinks = APP_PATHS.filter(appPath => appPath.alwaysVisible);
   const signedOutLinks = APP_PATHS.filter(appPath => appPath.signedOutVisible);
   const signedInLinks = APP_PATHS.filter(appPath => appPath.signedInVisible);
+
   const WelcomeMessage = () => {
     return <p>Welcome {currentUser.name}</p>;
   }
+  
   return (
     <header id="header" className="lbh-header ">
       <div className="lbh-header__main">

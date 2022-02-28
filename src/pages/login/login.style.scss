@@ -1,10 +1,10 @@
-#login-page {
-  display: flex;
-  flex-flow: wrap column;
-  align-content: center;
-  margin-top: 100px;
-  margin-bottom: 100px;
-  #login-form {
-    width: 45%;
-  }
+#login-page{
+    .sign-in {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(173,171,171,.4);
+        flex-direction: column;
+        padding: 1em;
+    }
 }

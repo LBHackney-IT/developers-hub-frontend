@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-import { useUser } from "../../context/user.context.js";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import withUser from "../../HOCs/with-user.hoc.js";
 
 import ApiPreview from "../../components/apiPreview/apiPreview.component";
@@ -15,10 +13,6 @@ import Details from "../../components/details/details.component";
 import Search from "../../components/search/search.component";
 
 const ApiCataloguePage = () => {
-  const currentuser = useUser();
-  const history = useHistory();
-  if (!currentuser) history.push("/");
-
   let location = useLocation();
   const searchQuery = decodeURIComponent(location.search.replace("?search=", "").replaceAll("+", " "));
 
