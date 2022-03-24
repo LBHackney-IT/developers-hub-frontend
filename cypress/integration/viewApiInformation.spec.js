@@ -80,6 +80,16 @@ describe("View API Information page", () => {
                 cy.go('back');
             });
         });
+
+        // TODO: revise test according to what is expected. The TestAPI has 3 applications
+        // TODO: add further tests taking into consideration authorisation for editing applications
+        // it(`View applications consumed by an API on ${screenSize} screen`, function() {
+        //     cy.viewport(screenSize);
+        //     cy.contains(this.apiData.applications).should('be.visible');
+        //     cy.contains(this.apiData.application1).should('be.visible');
+        //     cy.contains(this.apiData.application2).should('be.visible');
+        //     cy.contains(this.apiData.application3).should('be.visible');
+        // });
     })
 
     it("Should automatically have API version selected", function() {
