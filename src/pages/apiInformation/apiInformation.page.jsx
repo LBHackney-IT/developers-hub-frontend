@@ -10,6 +10,7 @@ import { useUser } from "../../context/user.context.js";
 import { useHistory } from "react-router-dom";
 
 import Table from "../../components/table/table.component.jsx";
+import ApplicationTable from "../../components/table/ApplicationTable.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
 import Select from "../../components/select/select.component.jsx";
 import Error from "../../components/error/error.component";
@@ -99,7 +100,7 @@ const ApiInformationPage = () => {
         }
 
         var links; var devUrl; var stagingUrl;
-        // var applications; var actionLink;
+        var applications; var actionLink;
         if(apiStatus.error){
             devUrl = stagingUrl = links =  <p>We're having difficulty loading this data.</p>
         } else {
@@ -111,7 +112,7 @@ const ApiInformationPage = () => {
                 devUrl = <ApiInformationLink linkText={apiData.developmentBaseURL} url={apiData.developmentBaseURL}/>
                 stagingUrl = <ApiInformationLink linkText={apiData.stagingBaseURL} url={apiData.stagingBaseURL}/>
                 // applications = <p {apiData.applications}/>
-                // actionLink = <p This will be the action link - edit | delete/>
+                actionLink = <p style={{paddingRight: "3em"}}> edit | delete </p>
 
             } else {
                 links = <ul>
@@ -131,9 +132,22 @@ const ApiInformationPage = () => {
             ["Staging Base URL", stagingUrl],
             ["Relevant Links", links]
         );
+
         // applications.forEach((application) => {
         //     ApplicationTableData.push([application, actionLink])
         // });
+
+        applications = apiData.applications
+        // console.log(applications);
+        
+        // for (let value of Object.values(applications)) {
+        //     ApplicationTableData.push(value, actionLink);
+        // }
+
+        ApplicationTableData.push(
+            ["manage my", actionLink ],
+            ["social care", actionLink]
+        )
     }
 
     if(swaggerStatus.error && apiStatus.error){
@@ -150,7 +164,7 @@ const ApiInformationPage = () => {
     }
 
     const TableData = [];
-    //const ApplicationTableData = [];
+    const ApplicationTableData = [];
     if(!(apiStatus.error && swaggerStatus.error))
         formatApiData();
 
@@ -177,7 +191,11 @@ const ApiInformationPage = () => {
                         <span className="govuk-caption-xl lbh-caption">API Information</span>
                         <hr/>
                         <Table tableData={TableData} />
-                        {/*<Table tableData={ApplicationTableData} />*/}
+                        <span className="govuk-caption-xl lbh-caption">Applications consumed by API</span>
+                        <hr/>
+                        <div className="column-2">
+                        <ApplicationTable tableData={ApplicationTableData} />
+                        </div>
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
                         {apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}
                 </div>
