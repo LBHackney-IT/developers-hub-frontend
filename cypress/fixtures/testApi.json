@@ -6,5 +6,6 @@
     "swaggerLink": "https://app.swaggerhub.com/apis-docs/Hackney/testApi/1.0.0",
     "developmentBaseURL": "https://2524go3mdg.execute-api.eu-west-2.amazonaws.com/development",
     "stagingBaseURL": "https://x9q28s9uyh.execute-api.eu-west-2.amazonaws.com/staging",
-    "apiSpecificationLink": "https://lbhackney-it.github.io/api-specifications/test_api"
+    "apiSpecificationLink": "https://lbhackney-it.github.io/api-specifications/test_api",
+    "applications": ["application1", "application2", "application3"]
 }
