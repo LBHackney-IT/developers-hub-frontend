@@ -100,7 +100,7 @@ const ApiInformationPage = () => {
         }
 
         var links; var devUrl; var stagingUrl;
-        var applications; var actionLink;
+        var actionLink;
         if(apiStatus.error){
             devUrl = stagingUrl = links =  <p>We're having difficulty loading this data.</p>
         } else {
@@ -117,12 +117,12 @@ const ApiInformationPage = () => {
                 // delete (DELETE endpoint functionality)
                 actionLink = <ul>
                                 <li class="govuk-summary-list__actions-list-item">
-                                  <a class="govuk-link" href="#">
+                                  <a class="govuk-link" href="/" target="_blank">
                                     Edit<span class="govuk-visually-hidden"> application</span>
                                   </a>
                                 </li>
                                 <li class="govuk-summary-list__actions-list-item">
-                                  <a class="govuk-link" href="#">
+                                  <a class="govuk-link" href="/" target="_blank">
                                     Delete<span class="govuk-visually-hidden"> application</span>
                                   </a>
                                 </li>

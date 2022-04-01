@@ -7,7 +7,7 @@ const ApplicationsTable = ({tableData}) => {
         table.push(<div key={row} className="govuk-summary-list__row">
         {row.map((cellContent, index) => {
             if(index === 0){
-                return <dd key={index} scope="row" className="govuk-summary-list__key">{cellContent}</dd>
+                return <dd key={index} className="govuk-summary-list__key">{cellContent}</dd>
             } else {
                 return <dt key={index} className="govuk-summary-list__actions">{cellContent}</dt>
             }
