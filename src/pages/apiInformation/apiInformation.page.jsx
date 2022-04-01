@@ -10,7 +10,7 @@ import { useUser } from "../../context/user.context.js";
 import { useHistory } from "react-router-dom";
 
 import Table from "../../components/table/table.component.jsx";
-import ApplicationTable from "../../components/table/ApplicationTable.component.jsx";
+import ApplicationsTable from "../../components/table/applicationsTable.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
 import Select from "../../components/select/select.component.jsx";
 import Error from "../../components/error/error.component";
@@ -22,7 +22,7 @@ const ApiInformationPage = () => {
     const currentuser = useUser();
     const history = useHistory();
     if (!currentuser) history.push("/");
-    
+
     const { apiId } = useParams();
     const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiId}`;
     const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}`;
@@ -111,8 +111,22 @@ const ApiInformationPage = () => {
                         </ul>
                 devUrl = <ApiInformationLink linkText={apiData.developmentBaseURL} url={apiData.developmentBaseURL}/>
                 stagingUrl = <ApiInformationLink linkText={apiData.stagingBaseURL} url={apiData.stagingBaseURL}/>
-                // applications = <p {apiData.applications}/>
-                actionLink = <p style={{paddingRight: "3em"}}> edit | delete </p>
+
+                // TODO: add functionality to:
+                // edit (PATCH endpoint functionality
+                // delete (DELETE endpoint functionality)
+                actionLink = <ul>
+                                <li class="govuk-summary-list__actions-list-item">
+                                  <a class="govuk-link" href="#">
+                                    Edit<span class="govuk-visually-hidden"> application</span>
+                                  </a>
+                                </li>
+                                <li class="govuk-summary-list__actions-list-item">
+                                  <a class="govuk-link" href="#">
+                                    Delete<span class="govuk-visually-hidden"> application</span>
+                                  </a>
+                                </li>
+                                </ul>
 
             } else {
                 links = <ul>
@@ -121,7 +135,7 @@ const ApiInformationPage = () => {
                             <li><Skeleton/></li>
                         </ul>
                 devUrl = stagingUrl = <Skeleton/>
-                //applications = <Skeleton/>
+                actionLink = <Skeleton/>
             }
         }
 
@@ -133,20 +147,13 @@ const ApiInformationPage = () => {
             ["Relevant Links", links]
         );
 
-        // applications.forEach((application) => {
-        //     ApplicationTableData.push([application, actionLink])
-        // });
-
-        applications = apiData.applications
-        // console.log(applications);
-        
-        // for (let value of Object.values(applications)) {
-        //     ApplicationTableData.push(value, actionLink);
-        // }
-
+            // This is temporary to display the table
+            // TODO: replace with implementation from GET endpoint
         ApplicationTableData.push(
-            ["manage my", actionLink ],
-            ["social care", actionLink]
+            ["Manage My Home", actionLink],
+            ["Social Care", actionLink],
+            ["Finance", actionLink],
+            ["Repairs Hub", actionLink]
         )
     }
 
@@ -194,7 +201,7 @@ const ApiInformationPage = () => {
                         <span className="govuk-caption-xl lbh-caption">Applications consumed by API</span>
                         <hr/>
                         <div className="column-2">
-                        <ApplicationTable tableData={ApplicationTableData} />
+                        <ApplicationsTable tableData={ApplicationTableData} />
                         </div>
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
                         {apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}
