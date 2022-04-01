@@ -198,7 +198,7 @@ const ApiInformationPage = () => {
                         <span className="govuk-caption-xl lbh-caption">API Information</span>
                         <hr/>
                         <Table tableData={TableData} />
-                        <span className="govuk-caption-xl lbh-caption">Applications consumed by API</span>
+                        <span className="govuk-caption-xl lbh-caption">Applications consumed by</span>
                         <hr/>
                         <div className="column-2">
                         <ApplicationsTable tableData={ApplicationTableData} />
