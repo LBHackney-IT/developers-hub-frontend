@@ -10,7 +10,7 @@ import { useUser } from "../../context/user.context.js";
 import { useHistory } from "react-router-dom";
 
 import Table from "../../components/table/table.component.jsx";
-import ApplicationTable from "../../components/table/ApplicationTable.component.jsx";
+import ApplicationsTable from "../../components/table/applicationsTable.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
 import Select from "../../components/select/select.component.jsx";
 import Error from "../../components/error/error.component";
@@ -174,16 +174,24 @@ const ApiInformationPage = () => {
             url={apiData.stagingBaseURL}
           />
         );
-        actionLink = <p style={{ paddingRight: "3em" }}> edit | delete </p>;
-        apiData.applications.forEach((application) => {
-          var link = (
-            <ApiInformationLink
-              linkText={application.name}
-              url={application.link}
-            />
-          );
-          ApplicationTableData.push([link, actionLink]);
-        });
+
+        // TODO: add functionality to:
+        // edit (PATCH endpoint functionality
+        // delete (DELETE endpoint functionality)
+        actionLink = (
+          <ul>
+            <li class="govuk-summary-list__actions-list-item">
+              <a class="govuk-link" href="/" target="_blank">
+                Edit<span class="govuk-visually-hidden"> application</span>
+              </a>
+            </li>
+            <li class="govuk-summary-list__actions-list-item">
+              <a class="govuk-link" href="/" target="_blank">
+                Delete<span class="govuk-visually-hidden"> application</span>
+              </a>
+            </li>
+          </ul>
+        );
       } else {
         links = (
           <ul>
@@ -199,7 +207,7 @@ const ApiInformationPage = () => {
           </ul>
         );
         devUrl = stagingUrl = <Skeleton />;
-        //applications = <Skeleton/>
+        actionLink = <Skeleton />;
       }
     }
 
@@ -210,7 +218,110 @@ const ApiInformationPage = () => {
       ["Staging Base URL", stagingUrl],
       ["Relevant Links", links]
     );
+
+    // This is temporary to display the table
+    // TODO: replace with implementation from GET endpoint
+    ApplicationTableData.push(
+      ["Manage My Home", actionLink],
+      ["Social Care", actionLink],
+      ["Finance", actionLink],
+      ["Repairs Hub", actionLink]
+    );
   };
+
+  var swaggerLink;
+  const isLoaded = apiStatus.error
+    ? swaggerStatus.isLoaded
+    : apiStatus.isLoaded;
+  if (isLoaded) {
+    const apiName = apiStatus.error ? swaggerData.info.title : apiData.apiName;
+    swaggerLink = (
+      <ApiInformationLink
+        linkText={`${apiName} on SwaggerHub`}
+        url={`${swaggerHubUrl}/${currentVersion}`
+          .replace("api", "app")
+          .replace("/apis", "/apis-docs")}
+      />
+    );
+  } else {
+    swaggerLink = <Skeleton />;
+  }
+
+  var links;
+  var devUrl;
+  var stagingUrl;
+  var actionLink;
+  if (apiStatus.error) {
+    devUrl =
+      stagingUrl =
+      links =
+        <p>We're having difficulty loading this data.</p>;
+  } else {
+    if (apiStatus.isLoaded) {
+      links = (
+        <ul>
+          <li>
+            <ApiInformationLink
+              linkText={`${apiData.apiName} Specification`}
+              url={apiData.apiSpecificationLink}
+            />
+          </li>
+          <li>
+            <ApiInformationLink
+              linkText={`${apiData.apiName} GitHub Repository`}
+              url={apiData.githubLink}
+            />
+          </li>
+        </ul>
+      );
+      devUrl = (
+        <ApiInformationLink
+          linkText={apiData.developmentBaseURL}
+          url={apiData.developmentBaseURL}
+        />
+      );
+      stagingUrl = (
+        <ApiInformationLink
+          linkText={apiData.stagingBaseURL}
+          url={apiData.stagingBaseURL}
+        />
+      );
+      // actionLink = <p style={{ paddingRight: "3em" }}> edit | delete </p>;
+      apiData.applications.forEach((application) => {
+        var link = (
+          <ApiInformationLink
+            linkText={application.name}
+            url={application.link}
+          />
+        );
+        ApplicationTableData.push([link, actionLink]);
+      });
+    } else {
+      links = (
+        <ul>
+          <li>
+            <Skeleton />
+          </li>
+          <li>
+            <Skeleton />
+          </li>
+          <li>
+            <Skeleton />
+          </li>
+        </ul>
+      );
+      devUrl = stagingUrl = <Skeleton />;
+      //applications = <Skeleton/>
+    }
+
+    TableData.push(
+      ["Version", SelectVersion],
+      ["SwaggerHub Specification", swaggerLink],
+      ["Development Base URL", devUrl],
+      ["Staging Base URL", stagingUrl],
+      ["Relevant Links", links]
+    );
+  }
 
   if (swaggerStatus.error && apiStatus.error) {
     if (
@@ -222,10 +333,64 @@ const ApiInformationPage = () => {
     return (
       <main className="lbh-main-wrapper" id="main-content" role="main">
         <div id="api-info-page" className="lbh-container">
-          <Error
-            title="Oops! Something went wrong!"
-            summary={swaggerStatus.error + " | " + apiStatus.error}
-          />
+          <div className="sidePanel">
+            <Breadcrumbs />
+            <h1>
+              {!apiStatus.error && (apiData.apiName || <Skeleton />)}
+              {apiStatus.error &&
+                (swaggerStatus.isLoaded ? (
+                  swaggerData.info.title
+                ) : (
+                  <Skeleton />
+                ))}
+            </h1>
+
+            {!swaggerStatus.isLoaded && <Skeleton />}
+            {swaggerStatus.isLoaded && !swaggerStatus.error && (
+              <EnvironmentTags
+                tags={
+                  swaggerData.tags && swaggerData.tags.map((tag) => tag.name)
+                }
+              />
+            )}
+            {swaggerStatus.error && <EnvironmentTags error={true} />}
+
+            <p className="lbh-body-m">
+              {!apiStatus.error && (apiData.description || <Skeleton />)}
+              {apiStatus.error &&
+                (swaggerStatus.isLoaded ? (
+                  swaggerData.info.description
+                ) : (
+                  <Skeleton />
+                ))}
+            </p>
+          </div>
+          <div className="main-container table-container">
+            <span className="govuk-caption-xl lbh-caption">
+              API Information
+            </span>
+            <hr />
+            <Table tableData={TableData} />
+            <span className="govuk-caption-xl lbh-caption">
+              Applications consumed by
+            </span>
+            <hr />
+            <div className="column-2">
+              <ApplicationsTable tableData={ApplicationTableData} />
+            </div>
+            {swaggerStatus.error && (
+              <Error
+                title="Oops! Something went wrong!"
+                summary={swaggerStatus.error.message}
+              />
+            )}
+            {apiStatus.error && (
+              <Error
+                title="Oops! Something went wrong!"
+                summary={apiStatus.error.message}
+              />
+            )}
+          </div>
         </div>
       </main>
     );
@@ -292,5 +457,4 @@ const ApiInformationPage = () => {
     </main>
   );
 };
-
 export default withUser(ApiInformationPage);
