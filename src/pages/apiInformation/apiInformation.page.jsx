@@ -114,7 +114,6 @@ const ApiInformationPage = () => {
         onChange={changeVersion}
       />
     );
-
     var swaggerLink;
     const isLoaded = apiStatus.error
       ? swaggerStatus.isLoaded
@@ -178,6 +177,15 @@ const ApiInformationPage = () => {
         // TODO: add functionality to:
         // edit (PATCH endpoint functionality
         // delete (DELETE endpoint functionality)
+        apiData.applications.forEach((application) => {
+          var link = (
+            <ApiInformationLink
+              linkText={application.name}
+              url={application.link}
+            />
+          );
+          ApplicationTableData.push([link, actionLink]);
+        });
         actionLink = (
           <ul>
             <li class="govuk-summary-list__actions-list-item">
@@ -228,108 +236,14 @@ const ApiInformationPage = () => {
       ["Repairs Hub", actionLink]
     );
   };
-
-  var swaggerLink;
-  const isLoaded = apiStatus.error
-    ? swaggerStatus.isLoaded
-    : apiStatus.isLoaded;
-  if (isLoaded) {
-    const apiName = apiStatus.error ? swaggerData.info.title : apiData.apiName;
-    swaggerLink = (
-      <ApiInformationLink
-        linkText={`${apiName} on SwaggerHub`}
-        url={`${swaggerHubUrl}/${currentVersion}`
-          .replace("api", "app")
-          .replace("/apis", "/apis-docs")}
-      />
-    );
-  } else {
-    swaggerLink = <Skeleton />;
-  }
-
-  var links;
-  var devUrl;
-  var stagingUrl;
-  var actionLink;
-  if (apiStatus.error) {
-    devUrl =
-      stagingUrl =
-      links =
-        <p>We're having difficulty loading this data.</p>;
-  } else {
-    if (apiStatus.isLoaded) {
-      links = (
-        <ul>
-          <li>
-            <ApiInformationLink
-              linkText={`${apiData.apiName} Specification`}
-              url={apiData.apiSpecificationLink}
-            />
-          </li>
-          <li>
-            <ApiInformationLink
-              linkText={`${apiData.apiName} GitHub Repository`}
-              url={apiData.githubLink}
-            />
-          </li>
-        </ul>
-      );
-      devUrl = (
-        <ApiInformationLink
-          linkText={apiData.developmentBaseURL}
-          url={apiData.developmentBaseURL}
-        />
-      );
-      stagingUrl = (
-        <ApiInformationLink
-          linkText={apiData.stagingBaseURL}
-          url={apiData.stagingBaseURL}
-        />
-      );
-      // actionLink = <p style={{ paddingRight: "3em" }}> edit | delete </p>;
-      apiData.applications.forEach((application) => {
-        var link = (
-          <ApiInformationLink
-            linkText={application.name}
-            url={application.link}
-          />
-        );
-        ApplicationTableData.push([link, actionLink]);
-      });
-    } else {
-      links = (
-        <ul>
-          <li>
-            <Skeleton />
-          </li>
-          <li>
-            <Skeleton />
-          </li>
-          <li>
-            <Skeleton />
-          </li>
-        </ul>
-      );
-      devUrl = stagingUrl = <Skeleton />;
-      //applications = <Skeleton/>
-    }
-
-    TableData.push(
-      ["Version", SelectVersion],
-      ["SwaggerHub Specification", swaggerLink],
-      ["Development Base URL", devUrl],
-      ["Staging Base URL", stagingUrl],
-      ["Relevant Links", links]
-    );
-  }
-
+  const TableData = [];
+  const ApplicationTableData = [];
   if (swaggerStatus.error && apiStatus.error) {
     if (
       swaggerStatus.error.response.status === 404 &&
       apiStatus.error.response.status === 404
     )
       return <NotFoundPage />;
-
     return (
       <main className="lbh-main-wrapper" id="main-content" role="main">
         <div id="api-info-page" className="lbh-container">
@@ -395,9 +309,6 @@ const ApiInformationPage = () => {
       </main>
     );
   }
-
-  const TableData = [];
-  const ApplicationTableData = [];
   if (!(apiStatus.error && swaggerStatus.error)) formatApiData();
 
   return (
@@ -438,7 +349,7 @@ const ApiInformationPage = () => {
           </span>
           <hr />
           <div className="column-2">
-            <ApplicationTable tableData={ApplicationTableData} />
+            <ApplicationsTable tableData={ApplicationTableData} />
           </div>
           {swaggerStatus.error && (
             <Error

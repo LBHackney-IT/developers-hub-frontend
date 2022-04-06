@@ -82,8 +82,8 @@ describe("View API Information page", () => {
       cy.contains(this.apiData.stagingBaseURL).should("be.visible");
     });
 
-    it.only("View application consumed by", () => {
-      cy.get(".govuk-table__cell--numeric").should("contain", "edit | delete");
+    it("View application consumed by", () => {
+      cy.get(".govuk-summary-list__key").should("contain", "Manage My Home");
     });
 
     it(`View relevant links on ${screenSize} screen`, function () {
