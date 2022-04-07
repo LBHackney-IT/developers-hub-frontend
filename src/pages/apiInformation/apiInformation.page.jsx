@@ -226,15 +226,6 @@ const ApiInformationPage = () => {
       ["Staging Base URL", stagingUrl],
       ["Relevant Links", links]
     );
-
-    // This is temporary to display the table
-    // TODO: replace with implementation from GET endpoint
-    ApplicationTableData.push(
-      ["Manage My Home", actionLink],
-      ["Social Care", actionLink],
-      ["Finance", actionLink],
-      ["Repairs Hub", actionLink]
-    );
   };
   const TableData = [];
   const ApplicationTableData = [];

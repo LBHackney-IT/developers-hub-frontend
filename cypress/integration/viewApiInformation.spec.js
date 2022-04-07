@@ -105,10 +105,12 @@ describe("View API Information page", () => {
 
     // TODO: revise test according to what is expected. The TestAPI has 3 applications
     // TODO: add further tests taking into consideration authorisation for editing applications
-    // it(`View applications consumed by an API on ${screenSize} screen`, function () {
-    //   cy.viewport(screenSize);
-    //   cy.get(".govuk-table__header").should("include"           );
-    //   cy.contains("Applications consumed by API").should("be.visible");
+    // it(`View applications consumed by an API on ${screenSize} screen`, function() {
+    //     cy.viewport(screenSize);
+    //     cy.contains(this.apiData.applications).should('be.visible');
+    //     cy.contains(this.apiData.application1).should('be.visible');
+    //     cy.contains(this.apiData.application2).should('be.visible');
+    //     cy.contains(this.apiData.application3).should('be.visible');
     // });
   });
 
@@ -244,7 +246,7 @@ describe("Edge Cases", () => {
       .should("have.class", "lbh-tag--yellow");
   });
 
-  it("View not found page if both APIs have errors", function () {
+  it.only("View not found page if both APIs have errors", function () {
     cy.intercept({ method: "GET", url: /api\/v1/gm }, { statusCode: 404 }).as(
       "getApiInfo"
     );
