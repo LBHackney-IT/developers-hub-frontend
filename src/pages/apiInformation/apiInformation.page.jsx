@@ -17,6 +17,8 @@ import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
 import ApiInformationLink from "../../components/apiInformationLink/apiInformationLink.component.jsx";
 import NotFoundPage from "../error/NotFound.page.jsx";
+import ConfirmDeletion from "../../components/ConfirmDeletion/ConfirmDeletion.component.jsx";
+import SuccessfulDeletion from "../../components/SuccessfulDeletion/SuccessfulDeletion.component.jsx";
 
 const ApiInformationPage = () => {
     const currentuser = useUser();
@@ -35,6 +37,8 @@ const ApiInformationPage = () => {
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
     const [apiData, setApiData] = useState({});
     const [swaggerData, setSwaggerData] = useState({});
+    const [isSelected, setIsSelected] = useState(false);
+    const [isDeleted, setIsDeleted] = useState(false);
 
     const resetState = () => {
         window.scrollTo(0, 0);
@@ -115,6 +119,7 @@ const ApiInformationPage = () => {
                 // TODO: add functionality to:
                 // edit (PATCH endpoint functionality
                 // delete (DELETE endpoint functionality)
+                
                 actionLink = <ul>
                                 <li class="govuk-summary-list__actions-list-item">
                                   <a class="govuk-link" href="/" target="_blank">
@@ -122,9 +127,10 @@ const ApiInformationPage = () => {
                                   </a>
                                 </li>
                                 <li class="govuk-summary-list__actions-list-item">
-                                  <a class="govuk-link" href="/" target="_blank">
+                                  <a onClick={() => setIsSelected(!isSelected)} class="govuk-link">
                                     Delete<span class="govuk-visually-hidden"> application</span>
                                   </a>
+                                  
                                 </li>
                                 </ul>
 
@@ -203,6 +209,8 @@ const ApiInformationPage = () => {
                         <div className="column-2">
                         <ApplicationsTable tableData={ApplicationTableData} />
                         </div>
+                        {isSelected && <ConfirmDeletion />}
+                        {isDeleted && <SuccessfulDeletion />}
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
                         {apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}
                 </div>
