@@ -107,6 +107,30 @@ describe("View API Information page", () => {
 
 });
 
+// TODO: complete delete tests. Currently they're barely baked.
+describe('delete an application', () => {
+    beforeEach(function () {
+        cy.login()
+        cy.visit('/api-catalogue/DeveloperHubAPI')
+    })
+
+    it.only('displays warning confirmation and then cancels the process', function() {
+        // cy.intercept({method: 'GET', url: /apis/gm}, { fixture: "testApiSwagger.json"}).as("getSwaggerInfo");
+        // cy.intercept({method: 'GET', url: /api\/v1/gm}, { statusCode: 500}).as("getApiInfo");
+        
+        cy.get('.govuk-summary-list__actions')
+        cy.get('.lbh-page-announcement--warning').should('be.visible')
+        cy.get('exit-button').click()
+        cy.get('.lbh-page-announcement--warning').should('not.be.visible')
+    })
+
+    // it('displays warning confirmation and confirms the success of deletion process', function() {
+        
+    // })
+
+    // TODO: amend and add tests where necessary taking into account authorization
+})
+
 describe("Edge Cases", () => {
     beforeEach(function () {
         cy.login()
