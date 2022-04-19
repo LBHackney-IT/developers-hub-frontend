@@ -1,10 +1,7 @@
 import {React, useState} from 'react';
 import Announcement from '../announcement/announcment.component';
 
-export default function ConfirmDeletion(props) {
-    
-    const applicationName = props.applicationName
-
+const ConfirmDeletion = ({applicationName}) => {
     const [isDeleted, setIsDeleted] = useState(false);
     
     const onConfirmDelete = () => {
@@ -15,7 +12,7 @@ export default function ConfirmDeletion(props) {
     const saveButtonStyle = {
         marginLeft: '1%',
         marginRight: '5%'
-      }
+    }
     
     const confirmDeleteButton = (
         <button style={saveButtonStyle} onClick={onConfirmDelete} class="govuk-button lbh-button" data-module="govuk-button">
@@ -29,7 +26,7 @@ export default function ConfirmDeletion(props) {
             category={""}
             title={"Deletion successful!"}
             >
-            You have removed {applicationName[0][0]}.
+            You have removed <b className='lbh-body lbh-!-font-weight-bold'>{applicationName}</b> from this API.
             </Announcement>
         )
     } else {
@@ -39,9 +36,11 @@ export default function ConfirmDeletion(props) {
             title={"Warning!"}
             buttons={[confirmDeleteButton]}
             >
-            {/* amend so that application name is rendered properly */}
-            You are about to permanently delete {applicationName.map(application => application[0])}. Press ‘Save’ to confirm, otherwise press ‘Close message’ to cancel. 
+                You are about to permanently remove <b className='lbh-body lbh-!-font-weight-bold'>{applicationName}</b> from this API.<br/>
+                Press ‘Save’ to confirm, otherwise press ‘Close message’ to cancel. 
             </Announcement>
         )
     }
 }
+
+export default ConfirmDeletion;

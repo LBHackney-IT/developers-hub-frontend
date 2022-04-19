@@ -36,11 +36,16 @@ const ApiInformationPage = () => {
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
     const [apiData, setApiData] = useState({});
     const [swaggerData, setSwaggerData] = useState({});
-    const [isSelected, setIsSelected] = useState(false);
+    const [selectedApplications, setSelectedApplications] = useState([]);
 
     const resetState = () => {
         window.scrollTo(0, 0);
         setSwaggerStatus({isLoaded: false, error: null });
+    }
+
+    const selectApplication = (applicationName) => {
+        if(!selectedApplications.some(x => x === applicationName))
+            setSelectedApplications([...selectedApplications, applicationName]);
     }
 
     // Get data from API
@@ -102,7 +107,6 @@ const ApiInformationPage = () => {
         }
 
         var links; var devUrl; var stagingUrl;
-        var actionLink;
         if(apiStatus.error){
             devUrl = stagingUrl = links =  <p>We're having difficulty loading this data.</p>
         } else {
@@ -117,20 +121,6 @@ const ApiInformationPage = () => {
                 // TODO: add functionality to:
                 // edit (PATCH endpoint functionality
                 // delete (DELETE endpoint functionality)
-                
-                actionLink = <ul>
-                                <li class="govuk-summary-list__actions-list-item">
-                                  <a class="govuk-link" href="/" target="_blank">
-                                    Edit<span class="govuk-visually-hidden"> application</span>
-                                  </a>
-                                </li>
-                                <li class="govuk-summary-list__actions-list-item">
-                                  <a onClick={() => setIsSelected(!isSelected)} class="govuk-link">
-                                    Delete<span class="govuk-visually-hidden"> application</span>
-                                  </a>
-                                  
-                                </li>
-                                </ul>
 
             } else {
                 links = <ul>
@@ -139,7 +129,6 @@ const ApiInformationPage = () => {
                             <li><Skeleton/></li>
                         </ul>
                 devUrl = stagingUrl = <Skeleton/>
-                actionLink = <Skeleton/>
             }
         }
 
@@ -153,11 +142,27 @@ const ApiInformationPage = () => {
 
             // This is temporary to display the table
             // TODO: replace with implementation from GET endpoint
+
+        const actionLink = (applicationName) =>  <ul>
+                                                    <li class="govuk-summary-list__actions-list-item">
+                                                        <a class="govuk-link" href="/" target="_blank">
+                                                            Edit<span class="govuk-visually-hidden"> application</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="govuk-summary-list__actions-list-item">
+                                                        <button 
+                                                            onClick={() => selectApplication(applicationName)} 
+                                                            class="lbh-link lbh-link--no-visited-state"
+                                                        >
+                                                            Delete<span class="govuk-visually-hidden"> application</span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
         ApplicationTableData.push(
-            ["Manage My Home", actionLink],
-            ["Social Care", actionLink],
-            ["Finance", actionLink],
-            ["Repairs Hub", actionLink]
+            ["Manage My Home", actionLink("Manage My Home")],
+            ["Social Care", actionLink("Social Care")],
+            ["Finance", actionLink("Finance")],
+            ["Repairs Hub", actionLink("Repairs Hub")]
         )
     }
 
@@ -207,7 +212,7 @@ const ApiInformationPage = () => {
                         <div className="column-2">
                         <ApplicationsTable tableData={ApplicationTableData} />
                         </div>
-                        {isSelected && <ConfirmDeletion applicationName={ApplicationTableData}/>}
+                        {selectedApplications.map((applicationName) => <ConfirmDeletion applicationName={applicationName}/>)}
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
                         {apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}
                 </div>
