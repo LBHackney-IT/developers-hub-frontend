@@ -37,5 +37,4 @@ Cypress.Commands.add('login', () => {
   cy.visit('/login')
   cy.setCookie('hackneyToken', mockToken)
   cy.getCookie('hackneyToken').should('have.property', 'value', mockToken)
-  cy.visit('/')
 })

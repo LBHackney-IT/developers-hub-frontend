@@ -118,10 +118,6 @@ const ApiInformationPage = () => {
                 devUrl = <ApiInformationLink linkText={apiData.developmentBaseURL} url={apiData.developmentBaseURL}/>
                 stagingUrl = <ApiInformationLink linkText={apiData.stagingBaseURL} url={apiData.stagingBaseURL}/>
 
-                // TODO: add functionality to:
-                // edit (PATCH endpoint functionality
-                // delete (DELETE endpoint functionality)
-
             } else {
                 links = <ul>
                             <li><Skeleton/></li>
@@ -140,19 +136,18 @@ const ApiInformationPage = () => {
             ["Relevant Links", links]
         );
 
-            // This is temporary to display the table
-            // TODO: replace with implementation from GET endpoint
-
+        // This is temporary to display the table
+        // TODO: replace with implementation from GET endpoint
         const actionLink = (applicationName) =>  <ul>
                                                     <li class="govuk-summary-list__actions-list-item">
-                                                        <a class="govuk-link" href="/" target="_blank">
+                                                        <a class="lbh-link lbh-link--no-visited-state edit-link" href="/" target="_blank">
                                                             Edit<span class="govuk-visually-hidden"> application</span>
                                                         </a>
                                                     </li>
                                                     <li class="govuk-summary-list__actions-list-item">
                                                         <button 
                                                             onClick={() => selectApplication(applicationName)} 
-                                                            class="lbh-link lbh-link--no-visited-state"
+                                                            class="lbh-link lbh-link--no-visited-state delete-link"
                                                         >
                                                             Delete<span class="govuk-visually-hidden"> application</span>
                                                         </button>
@@ -207,7 +202,7 @@ const ApiInformationPage = () => {
                         <span className="govuk-caption-xl lbh-caption">API Information</span>
                         <hr/>
                         <Table tableData={TableData} />
-                        <span className="govuk-caption-xl lbh-caption">Applications consumed by</span>
+                        <span className="govuk-caption-xl lbh-caption">Applications that utilise this API</span>
                         <hr/>
                         <div className="column-2">
                         <ApplicationsTable tableData={ApplicationTableData} />

@@ -5,27 +5,26 @@ describe("View API Information page", () => {
         cy.login()
 
         // Stub API responses
-        cy.intercept('GET', '/specs*', {fixture: "allApis"}).as("getAllApis");
+        cy.intercept('GET', /apis\/Hackney\/\D+\/?$/gm, {fixture: "testApiVersions"}).as("getApiVersions");
         cy.fixture("testApiSwagger").then((swaggerData) => {
             this.swaggerData = swaggerData;
-            cy.intercept({method: 'GET', url: /apis/gm}, swaggerData).as("getSwaggerInfo");
+            cy.intercept({method: 'GET', url: /apis\/Hackney\/\D+\/(\d|.)+/gm}, swaggerData).as("getSwaggerInfo");
         });
         cy.fixture("testApi").then((apiData) => {
             this.apiData = apiData;
             cy.intercept({method: 'GET', url: /api\/v1/gm}, apiData).as("getApiInfo");
         });
 
-        cy.visit("/api-catalogue");
-        cy.get(".apiPreview").find("a").first().click();
-        // navigate from API Catalogue
-        cy.wait(["@getSwaggerInfo", "@getApiInfo"]);
+        cy.visit("/api-catalogue/testApi");
+        cy.wait(["@getApiVersions","@getSwaggerInfo", "@getApiInfo"]);
     });
 
-    it("Navigate directly to page", function() {
-        cy.visit("/api-catalogue/api/testApi");
+    it("Navigate to page through API Catalogue", function() {
+        cy.intercept('GET', '/specs*', {fixture: "allApis"}).as("getAllApis");
+        cy.visit("/api-catalogue");
+        cy.get(".apiPreview").find("a").first().click();
         const expectedUrl = this.swaggerData.basePath.split("/")[2];
         cy.url().should('include', expectedUrl);
-
     });
 
     screenSizes.forEach((screenSize) => {
@@ -81,14 +80,16 @@ describe("View API Information page", () => {
             });
         });
 
-        // TODO: revise test according to what is expected. The TestAPI has 3 applications
-        // TODO: add further tests taking into consideration authorisation for editing applications
-        // it(`View applications consumed by an API on ${screenSize} screen`, function() {
+        // TODO: Uncomment once Applications have been implemented correctly
+        // it(`View applications that utilise an API on ${screenSize} screen`, function() {
         //     cy.viewport(screenSize);
-        //     cy.contains(this.apiData.applications).should('be.visible');
-        //     cy.contains(this.apiData.application1).should('be.visible');
-        //     cy.contains(this.apiData.application2).should('be.visible');
-        //     cy.contains(this.apiData.application3).should('be.visible');
+        //     cy.contains("Applications that utilise this API")
+        //     this.apiData.applications.forEach((applicationData) => {
+        //         cy.contains(applicationData.name).click();
+        //         if(applicationData.link){
+        //             cy.url().should("eq", applicationData.link)
+        //         }
+        //     })
         // });
     })
 
@@ -105,31 +106,37 @@ describe("View API Information page", () => {
         cy.get('select#VersionNo option:selected').should('have.text', selectedVersion);
     });
 
+    describe('Delete an application from an API', () => {
+        // TODO: Uncomment once applications are fully implemented
+        // it('Displays a warning when a user selects to delete an application', function() {
+        //     var applicationName = this.apiData.applications[0].name;
+        //     cy.contains(applicationName).parent().find(".delete-link").click();
+        //     cy.get('.lbh-page-announcement--warning').should('be.visible').should("contain", `remove ${applicationName}`);
+        // })
+
+        it('Allows a user to cancel deleting an application', function() {
+            cy.get('.govuk-summary-list__actions .delete-link').first().click();
+            cy.get('.exit-button').click();
+            cy.get('.lbh-page-announcement--warning').should('not.be.visible');
+        })
+
+        // TODO: Add test for API Call here
+
+        it('Shows a confirmation alert after deleting an application', function() {
+            cy.get('.govuk-summary-list__actions .delete-link').first().click();
+            cy.get('.lbh-button').contains("Save").click();
+            cy.get('.lbh-page-announcement').contains("Deletion successful!").should('be.visible');
+        })
+
+        it("Only shows confirmation dialog once per application", function() {
+            cy.get('.govuk-summary-list__actions .delete-link').click({multiple: true});
+            cy.get('.govuk-summary-list__actions .delete-link').first().click();
+            // TODO: Uncomment below once applications are fully implemented
+            // cy.get('.lbh-page-announcement--warning').should("have.length", this.apiData.applications.length)
+        });
+    })
 });
 
-// TODO: complete delete tests. Currently they're barely baked.
-describe('delete an application', () => {
-    beforeEach(function () {
-        cy.login()
-        cy.visit('/api-catalogue/DeveloperHubAPI')
-    })
-
-    it.only('displays warning confirmation and then cancels the process', function() {
-        // cy.intercept({method: 'GET', url: /apis/gm}, { fixture: "testApiSwagger.json"}).as("getSwaggerInfo");
-        // cy.intercept({method: 'GET', url: /api\/v1/gm}, { statusCode: 500}).as("getApiInfo");
-        
-        cy.get('.govuk-summary-list__actions')
-        cy.get('.lbh-page-announcement--warning').should('be.visible')
-        cy.get('exit-button').click()
-        cy.get('.lbh-page-announcement--warning').should('not.be.visible')
-    })
-
-    // it('displays warning confirmation and confirms the success of deletion process', function() {
-        
-    // })
-
-    // TODO: amend and add tests where necessary taking into account authorization
-})
 
 describe("Edge Cases", () => {
     beforeEach(function () {

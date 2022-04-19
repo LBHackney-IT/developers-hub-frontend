@@ -7,6 +7,7 @@ describe("Sign in functionality", () => {
 
   it("Displays username when signed in", () => {
     cy.login();
+    cy.visit("/");
     cy.contains('Hackney Test');
   });
 
@@ -17,11 +18,6 @@ describe("Sign in functionality", () => {
       .and("include", "redirect_uri=http://localhost:3000/api-catalogue");
   })
 
-  it("Redirects to homepage by default after signing in", () => {
-    cy.login();
-    cy.url().should("eq", "http://localhost:3000/");
-  });
-
 });
 
 describe("Sign out functionality", () => {
@@ -30,6 +26,7 @@ describe("Sign out functionality", () => {
   });
 
   it("Has a SIGN OUT button in the nav bar", () => {
+    cy.visit("/");
     cy.contains("SIGN OUT");
   });
 
