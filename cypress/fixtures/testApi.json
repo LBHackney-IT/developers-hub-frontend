@@ -10,15 +10,13 @@
     "applications": [
         {
             "name": "application1",
-            "link": "/"
+            "link": "https://playbook.hackney.gov.uk/"
         },
         {
-            "name": "application2",
-            "link": ""
+            "name": "application2"
         }, 
         {
-            "name": "application3",
-            "link": ""
+            "name": "application3"
         }
     ]
 }

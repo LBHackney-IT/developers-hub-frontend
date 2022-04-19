@@ -15,7 +15,12 @@ const ConfirmDeletion = ({applicationName}) => {
     }
     
     const confirmDeleteButton = (
-        <button style={saveButtonStyle} onClick={onConfirmDelete} class="govuk-button lbh-button" data-module="govuk-button">
+        <button
+            style={saveButtonStyle}
+            onClick={onConfirmDelete} 
+            className="govuk-button lbh-button" 
+            data-module="govuk-button"
+        >
             Save
         </button>
     )
@@ -23,18 +28,18 @@ const ConfirmDeletion = ({applicationName}) => {
     if(isDeleted){
         return(
             <Announcement
-            category={""}
-            title={"Deletion successful!"}
+                category={""}
+                title={"Deletion successful!"}
             >
-            You have removed <b className='lbh-body lbh-!-font-weight-bold'>{applicationName}</b> from this API.
+                You have removed <b className='lbh-body lbh-!-font-weight-bold'>{applicationName}</b> from this API.
             </Announcement>
         )
     } else {
         return(
             <Announcement
-            category={"warning"}
-            title={"Warning!"}
-            buttons={[confirmDeleteButton]}
+                category={"warning"}
+                title={"Warning!"}
+                buttons={[confirmDeleteButton]}
             >
                 You are about to permanently remove <b className='lbh-body lbh-!-font-weight-bold'>{applicationName}</b> from this API.<br/>
                 Press ‘Save’ to confirm, otherwise press ‘Close message’ to cancel. 

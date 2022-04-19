@@ -10,7 +10,7 @@ import { useUser } from "../../context/user.context.js";
 import { useHistory } from "react-router-dom";
 
 import Table from "../../components/table/table.component.jsx";
-import ApplicationsTable from "../../components/table/applicationsTable.component.jsx";
+import ApplicationsTable from "../../components/applicationsTable/applicationsTable.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
 import Select from "../../components/select/select.component.jsx";
 import Error from "../../components/error/error.component";
@@ -135,30 +135,6 @@ const ApiInformationPage = () => {
             ["Staging Base URL", stagingUrl],
             ["Relevant Links", links]
         );
-
-        // This is temporary to display the table
-        // TODO: replace with implementation from GET endpoint
-        const actionLink = (applicationName) =>  <ul>
-                                                    <li class="govuk-summary-list__actions-list-item">
-                                                        <a class="lbh-link lbh-link--no-visited-state edit-link" href="/" target="_blank">
-                                                            Edit<span class="govuk-visually-hidden"> application</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="govuk-summary-list__actions-list-item">
-                                                        <button 
-                                                            onClick={() => selectApplication(applicationName)} 
-                                                            class="lbh-link lbh-link--no-visited-state delete-link"
-                                                        >
-                                                            Delete<span class="govuk-visually-hidden"> application</span>
-                                                        </button>
-                                                    </li>
-                                                </ul>
-        ApplicationTableData.push(
-            ["Manage My Home", actionLink("Manage My Home")],
-            ["Social Care", actionLink("Social Care")],
-            ["Finance", actionLink("Finance")],
-            ["Repairs Hub", actionLink("Repairs Hub")]
-        )
     }
 
     if(swaggerStatus.error && apiStatus.error){
@@ -175,7 +151,6 @@ const ApiInformationPage = () => {
     }
 
     const TableData = [];
-    const ApplicationTableData = [];
     if(!(apiStatus.error && swaggerStatus.error))
         formatApiData();
 
@@ -202,11 +177,13 @@ const ApiInformationPage = () => {
                         <span className="govuk-caption-xl lbh-caption">API Information</span>
                         <hr/>
                         <Table tableData={TableData} />
+
                         <span className="govuk-caption-xl lbh-caption">Applications that utilise this API</span>
                         <hr/>
                         <div className="column-2">
-                        <ApplicationsTable tableData={ApplicationTableData} />
+                            {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} onDelete={selectApplication}/>}
                         </div>
+
                         {selectedApplications.map((applicationName) => <ConfirmDeletion applicationName={applicationName}/>)}
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
                         {apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}

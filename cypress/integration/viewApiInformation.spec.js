@@ -80,17 +80,18 @@ describe("View API Information page", () => {
             });
         });
 
-        // TODO: Uncomment once Applications have been implemented correctly
-        // it(`View applications that utilise an API on ${screenSize} screen`, function() {
-        //     cy.viewport(screenSize);
-        //     cy.contains("Applications that utilise this API")
-        //     this.apiData.applications.forEach((applicationData) => {
-        //         cy.contains(applicationData.name).click();
-        //         if(applicationData.link){
-        //             cy.url().should("eq", applicationData.link)
-        //         }
-        //     })
-        // });
+        it(`View applications that utilise an API on ${screenSize} screen`, function() {
+            cy.viewport(screenSize);
+            cy.contains("Applications that utilise this API")
+            
+            this.apiData.applications.forEach((applicationData) => {
+                cy.contains(applicationData.name).click();
+                if(applicationData.link){
+                    cy.url().should("eq", applicationData.link)
+                    cy.go('back');
+                }
+            })
+        });
     })
 
     it("Should automatically have API version selected", function() {
@@ -107,12 +108,11 @@ describe("View API Information page", () => {
     });
 
     describe('Delete an application from an API', () => {
-        // TODO: Uncomment once applications are fully implemented
-        // it('Displays a warning when a user selects to delete an application', function() {
-        //     var applicationName = this.apiData.applications[0].name;
-        //     cy.contains(applicationName).parent().find(".delete-link").click();
-        //     cy.get('.lbh-page-announcement--warning').should('be.visible').should("contain", `remove ${applicationName}`);
-        // })
+        it('Displays a warning when a user selects to delete an application', function() {
+            var applicationName = this.apiData.applications[0].name;
+            cy.contains(applicationName).parent().parent().find(".delete-link").click();
+            cy.get('.lbh-page-announcement--warning').should('be.visible').should("contain", `remove ${applicationName}`);
+        })
 
         it('Allows a user to cancel deleting an application', function() {
             cy.get('.govuk-summary-list__actions .delete-link').first().click();
@@ -131,8 +131,7 @@ describe("View API Information page", () => {
         it("Only shows confirmation dialog once per application", function() {
             cy.get('.govuk-summary-list__actions .delete-link').click({multiple: true});
             cy.get('.govuk-summary-list__actions .delete-link').first().click();
-            // TODO: Uncomment below once applications are fully implemented
-            // cy.get('.lbh-page-announcement--warning').should("have.length", this.apiData.applications.length)
+            cy.get('.lbh-page-announcement--warning').should("have.length", this.apiData.applications.length);
         });
     })
 });
@@ -209,7 +208,7 @@ describe("Edge Cases", () => {
         cy.get(".lbh-tag").contains("Development").should("have.class", "lbh-tag--yellow");
     });
 
-    it("View not found page if both APIs have errors", function(){
+    it("View not found page if both APIs return 404", function(){
         cy.intercept({method: 'GET', url: /api\/v1/gm}, { statusCode: 404}).as("getApiInfo");
         cy.intercept({method: 'GET', url: /apis/gm}, { statusCode: 404 }).as("getSwaggerInfo");
         // arrange
@@ -221,4 +220,31 @@ describe("Edge Cases", () => {
         cy.get(".govuk-error-summary__body").should("contain", "404: Page not Found");
         // assert
     });
+
+    it("View applications not found response if no applications utilise an API", function(){
+        cy.fixture("testApi").then((apiData) => {
+            apiData.applications = [];
+            cy.intercept({method: 'GET', url: /api\/v1/gm}, apiData).as("getApiInfo");
+        });
+        cy.intercept({method: 'GET', url: /apis/gm}, { fixture: "testApiSwagger.json"}).as("getSwaggerInfo");
+
+        cy.visit("/api-catalogue");
+        cy.get(".apiPreview").find("a").first().click();
+        // navigate from API Catalogue
+
+        cy.contains("No applications found.");
+    });
+
+    it("Hide Edit & Delete application buttons if user is not in the allowed groups", function() {
+        cy.intercept({method: 'GET', url: /apis/gm}, { fixture: "testApiSwagger.json"}).as("getSwaggerInfo");
+        cy.intercept({method: 'GET', url: /api\/v1/gm}, { fixture: "testApi.json"}).as("getApiInfo");
+       
+        cy.removeGroup();
+        cy.visit("/api-catalogue");
+        cy.get(".apiPreview").find("a").first().click();
+        // navigate from API Catalogue
+        
+        cy.wait("@getApiInfo");
+        cy.get('.govuk-summary-list__actions').should("not.exist");
+    })
 });
