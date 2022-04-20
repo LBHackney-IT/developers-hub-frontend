@@ -42,6 +42,10 @@ const ApiInformationPage = () => {
             setSelectedApplications([...selectedApplications, applicationName]);
     }
 
+    const deselectApplication = (applicationName) => {
+        setSelectedApplications(selectedApplications.filter(x => x !== applicationName))
+    }
+
     // Get data from API
     useEffect(() => {
         resetState();
@@ -177,7 +181,7 @@ const ApiInformationPage = () => {
                             {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} onDelete={selectApplication}/>}
                         </div>
 
-                        {selectedApplications.map((applicationName) => <ConfirmDeletion applicationName={applicationName}/>)}
+                        {selectedApplications.map((applicationName) => <ConfirmDeletion applicationName={applicationName} onCancel={deselectApplication}/>)}
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
                         {apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}
                 </div>

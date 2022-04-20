@@ -123,7 +123,7 @@ describe("View API Information page", () => {
         it('Allows a user to cancel deleting an application', function() {
             cy.get('.govuk-summary-list__actions .delete-link').first().click();
             cy.get('.exit-button').click();
-            cy.get('.lbh-page-announcement--warning').should('not.be.visible');
+            cy.get('.lbh-page-announcement--warning').should('not.exist');
         })
 
         // TODO: Add test for API Call here

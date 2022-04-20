@@ -1,6 +1,6 @@
 import withUser from "../../HOCs/with-user.hoc.js";
 import { useLocation } from "react-router";
-import Announcement from "../../components/announcement/announcment.component.jsx";
+import Announcement from "../../components/announcement/announcement.component.jsx";
 
 const LoginPage = () => {
   const state = useLocation().state;

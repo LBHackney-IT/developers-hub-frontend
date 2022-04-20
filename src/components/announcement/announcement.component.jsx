@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-const Announcement = ({category, title, buttons, children}) => {
+const Announcement = ({category, title, buttons, onClose, children}) => {
     const [isHidden, setIsHidden] = useState(false);
 
     const closeAnnouncement = () => {
         setIsHidden(true);
+        onClose();
     }
 
     return(

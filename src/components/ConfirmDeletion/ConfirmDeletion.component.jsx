@@ -1,7 +1,7 @@
 import {React, useState} from 'react';
-import Announcement from '../announcement/announcment.component';
+import Announcement from '../announcement/announcement.component';
 
-const ConfirmDeletion = ({applicationName}) => {
+const ConfirmDeletion = ({applicationName, onCancel}) => {
     const [isDeleted, setIsDeleted] = useState(false);
     
     const onConfirmDelete = () => {
@@ -40,6 +40,7 @@ const ConfirmDeletion = ({applicationName}) => {
                 category={"warning"}
                 title={"Warning!"}
                 buttons={[confirmDeleteButton]}
+                onClose={() => onCancel(applicationName)}
             >
                 You are about to permanently remove <b className='lbh-body lbh-!-font-weight-bold'>{applicationName}</b> from this API.<br/>
                 Click on ‘Save’ to confirm, otherwise click on ‘Close message’ to cancel. 
