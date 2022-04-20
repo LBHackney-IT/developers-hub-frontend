@@ -1,8 +1,8 @@
 import { React, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import axios from "axios";
-import Cookies from 'js-cookie';
-import Skeleton from 'react-loading-skeleton';
+import Cookies from "js-cookie";
+import Skeleton from "react-loading-skeleton";
 
 import withUser from "../../HOCs/with-user.hoc.js";
 import { filterSwaggerPropertiesByType } from "../../utility/utility";
@@ -120,7 +120,6 @@ const ApiInformationPage = () => {
 
             } else {
                 links = <ul>
-                            <li><Skeleton/></li>
                             <li><Skeleton/></li>
                             <li><Skeleton/></li>
                         </ul>
