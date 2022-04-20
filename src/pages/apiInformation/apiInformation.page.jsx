@@ -20,10 +20,6 @@ import NotFoundPage from "../error/NotFound.page.jsx";
 import ConfirmDeletion from "../../components/ConfirmDeletion/ConfirmDeletion.component.jsx";
 
 const ApiInformationPage = () => {
-    const currentuser = useUser();
-    const history = useHistory();
-    if (!currentuser) history.push("/");
-
     const { apiId } = useParams();
     const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiId}`;
     const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}`;
