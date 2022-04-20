@@ -5,7 +5,7 @@ import ApiInformationLink from "../../components/apiInformationLink/apiInformati
 
 const ApplicationsTable = ({apiStatus, apiData, onDelete}) => {
     let user = useUser();
-    let authAllowedGroups = process.env.AUTH_ALLOWED_GROUPS || "Development Team,TEST_GROUP";
+    let authAllowedGroups = process.env.REACT_APP_AUTH_ALLOWED_GROUPS || "Development Team,TEST_GROUP";
     const isAuthorised = user.groups.some((group) => authAllowedGroups.split(",").includes(group));
 
     if(!apiStatus.isLoaded) return <Skeleton />

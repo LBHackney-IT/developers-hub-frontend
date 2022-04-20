@@ -99,6 +99,7 @@ jobs:
                   name: Build
                   command: |
                     export REACT_APP_API_URL=$(aws ssm get-parameter --name /developer-hub/development/developer-hub-api-url --query Parameter.Value --output text)
+                    export REACT_APP_AUTH_ALLOWED_GROUPS=$(aws ssm get-parameter --name /developer-hub/development/allowed-google-groups --query Parameter.Value --output text)
                     yarn build
             - run:
                   name: Deploy to S3
@@ -118,6 +119,7 @@ jobs:
                   name: Build
                   command: |
                     export REACT_APP_API_URL=$(aws ssm get-parameter --name /developer-hub/production/developer-hub-api-url --query Parameter.Value --output text)
+                    export REACT_APP_AUTH_ALLOWED_GROUPS=$(aws ssm get-parameter --name /developer-hub/production/allowed-google-groups --query Parameter.Value --output text)
                     yarn build
             - run:
                   name: Deploy to S3

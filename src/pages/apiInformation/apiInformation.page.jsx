@@ -6,8 +6,6 @@ import Skeleton from "react-loading-skeleton";
 
 import withUser from "../../HOCs/with-user.hoc.js";
 import { filterSwaggerPropertiesByType } from "../../utility/utility";
-import { useUser } from "../../context/user.context.js";
-import { useHistory } from "react-router-dom";
 
 import Table from "../../components/table/table.component.jsx";
 import ApplicationsTable from "../../components/applicationsTable/applicationsTable.component.jsx";
