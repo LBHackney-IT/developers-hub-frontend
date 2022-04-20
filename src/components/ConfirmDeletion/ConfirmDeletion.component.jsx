@@ -31,7 +31,7 @@ const ConfirmDeletion = ({applicationName}) => {
                 category={""}
                 title={"Deletion successful!"}
             >
-                You have removed <b className='lbh-body lbh-!-font-weight-bold'>{applicationName}</b> from this API.
+                You have successfully removed <b className='lbh-body lbh-!-font-weight-bold'>{applicationName}</b> from this API.
             </Announcement>
         )
     } else {
@@ -42,7 +42,7 @@ const ConfirmDeletion = ({applicationName}) => {
                 buttons={[confirmDeleteButton]}
             >
                 You are about to permanently remove <b className='lbh-body lbh-!-font-weight-bold'>{applicationName}</b> from this API.<br/>
-                Press ‘Save’ to confirm, otherwise press ‘Close message’ to cancel. 
+                Click on ‘Save’ to confirm, otherwise click on ‘Close message’ to cancel. 
             </Announcement>
         )
     }
