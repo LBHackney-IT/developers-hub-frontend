@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { useLocation, useParams, useHistory } from "react-router";
+import { useLocation, useParams } from "react-router";
 import axios from "axios";
 import Cookies from "js-cookie";
 import Skeleton from "react-loading-skeleton";
@@ -18,7 +18,6 @@ import NotFoundPage from "../error/NotFound.page.jsx";
 import ConfirmDeletion from "../../components/ConfirmDeletion/ConfirmDeletion.component.jsx";
 
 const ApiInformationPage = () => {
-  let history = useHistory();
   const { apiId } = useParams();
   const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiId}`;
   const apiUrl = `${
@@ -269,19 +268,6 @@ const ApiInformationPage = () => {
               />
             )}
           </div>
-          <button
-            className="govuk-button lbh-button lbh-button--add"
-            style={{ float: "right" }}
-            onClick={() =>
-              history.push(`/api-catalogue/${apiId}/application/new`)
-            }
-          >
-            <svg width="12" height="12" viewBox="0 0 12 12">
-              <path d="M6.94 0L5 0V12H6.94V0Z" />
-              <path d="M12 5H0V7H12V5Z" />
-            </svg>
-            Add A New Application
-          </button>
 
           {selectedApplications.map((applicationName) => (
             <ConfirmDeletion applicationName={applicationName} />
