@@ -1,4 +1,4 @@
-import { screenSizes } from "../support/screenSizes";
+import { screenSizes } from "../../support/screenSizes";
 
 describe("View API Catalogue page", () => {
 
@@ -45,7 +45,7 @@ describe('All APIs Pagination', () => {
         cy.get(".lbh-simple-pagination__link--next").then(($next) => {
         if ($next.hasClass('disabled')) { return } // we are on the last page
 
-        cy.wait(500); // just for clarity
+        cy.wait(250); // just for clarity
         cy.get(".lbh-simple-pagination__link--next").click();
 
         cy.wait("@getApiDefinitions");

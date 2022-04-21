@@ -7,5 +7,16 @@
     "developmentBaseURL": "https://2524go3mdg.execute-api.eu-west-2.amazonaws.com/development",
     "stagingBaseURL": "https://x9q28s9uyh.execute-api.eu-west-2.amazonaws.com/staging",
     "apiSpecificationLink": "https://lbhackney-it.github.io/api-specifications/test_api",
-    "applications": ["application1", "application2", "application3"]
+    "applications": [
+        {
+            "name": "application1",
+            "link": "https://playbook.hackney.gov.uk/"
+        },
+        {
+            "name": "application2"
+        }, 
+        {
+            "name": "application3"
+        }
+    ]
 }

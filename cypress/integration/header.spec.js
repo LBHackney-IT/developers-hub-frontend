@@ -30,6 +30,7 @@ describe("Developer Hub Header", () => {
     it(`Renders welcome message when logged in on ${screenSize}`, () => {
       cy.viewport(screenSize);
       cy.login();
+      cy.visit("/");
       const welcomeMessage = cy.get(".welcome");
       welcomeMessage.contains("Welcome ");
     });

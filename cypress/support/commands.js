@@ -37,5 +37,10 @@ Cypress.Commands.add('login', () => {
   cy.visit('/login')
   cy.setCookie('hackneyToken', mockToken)
   cy.getCookie('hackneyToken').should('have.property', 'value', mockToken)
-  cy.visit('/')
+})
+
+Cypress.Commands.add("removeGroup", () => {
+  const mockToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjI4OTU2NTI2MTE1MDA3NTIxNzAiLCJlbWFpbCI6InRlc3RAaGFja25leS5nb3YudWsiLCJpc3MiOiJIYWNrbmV5IiwibmFtZSI6IkhhY2tuZXkgVGVzdCIsImdyb3VwcyI6W10sImp0aSI6IjRlZmUyMDA4LTc4NmMtNDE1Ni05MGJhLTJjM2UxMzk4ZDhmNSIsImlhdCI6MTYxODgyOTA5NSwiZXhwIjoxNjE4ODMyNjk1fQ.ktX7BuG-jjXh8eU6duoIrSG2j0M91StxpNU9_3c_PbU'
+  cy.setCookie('hackneyToken', mockToken)
+  cy.reload();
 })
