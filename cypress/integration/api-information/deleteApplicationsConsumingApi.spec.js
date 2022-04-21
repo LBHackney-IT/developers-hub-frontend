@@ -33,8 +33,18 @@ describe('Delete an application from an API', () => {
         var applicationName = this.apiData.applications[0].name;
         cy.contains(applicationName).parent().parent().find(".delete-link").click();
         cy.contains("Yes, remove").click();
-        
+
         cy.get('.lbh-page-announcement').contains("Deletion successful!").should('be.visible');
+        cy.get('.govuk-summary-list__key').contains(applicationName).should("not.exist");
+    })
+
+    it.only('Permanently removes an application from the list, so that it is not there when revisiting the page', function() {
+        var applicationName = this.apiData.applications[0].name;
+        cy.contains(applicationName).parent().parent().find(".delete-link").click();
+        cy.contains("Yes, remove").click();
+
+        cy.get('.lbh-page-announcement').contains("Deletion successful!").should('be.visible');
+        cy.visit("/api-catalogue/testApi");
         cy.get('.govuk-summary-list__key').contains(applicationName).should("not.exist");
     })
 

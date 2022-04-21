@@ -23,7 +23,8 @@ const ApiInformationPage = () => {
     const passedParams = useLocation().state || { versions: null, currentVersion: null };
 
     const [swaggerStatus, setSwaggerStatus] = useState({isLoaded: false, error: null });
-    const [apiStatus, setApiStatus] = useState({isLoaded: false, error: null });
+    const [apiStatus, setApiStatus] = useState(
+      {isLoaded: false, error: null });
 
     const [versions, setVersions] = useState(passedParams.versions || []);
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
@@ -56,6 +57,20 @@ const ApiInformationPage = () => {
                 setApiStatus({ isLoaded: true, error: error });
             });
     }, [apiUrl]);
+
+    // useEffect(() => {
+    //     resetState();
+    //
+    //     axios.delete(apiUrl, {
+    //         headers: { 'Authorization': Cookies.get('hackneyToken') }
+    //     }).then((result) => {
+    //             setApiData(result.data);
+    //             setApiStatus({ isLoaded: true, error: null });
+    //         })
+    //         .catch((error) => {
+    //             setApiStatus({ isLoaded: true, error: error });
+    //         });
+    // }, [apiUrl]);
 
     // Get SwaggerHub data
     useEffect(() => {
