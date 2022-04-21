@@ -1,4 +1,4 @@
-import { screenSizes } from "../support/screenSizes";
+import { screenSizes } from "../../support/screenSizes";
 
 describe("View API Catalogue page", () => {
 

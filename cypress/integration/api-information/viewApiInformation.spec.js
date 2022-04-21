@@ -1,4 +1,4 @@
-import { screenSizes } from "../support/screenSizes";
+import { screenSizes } from "../../support/screenSizes";
 
 describe("View API Information page", () => {
     beforeEach(function () {
@@ -112,34 +112,6 @@ describe("View API Information page", () => {
         cy.get('select').select(selectedVersion);
         cy.get('select#VersionNo option:selected').should('have.text', selectedVersion);
     });
-
-    describe('Delete an application from an API', () => {
-        it('Displays a warning when a user selects to delete an application', function() {
-            var applicationName = this.apiData.applications[0].name;
-            cy.contains(applicationName).parent().parent().find(".delete-link").click();
-            cy.get('.lbh-page-announcement--warning').should('be.visible').should("contain", `remove ${applicationName}`);
-        })
-
-        it('Allows a user to cancel deleting an application', function() {
-            cy.get('.govuk-summary-list__actions .delete-link').first().click();
-            cy.get('.exit-button').click();
-            cy.get('.lbh-page-announcement--warning').should('not.exist');
-        })
-
-        // TODO: Add test for API Call here
-
-        it('Shows a confirmation alert after deleting an application', function() {
-            cy.get('.govuk-summary-list__actions .delete-link').first().click();
-            cy.get('.lbh-button').contains("Save").click();
-            cy.get('.lbh-page-announcement').contains("Deletion successful!").should('be.visible');
-        })
-
-        it("Only shows confirmation dialog once per application", function() {
-            cy.get('.govuk-summary-list__actions .delete-link').click({multiple: true});
-            cy.get('.govuk-summary-list__actions .delete-link').first().click();
-            cy.get('.lbh-page-announcement--warning').should("have.length", this.apiData.applications.length);
-        });
-    })
 });
 
 

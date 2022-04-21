@@ -15,7 +15,6 @@ import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
 import ApiInformationLink from "../../components/apiInformationLink/apiInformationLink.component.jsx";
 import NotFoundPage from "../error/NotFound.page.jsx";
-import ConfirmDeletion from "../../components/ConfirmDeletion/ConfirmDeletion.component.jsx";
 
 const ApiInformationPage = () => {
     const { apiId } = useParams();
@@ -30,20 +29,17 @@ const ApiInformationPage = () => {
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
     const [apiData, setApiData] = useState({});
     const [swaggerData, setSwaggerData] = useState({});
-    const [selectedApplications, setSelectedApplications] = useState([]);
+    const [announcements, setAnnouncements] = useState([]);
 
     const resetState = () => {
         window.scrollTo(0, 0);
         setSwaggerStatus({isLoaded: false, error: null });
     }
 
-    const selectApplication = (applicationName) => {
-        if(!selectedApplications.some(x => x === applicationName))
-            setSelectedApplications([...selectedApplications, applicationName]);
-    }
-
-    const deselectApplication = (applicationName) => {
-        setSelectedApplications(selectedApplications.filter(x => x !== applicationName))
+    const onApplicationDelete = (applicationName, announcement) => {
+        let updatedApplications = apiData.applications.filter(x => x.name !== applicationName);
+        setApiData({...apiData, applications: updatedApplications}); // visually removing application
+        setAnnouncements([...announcements, announcement]);
     }
 
     // Get data from API
@@ -178,10 +174,9 @@ const ApiInformationPage = () => {
                         <span className="govuk-caption-xl lbh-caption">Applications that utilise this API</span>
                         <hr/>
                         <div className="column-2">
-                            {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} onDelete={selectApplication}/>}
+                            {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} onDelete={onApplicationDelete}/>}
                         </div>
-
-                        {selectedApplications.map((applicationName) => <ConfirmDeletion applicationName={applicationName} onCancel={deselectApplication}/>)}
+                        {announcements}
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
                         {apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}
                 </div>

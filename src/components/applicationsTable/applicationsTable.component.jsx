@@ -1,7 +1,9 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 import { useUser } from "../../context/user.context";
-import ApiInformationLink from "../../components/apiInformationLink/apiInformationLink.component.jsx";
+
+import ApiInformationLink from "../apiInformationLink/apiInformationLink.component";
+import DeleteDialog from "../dialogs/deleteDialog.component";
 
 const ApplicationsTable = ({apiStatus, apiData, onDelete}) => {
     let user = useUser();
@@ -28,12 +30,7 @@ const ApplicationsTable = ({apiStatus, apiData, onDelete}) => {
                                 </button>
                             </li>
                             <li className="govuk-summary-list__actions-list-item">
-                                <button 
-                                    onClick={() => onDelete(application.name)}
-                                    className="lbh-link lbh-link--no-visited-state delete-link"
-                                >
-                                    Delete<span className="govuk-visually-hidden"> application</span>
-                                </button>
+                                <DeleteDialog onDelete={onDelete} applicationName={application.name}/>
                             </li>
                         </ul>
                     </dt>}
