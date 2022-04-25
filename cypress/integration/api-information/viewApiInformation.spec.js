@@ -1,4 +1,4 @@
-import { screenSizes } from "../support/screenSizes";
+import { screenSizes } from "../../support/screenSizes";
 
 describe("View API Information page", () => {
   beforeEach(function () {
@@ -81,24 +81,7 @@ describe("View API Information page", () => {
       cy.contains(this.apiData.developmentBaseURL).should("be.visible");
       cy.contains(this.apiData.stagingBaseURL).should("be.visible");
     });
-
-    it(`View relevant links on ${screenSize} screen`, function () {
-      cy.viewport(screenSize);
-
-      var links = [
-        {
-          text: `${this.apiData.apiName} Specification`,
-          url: this.apiData.apiSpecificationLink,
-        },
-        { text: "GitHub Repository", url: this.apiData.githubLink },
-      ];
-
-      links.forEach((link) => {
-        cy.contains(link.text).click();
-        cy.url().should("eq", link.url);
-        cy.go("back");
-      });
-    });
+});
 
     it(`View applications that utilise an API on ${screenSize} screen`, function () {
       cy.viewport(screenSize);

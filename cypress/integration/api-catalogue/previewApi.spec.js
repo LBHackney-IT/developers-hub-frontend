@@ -1,5 +1,5 @@
-import { screenSizes } from "../support/screenSizes";
-import { filterSwaggerPropertiesByType } from "../../src/utility/utility"
+import { screenSizes } from "../../support/screenSizes";
+import { filterSwaggerPropertiesByType } from "../../../src/utility/utility"
 
 describe("Click on API Name to go to API Info page", () => {
     it("Redirects user to API Information Page when clicking on API name", function () {

@@ -1,15 +1,16 @@
 import { useState } from "react";
 
-const Announcement = ({category, title, buttons, children}) => {
+const Announcement = ({category, title, buttons, onClose, children}) => {
     const [isHidden, setIsHidden] = useState(false);
 
     const closeAnnouncement = () => {
         setIsHidden(true);
+        onClose && onClose();
     }
 
     return(
         <section 
-            className={`lbh-page-announcement ${category ? `lbh-page-announcement--${category}` : ""}`}
+            className={`lbh-page-announcement lbh-page-announcement--${category || ""}`}
             style={{display: isHidden && "none"}}
           >
             <h3 className="lbh-page-announcement__title">{title}</h3>
@@ -24,7 +25,7 @@ const Announcement = ({category, title, buttons, children}) => {
               >
                 Close message
               </button>
-              {buttons && buttons.map(b => b)}
+              {buttons}
             </div>
           </section>
     )

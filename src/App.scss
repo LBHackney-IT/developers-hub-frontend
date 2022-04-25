@@ -45,3 +45,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
+
+[data-reach-dialog-overlay] {
+  z-index: 1000;
+}
