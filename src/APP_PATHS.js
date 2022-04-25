@@ -88,6 +88,13 @@ const APP_PATHS = [
     alwaysVisible: false,
     isPrivate: true,
   },
+  {
+    path: "/api-catalogue/:apiId/application/:applicationName/edit",
+    Component: AddApplicationPage,
+    breadcrumb: "",
+    alwaysVisible: false,
+    isPrivate: true,
+  },
 ];
 
 export default APP_PATHS;

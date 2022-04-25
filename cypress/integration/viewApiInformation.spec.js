@@ -362,5 +362,20 @@ describe("Edge Cases", () => {
 
       cy.contains("Application Name").should("be.visible");
     });
+
+    it.only("Goes back to previous back when form is submitted", () => {
+      cy.intercept(
+        { method: "GET", url: /apis/gm },
+        { fixture: "testApiSwagger.json" }
+      ).as("getSwaggerInfo");
+      cy.intercept(
+        { method: "GET", url: /api\/v1/gm },
+        { fixture: "testApi.json" }
+      ).as("getApiInfo");
+      cy.visit("/api-catalogue");
+      cy.get(".apiPreview").find("a").click();
+      cy.get(".lbh-button").click();
+      cy.get(".lbh-button").click();
+    });
   });
 });

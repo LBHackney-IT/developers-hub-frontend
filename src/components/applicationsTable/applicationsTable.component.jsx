@@ -18,6 +18,10 @@ const ApplicationsTable = ({ apiStatus, apiData, onDelete }) => {
     history.push(`/api-catalogue/${apiId}/application/new`);
   };
 
+  const editApplicationOnClick = (applicationName) => {
+    history.push(`/api-catalogue/${apiId}/application/${applicationName}/edit`);
+  };
+
   if (!apiStatus.isLoaded) return <Skeleton />;
   if (apiData.applications.length === 0)
     return <p className="lbh-body-m">No applications found.</p>;
@@ -37,7 +41,11 @@ const ApplicationsTable = ({ apiStatus, apiData, onDelete }) => {
               <dt className="govuk-summary-list__actions">
                 <ul>
                   <li className="govuk-summary-list__actions-list-item">
-                    <button className="lbh-link lbh-link--no-visited-state edit-link">
+                    <button
+                      className="lbh-link lbh-link--no-visited-state edit-link"
+                      id="edit-button"
+                      onClick={() => editApplicationOnClick(application.name)}
+                    >
                       Edit
                       <span className="govuk-visually-hidden">
                         {" "}
