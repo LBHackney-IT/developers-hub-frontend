@@ -13,6 +13,8 @@ describe('Delete an application from an API', () => {
             cy.intercept({method: 'GET', url: /api\/v1/gm}, apiData).as("getApiInfo");
         });
 
+        cy.intercept({method: 'DELETE', url: /api\/v1/gm}, {statusCode: 200}).as("deleteApplication");
+
         cy.visit("/api-catalogue/testApi");
         cy.wait(["@getApiVersions","@getSwaggerInfo", "@getApiInfo"]);
     });
@@ -38,15 +40,20 @@ describe('Delete an application from an API', () => {
         cy.get('.govuk-summary-list__key').contains(applicationName).should("not.exist");
     })
 
-    it.only('Permanently removes an application from the list, so that it is not there when revisiting the page', function() {
+    it('Deleting an application calls the DELETE endpoint', function() {
         var applicationName = this.apiData.applications[0].name;
         cy.contains(applicationName).parent().parent().find(".delete-link").click();
         cy.contains("Yes, remove").click();
 
-        cy.get('.lbh-page-announcement').contains("Deletion successful!").should('be.visible');
-        cy.visit("/api-catalogue/testApi");
-        cy.get('.govuk-summary-list__key').contains(applicationName).should("not.exist");
+        cy.get('@deleteApplication.all').should('have.length', 1);
     })
 
-    // TODO: Add test for API Call here
+    it('Displays an error message if the DELETE endpoint fails', function() {
+        var applicationName = this.apiData.applications[0].name;
+        cy.contains(applicationName).parent().parent().find(".delete-link").click();
+        cy.intercept({method: 'DELETE', url: /api\/v1/gm}, {statusCode: 500}).as("failedDeleteApplication");
+        cy.contains("Yes, remove").click();
+        cy.get('.lbh-dialog__close').click();
+        cy.get('.govuk-error-summary').should('exist');
+    })
 })

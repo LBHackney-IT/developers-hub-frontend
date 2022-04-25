@@ -37,9 +37,12 @@ const ApiInformationPage = () => {
         setSwaggerStatus({isLoaded: false, error: null });
     }
 
-    const onApplicationDelete = (applicationName, announcement) => {
+    const deleteApplication = (applicationName) => {
         let updatedApplications = apiData.applications.filter(x => x.name !== applicationName);
         setApiData({...apiData, applications: updatedApplications}); // visually removing application
+    }
+
+    const addAnnouncement = (announcement) => {
         setAnnouncements([...announcements, announcement]);
     }
 
@@ -57,20 +60,6 @@ const ApiInformationPage = () => {
                 setApiStatus({ isLoaded: true, error: error });
             });
     }, [apiUrl]);
-
-    // useEffect(() => {
-    //     resetState();
-    //
-    //     axios.delete(apiUrl, {
-    //         headers: { 'Authorization': Cookies.get('hackneyToken') }
-    //     }).then((result) => {
-    //             setApiData(result.data);
-    //             setApiStatus({ isLoaded: true, error: null });
-    //         })
-    //         .catch((error) => {
-    //             setApiStatus({ isLoaded: true, error: error });
-    //         });
-    // }, [apiUrl]);
 
     // Get SwaggerHub data
     useEffect(() => {
@@ -189,7 +178,7 @@ const ApiInformationPage = () => {
                         <span className="govuk-caption-xl lbh-caption">Applications that utilise this API</span>
                         <hr/>
                         <div className="column-2">
-                            {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} onDelete={onApplicationDelete}/>}
+                            {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} deleteApplication={deleteApplication} addAnnouncement={addAnnouncement}/>}
                         </div>
                         {announcements}
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
