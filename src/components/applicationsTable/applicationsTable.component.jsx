@@ -5,7 +5,8 @@ import { useUser } from "../../context/user.context";
 import ApiInformationLink from "../apiInformationLink/apiInformationLink.component";
 import DeleteDialog from "../dialogs/deleteDialog.component";
 
-const ApplicationsTable = ({apiStatus, apiData, onDelete}) => {
+const ApplicationsTable = (props) => {
+    const {apiStatus, apiData} = props;
     let user = useUser();
     let authAllowedGroups = process.env.REACT_APP_AUTH_ALLOWED_GROUPS || "Development Team,TEST_GROUP";
     const isAuthorised = user.groups.some((group) => authAllowedGroups.split(",").includes(group));
@@ -23,14 +24,14 @@ const ApplicationsTable = ({apiStatus, apiData, onDelete}) => {
                     {isAuthorised && <dt className="govuk-summary-list__actions">
                         <ul>
                             <li className="govuk-summary-list__actions-list-item">
-                                <button 
+                                <button
                                     className="lbh-link lbh-link--no-visited-state edit-link"
                                 >
                                     Edit<span className="govuk-visually-hidden"> application</span>
                                 </button>
                             </li>
                             <li className="govuk-summary-list__actions-list-item">
-                                <DeleteDialog onDelete={onDelete} applicationName={application.name}/>
+                                <DeleteDialog applicationName={application.name} {...props}/>
                             </li>
                         </ul>
                     </dt>}

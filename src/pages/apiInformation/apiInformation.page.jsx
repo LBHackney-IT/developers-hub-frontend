@@ -23,7 +23,8 @@ const ApiInformationPage = () => {
     const passedParams = useLocation().state || { versions: null, currentVersion: null };
 
     const [swaggerStatus, setSwaggerStatus] = useState({isLoaded: false, error: null });
-    const [apiStatus, setApiStatus] = useState({isLoaded: false, error: null });
+    const [apiStatus, setApiStatus] = useState(
+      {isLoaded: false, error: null });
 
     const [versions, setVersions] = useState(passedParams.versions || []);
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
@@ -36,9 +37,12 @@ const ApiInformationPage = () => {
         setSwaggerStatus({isLoaded: false, error: null });
     }
 
-    const onApplicationDelete = (applicationName, announcement) => {
+    const deleteApplication = (applicationName) => {
         let updatedApplications = apiData.applications.filter(x => x.name !== applicationName);
         setApiData({...apiData, applications: updatedApplications}); // visually removing application
+    }
+
+    const addAnnouncement = (announcement) => {
         setAnnouncements([...announcements, announcement]);
     }
 
@@ -174,7 +178,7 @@ const ApiInformationPage = () => {
                         <span className="govuk-caption-xl lbh-caption">Applications that utilise this API</span>
                         <hr/>
                         <div className="column-2">
-                            {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} onDelete={onApplicationDelete}/>}
+                            {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} deleteApplication={deleteApplication} addAnnouncement={addAnnouncement}/>}
                         </div>
                         {announcements}
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
