@@ -1,30 +1,7 @@
 import { screenSizes } from "../../support/screenSizes";
 
 describe("View API Information page", () => {
-  beforeEach(function () {
-    cy.login();
-
-    // Stub API responses
-    cy.intercept("GET", /apis\/Hackney\/\D+\/?$/gm, {
-      fixture: "testApiVersions",
-    }).as("getApiVersions");
-    cy.fixture("testApiSwagger").then((swaggerData) => {
-      this.swaggerData = swaggerData;
-      cy.intercept(
-        { method: "GET", url: /apis\/Hackney\/\D+\/(\d|.)+/gm },
-        swaggerData
-      ).as("getSwaggerInfo");
-    });
-    cy.fixture("testApi").then((apiData) => {
-      this.apiData = apiData;
-      cy.intercept({ method: "GET", url: /api\/v1/gm }, apiData).as(
-        "getApiInfo"
-      );
-    });
-
-    cy.visit("/api-catalogue/testApi");
-    cy.wait(["@getApiVersions", "@getSwaggerInfo", "@getApiInfo"]);
-  });
+  
 
   it("Navigate to page through API Catalogue", function () {
     cy.intercept("GET", "/specs*", { fixture: "allApis" }).as("getAllApis");
@@ -115,47 +92,6 @@ describe("View API Information page", () => {
       selectedVersion
     );
   });
-
-  describe("Delete an application from an API", () => {
-    it("Displays a warning when a user selects to delete an application", function () {
-      var applicationName = this.apiData.applications[0].name;
-      cy.contains(applicationName)
-        .parent()
-        .parent()
-        .find(".delete-link")
-        .click();
-      cy.get(".lbh-page-announcement--warning")
-        .should("be.visible")
-        .should("contain", `remove ${applicationName}`);
-    });
-
-    it("Allows a user to cancel deleting an application", function () {
-      cy.get(".govuk-summary-list__actions .delete-link").first().click();
-      cy.get(".exit-button").click();
-      cy.get(".lbh-page-announcement--warning").should("not.be.visible");
-    });
-
-    // TODO: Add test for API Call here
-
-    it("Shows a confirmation alert after deleting an application", function () {
-      cy.get(".govuk-summary-list__actions .delete-link").first().click();
-      cy.get(".lbh-button").contains("Save").click();
-      cy.get(".lbh-page-announcement")
-        .contains("Deletion successful!")
-        .should("be.visible");
-    });
-
-    it("Only shows confirmation dialog once per application", function () {
-      cy.get(".govuk-summary-list__actions .delete-link").click({
-        multiple: true,
-      });
-      cy.get(".govuk-summary-list__actions .delete-link").first().click();
-      cy.get(".lbh-page-announcement--warning").should(
-        "have.length",
-        this.apiData.applications.length
-      );
-    });
-  });
 });
 
 describe("Edge Cases", () => {
@@ -193,13 +129,8 @@ describe("Edge Cases", () => {
   });
 
   it("Shows error response if API error occurs", function () {
-    cy.intercept(
-      { method: "GET", url: /apis/gm },
-      { fixture: "testApiSwagger.json" }
-    ).as("getSwaggerInfo");
-    cy.intercept({ method: "GET", url: /api\/v1/gm }, { statusCode: 500 }).as(
-      "getApiInfo"
-    );
+    cy.intercept({ method: "GET", url: /apis/gm }, { fixture: "testApiSwagger.json" }).as("getSwaggerInfo");
+    cy.intercept({ method: "GET", url: /api\/v1/gm }, { statusCode: 500 }).as("getApiInfo");
     // arrange
     cy.visit("/api-catalogue");
     cy.get(".apiPreview").find("a").first().click();
@@ -227,12 +158,8 @@ describe("Edge Cases", () => {
   });
 
   it("Shows error response if both APIs have errors", function () {
-    cy.intercept({ method: "GET", url: /api\/v1/gm }, { statusCode: 500 }).as(
-      "getApiInfo"
-    );
-    cy.intercept({ method: "GET", url: /apis/gm }, { statusCode: 500 }).as(
-      "getSwaggerInfo"
-    );
+    cy.intercept({ method: "GET", url: /api\/v1/gm }, { statusCode: 500 }).as("getApiInfo");
+    cy.intercept({ method: "GET", url: /apis/gm }, { statusCode: 500 }).as("getSwaggerInfo");
     // arrange
     cy.visit("/api-catalogue");
     cy.get(".apiPreview").find("a").first().click();
@@ -327,38 +254,5 @@ describe("Edge Cases", () => {
 
     cy.wait("@getApiInfo");
     cy.get(".govuk-summary-list__actions").should("not.exist");
-  });
-
-  describe("Add new application button is working", () => {
-    it("Add Application button is visible", function () {
-      cy.intercept(
-        { method: "GET", url: /apis/gm },
-        { fixture: "testApiSwagger.json" }
-      ).as("getSwaggerInfo");
-      cy.intercept(
-        { method: "GET", url: /api\/v1/gm },
-        { fixture: "testApi.json" }
-      ).as("getApiInfo");
-      cy.visit("/api-catalogue");
-      cy.get(".apiPreview").find("a").first().click();
-      cy.get(".lbh-button").click();
-
-      cy.contains("Application Name").should("be.visible");
-    });
-
-    it.only("Goes back to previous back when form is submitted", () => {
-      cy.intercept(
-        { method: "GET", url: /apis/gm },
-        { fixture: "testApiSwagger.json" }
-      ).as("getSwaggerInfo");
-      cy.intercept(
-        { method: "GET", url: /api\/v1/gm },
-        { fixture: "testApi.json" }
-      ).as("getApiInfo");
-      cy.visit("/api-catalogue");
-      cy.get(".apiPreview").find("a").click();
-      cy.get(".lbh-button").click();
-      cy.get(".lbh-button").click();
-    });
   });
 });

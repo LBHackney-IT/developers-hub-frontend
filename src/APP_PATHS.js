@@ -82,14 +82,14 @@ const APP_PATHS = [
     isPrivate: true,
   },
   {
-    path: "/api-catalogue/:apiId/application/new",
+    path: "/api-catalogue/:apiId/applications/new",
     Component: AddApplicationPage,
     breadcrumb: "",
     alwaysVisible: false,
     isPrivate: true,
   },
   {
-    path: "/api-catalogue/:apiId/application/:applicationName/edit",
+    path: "/api-catalogue/:apiId/applications/:applicationName/edit",
     Component: AddApplicationPage,
     breadcrumb: "",
     alwaysVisible: false,
