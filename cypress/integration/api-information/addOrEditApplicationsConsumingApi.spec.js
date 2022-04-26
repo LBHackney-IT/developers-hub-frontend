@@ -35,11 +35,6 @@ describe("Add new application button is working", () => {
     cy.url().should("eq", "http://localhost:3000/api-catalogue/testApi");
   });
 
-  it("Goes back when user clicks cancel", () => {
-    cy.contains("Add a new application").click();
-    cy.contains("Cancel").click();
-    cy.url().should("eq", "http://localhost:3000/api-catalogue/testApi");
-  });
 
   // Add tests for API
 });
@@ -78,4 +73,12 @@ describe("Can edit an application", () => {
     cy.get(".govuk-summary-list__actions .edit-link").first().click();
     cy.get("#name").should("have.value", "application1");
   });
+
+  it("Warning when attempt to cancel change", () => {
+    cy.contains("Add a new application").click();
+    cy.get("#cancel").click();
+    cy.get('.lbh-dialog').should('be.visible');
+  });
+
+  
 });

@@ -97,6 +97,7 @@ const AddApplicationPage = () => {
           <div style={{ float: "right" }}>
             <input
               className="govuk-button govuk-secondary lbh-button lbh-button--secondary"
+              id="cancel"
               data-module="govuk-button"
               style={{ marginRight: "5px", width: "9rem", height: "3.1rem" }}
               value="Cancel"
