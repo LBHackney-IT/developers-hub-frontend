@@ -6,21 +6,24 @@ import Cookies from "js-cookie";
 const AddApplicationPage = () => {
   let history = useHistory();
   let { apiId, applicationName } = useParams();
-  const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}`;
-  
+  const apiUrl = `${
+    process.env.REACT_APP_API_URL ||
+    `http://${window.location.hostname}:8000/api/v1`
+  }/${apiId}`;
+
   const [inputs, setInputs] = useState({ name: applicationName });
 
   useEffect(() => {
     if (applicationName) {
-      axios.get(`${apiUrl}/${applicationName}`, {
+      axios
+        .get(`${apiUrl}/${applicationName}`, {
           headers: { Authorization: Cookies.get("hackneyToken") },
         })
         .then((response) => {
-          setInputs({ ...response.data })
+          setInputs({ ...response.data });
         });
     }
   }, [apiUrl, apiId, applicationName]);
-  
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -35,10 +38,18 @@ const AddApplicationPage = () => {
     alert(JSON.stringify(inputs));
   };
 
+  const handleCancel = () => {
+    history.push(`/api-catalogue/${apiId}`);
+  };
+
   return (
     <main className="lbh-main-wrapper" id="apis-page" role="main">
       <div className="lbh-container">
-        <form className="govuk-form-group lbh-form-group" onSubmit={handleSubmit}>
+        <h1> Add A New Application</h1>
+        <form
+          className="govuk-form-group lbh-form-group"
+          onSubmit={handleSubmit}
+        >
           <label className="govuk-label lbh-label" htmlFor="name">
             Application Name
           </label>
@@ -61,13 +72,24 @@ const AddApplicationPage = () => {
             value={inputs.link}
             onChange={handleChange}
           />
-          <input
-            className="govuk-button lbh-button"
-            data-module="govuk-button"
-            style={{ float: "right" }}
-            type="submit"
-            value="Save and Continue"
-          />
+
+          <div style={{ float: "right" }}>
+            <input
+              className="govuk-button govuk-secondary lbh-button lbh-button--secondary"
+              data-module="govuk-button"
+              type="submit"
+              style={{ marginRight: "12px" }}
+              value="Cancel"
+              onClick={handleCancel}
+            />
+            <input
+              className="govuk-button lbh-button"
+              data-module="govuk-button"
+              style={{ float: "right" }}
+              type="submit"
+              value="Save and Continue"
+            />
+          </div>
         </form>
       </div>
     </main>
