@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Dialog from "../../components/dialogs/dialog.component";
 
 const AddApplicationPage = () => {
   let history = useHistory();
@@ -12,6 +13,8 @@ const AddApplicationPage = () => {
   }/${apiId}`;
 
   const [inputs, setInputs] = useState({ name: applicationName });
+
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (applicationName) {
@@ -36,10 +39,6 @@ const AddApplicationPage = () => {
     history.push(`/api-catalogue/${apiId}`);
     event.preventDefault();
     alert(JSON.stringify(inputs));
-  };
-
-  const handleCancel = () => {
-    history.push(`/api-catalogue/${apiId}`);
   };
 
   return (
@@ -72,20 +71,39 @@ const AddApplicationPage = () => {
             value={inputs.link}
             onChange={handleChange}
           />
-
+          <Dialog
+            title="Are you sure?"
+            isOpen={open}
+            onDismiss={() => setOpen(false)}
+          >
+            <div className="lbh-dialog__actions">
+              <p className="lbh-body">You are about to revert the changes</p>{" "}
+              <br />
+              <button
+                className="govuk-button lbh-button"
+                onClick={handleSubmit}
+              >
+                Save
+              </button>
+              <button
+                onClick={() => setOpen(false)}
+                className="lbh-link lbh-link--no-visited-state"
+              >
+                Cancel
+              </button>
+            </div>
+          </Dialog>
           <div style={{ float: "right" }}>
             <input
               className="govuk-button govuk-secondary lbh-button lbh-button--secondary"
               data-module="govuk-button"
-              type="submit"
-              style={{ marginRight: "12px" }}
+              style={{ marginRight: "5px", width: "9rem", height: "3.1rem" }}
               value="Cancel"
-              onClick={handleCancel}
+              onClick={() => setOpen(!open)}
             />
             <input
               className="govuk-button lbh-button"
               data-module="govuk-button"
-              style={{ float: "right" }}
               type="submit"
               value="Save and Continue"
             />
