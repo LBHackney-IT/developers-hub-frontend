@@ -35,7 +35,7 @@ describe("Add new application button is working", () => {
     cy.url().should("eq", "http://localhost:3000/api-catalogue/testApi");
   });
 
-  it.only("Goes back when user clicks cancel", () => {
+  it("Goes back when user clicks cancel", () => {
     cy.contains("Add a new application").click();
     cy.contains("Cancel").click();
     cy.url().should("eq", "http://localhost:3000/api-catalogue/testApi");

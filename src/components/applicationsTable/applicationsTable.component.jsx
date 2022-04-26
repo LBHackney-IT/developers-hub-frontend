@@ -6,8 +6,9 @@ import { useUser } from "../../context/user.context";
 
 import ApiInformationLink from "../apiInformationLink/apiInformationLink.component";
 import DeleteDialog from "../dialogs/deleteDialog.component";
-
-const ApplicationsTable = ({apiStatus, apiData, onDelete}) => {
+    
+const ApplicationsTable = (props) => {
+    const {apiStatus, apiData} = props;
     const history = useHistory();
     const { apiId } = useParams();
 
@@ -16,8 +17,6 @@ const ApplicationsTable = ({apiStatus, apiData, onDelete}) => {
     const isAuthorised = user.groups.some((group) => authAllowedGroups.split(",").includes(group));
 
     if(!apiStatus.isLoaded) return <Skeleton />
-    if(apiData.applications.length === 0) return <p className="lbh-body-m">No applications found.</p>
-
 
     const addApplicationOnClick = () => {
         history.push(`/api-catalogue/${apiId}/applications/new`)
@@ -46,14 +45,15 @@ const ApplicationsTable = ({apiStatus, apiData, onDelete}) => {
                                     </button>
                                 </li>
                                 <li className="govuk-summary-list__actions-list-item">
-                                    <DeleteDialog onDelete={onDelete} applicationName={application.name}/>
+                                    <DeleteDialog {...props} applicationName={application.name}/>
                                 </li>
                             </ul>
                         </dt>}
                     </div>
                 ))}
+                {apiData.applications.length === 0 && <p className="lbh-body-m">No applications found.</p>}
             </dl>
-            <button 
+            {isAuthorised && <button 
                 className="govuk-button lbh-button lbh-button--add"
                 onClick={addApplicationOnClick}
             >
@@ -62,7 +62,7 @@ const ApplicationsTable = ({apiStatus, apiData, onDelete}) => {
                     <path d="M12 5H0V7H12V5Z" />
                 </svg>
                 Add a new application
-            </button>
+            </button>}
         </>
     );
 };

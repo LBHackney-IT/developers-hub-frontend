@@ -7,10 +7,7 @@ import Dialog from "../../components/dialogs/dialog.component";
 const AddApplicationPage = () => {
   let history = useHistory();
   let { apiId, applicationName } = useParams();
-  const apiUrl = `${
-    process.env.REACT_APP_API_URL ||
-    `http://${window.location.hostname}:8000/api/v1`
-  }/${apiId}`;
+  const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}`;
 
   const [inputs, setInputs] = useState({ name: applicationName });
 
@@ -36,10 +33,14 @@ const AddApplicationPage = () => {
 
   const handleSubmit = (event) => {
     //This is where the API will go
-    history.push(`/api-catalogue/${apiId}`);
     event.preventDefault();
     alert(JSON.stringify(inputs));
+    goBack();
   };
+
+  const goBack = () => {
+    history.push(`/api-catalogue/${apiId}`);
+  }
 
   return (
     <main className="lbh-main-wrapper" id="apis-page" role="main">
@@ -81,9 +82,9 @@ const AddApplicationPage = () => {
               <br />
               <button
                 className="govuk-button lbh-button"
-                onClick={handleSubmit}
+                onClick={goBack}
               >
-                Save
+                Continue
               </button>
               <button
                 onClick={() => setOpen(false)}
