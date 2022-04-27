@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Dialog from "../../components/dialogs/dialog.component";
 
+
 const AddApplicationPage = () => {
   let history = useHistory();
   let { apiId, applicationName } = useParams();
@@ -32,14 +33,16 @@ const AddApplicationPage = () => {
   };
 
   const handleSubmit = (event) => {
-    //This is where the API will go
+    axios.patch(`${apiUrl}/${inputs.name}`, inputs, {
+      headers: { Authorization: Cookies.get("hackneyToken") }
+    })
+    .then(goBack())
     event.preventDefault();
-    alert(JSON.stringify(inputs));
-    goBack();
   };
 
   const goBack = () => {
-    history.push(`/api-catalogue/${apiId}`);
+   
+    history.push({pathname: `/api-catalogue/${apiId}`, state: inputs });
   }
 
   return (
@@ -78,7 +81,7 @@ const AddApplicationPage = () => {
             onDismiss={() => setOpen(false)}
           >
             <div className="lbh-dialog__actions">
-              <p className="lbh-body">You are about to revert the changes</p>{" "}
+              <p className="lbh-body">You are about to revert the changes you have made</p>{" "}
               <br />
               <button
                 className="govuk-button lbh-button"

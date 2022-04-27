@@ -17,8 +17,9 @@ describe("Add new application button is working", () => {
       this.apiData = apiData;
       cy.intercept({ method: "GET", url: /api\/v1/gm }, apiData).as(
         "getApiInfo"
-      );
+      ); 
     });
+    cy.intercept({ method: "PATCH", url: /api\/v1/gm }, {statuscode: 204}).as('addApplication');
 
     cy.visit("/api-catalogue/testApi");
     cy.wait(["@getApiVersions", "@getSwaggerInfo", "@getApiInfo"]);
@@ -35,8 +36,20 @@ describe("Add new application button is working", () => {
     cy.url().should("eq", "http://localhost:3000/api-catalogue/testApi");
   });
 
+  it.only("Shows the announcement when application is added successfully", () => {
+    cy.contains("Add a new application").click();
+    cy.get('#name').type('application4')
+    cy.contains("Save and Continue").click();
+    cy.get('.lbh-page-announcement').contains("Success").should('be.visible');
+  })
 
   // Add tests for API
+  it('Calls the PATCH endpoint when adding an application', () => {
+    cy.contains("Add a new application").click();
+    cy.get('#name').type('application4')
+    cy.contains("Save and Continue").click();
+    cy.get('@addApplication.all').should('have.length', 1);
+  })
 });
 
 describe("Can edit an application", () => {

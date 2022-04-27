@@ -15,13 +15,12 @@ import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
 import ApiInformationLink from "../../components/apiInformationLink/apiInformationLink.component.jsx";
 import NotFoundPage from "../error/NotFound.page.jsx";
-
+import Announcement from "../../components/announcement/announcement.component"
 const ApiInformationPage = () => {
     const { apiId } = useParams();
     const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiId}`;
     const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}`;
-    const passedParams = useLocation().state || { versions: null, currentVersion: null };
-
+    const passedParams = useLocation().state || { versions: null, currentVersion: null, name: null, link: null };
     const [swaggerStatus, setSwaggerStatus] = useState({isLoaded: false, error: null });
     const [apiStatus, setApiStatus] = useState(
       {isLoaded: false, error: null });
@@ -30,7 +29,9 @@ const ApiInformationPage = () => {
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
     const [apiData, setApiData] = useState({});
     const [swaggerData, setSwaggerData] = useState({});
-    const [announcements, setAnnouncements] = useState([]);
+    const [announcements, setAnnouncements] = useState([
+        ...passedParams.name ? [ <Announcement title="Success"> You have successfully added an application to this API </Announcement> ] : []
+    ]);
 
     const resetState = () => {
         window.scrollTo(0, 0);
