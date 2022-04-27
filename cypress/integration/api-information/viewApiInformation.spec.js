@@ -215,7 +215,7 @@ describe("Edge Cases", () => {
         cy.contains("No applications found.");
     });
 
-    it("Hide Edit & Delete application buttons if user is not in the allowed groups", function() {
+    it("Hide Add, Edit & Delete application buttons if user is not in the allowed groups", function() {
         cy.intercept({method: 'GET', url: /apis/gm}, { fixture: "testApiSwagger.json"}).as("getSwaggerInfo");
         cy.intercept({method: 'GET', url: /api\/v1/gm}, { fixture: "testApi.json"}).as("getApiInfo");
        
@@ -226,5 +226,6 @@ describe("Edge Cases", () => {
         
         cy.wait("@getApiInfo");
         cy.get('.govuk-summary-list__actions').should("not.exist");
+        cy.get('.lbh-button--add').should("not.exist");
     });
 });
