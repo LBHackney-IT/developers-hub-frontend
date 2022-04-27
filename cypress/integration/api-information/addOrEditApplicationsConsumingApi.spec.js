@@ -36,7 +36,7 @@ describe("Add new application button is working", () => {
     cy.url().should("eq", "http://localhost:3000/api-catalogue/testApi");
   });
 
-  it.only("Shows the announcement when application is added successfully", () => {
+  it("Shows the announcement when application is added successfully", () => {
     cy.contains("Add a new application").click();
     cy.get('#name').type('application4')
     cy.contains("Save and Continue").click();
