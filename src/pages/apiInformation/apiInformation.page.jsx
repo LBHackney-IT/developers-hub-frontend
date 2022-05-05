@@ -175,12 +175,9 @@ const ApiInformationPage = () => {
                         <span className="govuk-caption-xl lbh-caption">API Information</span>
                         <hr/>
                         <Table tableData={TableData} />
-
-                        <span className="govuk-caption-xl lbh-caption">Applications that utilise this API</span>
-                        <hr/>
-                        <div className="column-2">
-                            {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} deleteApplication={deleteApplication} addAnnouncement={addAnnouncement}/>}
-                        </div>
+    
+                        {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} deleteApplication={deleteApplication} addAnnouncement={addAnnouncement}/>}
+                        
                         {announcements}
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
                         {apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}
