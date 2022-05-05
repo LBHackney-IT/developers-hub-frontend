@@ -160,8 +160,6 @@ workflows:
             - cypress/run:
                 requires:
                     - cypress/install
-                parallel: true
-                parallelism: 4
                 start: npm run testStart
                 store_artifacts: true
             - assume-role-development:
