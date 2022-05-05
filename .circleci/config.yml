@@ -156,12 +156,15 @@ workflows:
             - run-lint:
                 requires:
                     - install-dependencies
+            - cypress/install
             - cypress/run:
+                requires:
+                    - cypress/install
                 yarn: true
-                start: yarn testStart
-                store_artifacts: true
                 parallel: true
                 parallelism: 4
+                start: yarn testStart
+                store_artifacts: true
             - assume-role-development:
                   context: api-assume-role-development-context
                   requires:
