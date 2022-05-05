@@ -17,15 +17,25 @@ const AddEditApplicationPage = () => {
 	const passedParams = useLocation().state || { name: null, link: null };
 	const [apiError, setApiError] = useState();
 
-	const { register, handleSubmit, formState: { errors } } = useForm({
+	const { register, handleSubmit, formState: { errors, isDirty, isValid, dirtyFields } } = useForm({
 		defaultValues: {
 			name: passedParams.name,
 			link: passedParams.link
 		}
 	});
 
+	const filterDirtyFields = (data) => {
+		return Object.keys(data)
+					.filter(fieldName => dirtyFields[fieldName])
+					.reduce((obj, fieldName) => {
+						obj[fieldName] = data[fieldName];
+						return obj;
+					}, {});
+	}
+
 	const onSubmit = (data) => {
-		axios.patch(apiUrl, data, { headers: { Authorization: Cookies.get("hackneyToken") }})
+		const dirtyData = filterDirtyFields(data);
+		axios.patch(apiUrl, dirtyData, { headers: { Authorization: Cookies.get("hackneyToken") }})
 			.then(() => {
 				history.push({
 					pathname: `/api-catalogue/${apiId}`,
@@ -35,8 +45,8 @@ const AddEditApplicationPage = () => {
 					}
 				});
 			})
-			.catch((e) => {
-				setApiError(e);
+			.catch((err) => {
+				setApiError(err);
 			});
 	};
 
@@ -87,7 +97,9 @@ const AddEditApplicationPage = () => {
 				<div className="button-panel">
 					<CancelDialog backLink={`/api-catalogue/${apiId}`}/>
 					<button
-						className="govuk-button lbh-button"
+						disabled={!isValid || !isDirty}
+						aria-disabled={!isValid || !isDirty}
+						className={`govuk-button lbh-button ${(!isValid || !isDirty) && "lbh-button--disabled govuk-button--disabled"}`}
 						data-module="govuk-button"
 						form="add-edit-application"
 						type="submit"

@@ -9,13 +9,16 @@
     "apiSpecificationLink": "https://lbhackney-it.github.io/api-specifications/test_api",
     "applications": [
         {
+            "id": "eb14a1a0-b262-4ac7-a22e-cd212629f6e9",
             "name": "application1",
             "link": "https://playbook.hackney.gov.uk/"
         },
         {
+            "id": "d874dfc4-3dec-411e-81dc-33a83e1b32a0",
             "name": "application2"
         }, 
         {
+            "id": "e8d3aada-3eba-4f65-992c-6345e9632737",
             "name": "application3"
         }
     ]
