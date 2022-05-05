@@ -134,6 +134,7 @@ jobs:
     assume-role-production:
         executor: docker-python
         steps:
+            - assume-role-and-persist-workspace:
                   aws-account: $AWS_ACCOUNT_PRODUCTION
 
     terraform-init-and-apply-to-development:
