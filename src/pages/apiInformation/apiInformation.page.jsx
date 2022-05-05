@@ -21,7 +21,7 @@ const ApiInformationPage = () => {
     const { apiId } = useParams();
     const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiId}`;
     const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}`;
-    const passedParams = useLocation().state || { versions: null, currentVersion: null, name: null, link: null };
+    const passedParams = useLocation().state || { versions: null, currentVersion: null, action: null, name: null };
     const [swaggerStatus, setSwaggerStatus] = useState({isLoaded: false, error: null });
     const [apiStatus, setApiStatus] = useState(
       {isLoaded: false, error: null });
@@ -31,7 +31,7 @@ const ApiInformationPage = () => {
     const [apiData, setApiData] = useState({});
     const [swaggerData, setSwaggerData] = useState({});
     const [alerts, setAlerts] = useState([
-        ...passedParams.name ? [ <Announcement title="Success"> You have successfully added an application to this API </Announcement> ] : []
+        ...passedParams.action ? [ <Announcement title={`Successfully ${passedParams.action}!`}> You have successfully {passedParams.action} <b className='lbh-body lbh-!-font-weight-bold'>{passedParams.name}</b>{passedParams.action === "added" && " to this API"}.</Announcement> ] : []
     ]);
 
     const resetState = () => {

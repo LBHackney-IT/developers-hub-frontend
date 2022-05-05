@@ -8,6 +8,7 @@ import ContactPage from "./pages/contact/contact.page.jsx";
 import AddEditApplicationPage from "./pages/addEditApplication/addEditApplication.page.jsx";
 
 import Link from "./components/link/link.component.jsx";
+import NotFoundPage from "./pages/error/NotFound.page.jsx";
 
 const ApiNameBreadcrumb = ({ match }) => {
   return (
@@ -29,11 +30,11 @@ const ApiCatalogueBreadcrumb = ({ match, location }) => {
           </Link>
         </span>
         <span className="govuk-breadcrumbs__list-item" aria-current="page">
-          Search for "
-          {decodeURIComponent(
-            location.search.replace("?search=", "").replaceAll("+", " ")
-          )}
-          "
+          Search for <b className="lbh-!-font-weight-bold">"
+            {decodeURIComponent(
+              location.search.replace("?search=", "").replaceAll("+", " ")
+            )}
+          "</b>
         </span>
       </>
     );
@@ -42,6 +43,14 @@ const ApiCatalogueBreadcrumb = ({ match, location }) => {
   }
 };
 
+const editApplicationBreadcrumb = ({location}) => {
+  return (
+    <span>
+      Edit {location.state ? <b className="lbh-!-font-weight-bold">"{location.state.name}"</b> : "an application"}
+    </span>
+  );
+}
+
 const APP_PATHS = [
   {
     path: "/",
@@ -49,7 +58,7 @@ const APP_PATHS = [
     breadcrumb: "Home",
     headingName: "HOME",
     alwaysVisible: true,
-    isPrivate: false,
+    isPrivate: false
   },
   {
     path: "/login",
@@ -57,14 +66,13 @@ const APP_PATHS = [
     breadcrumb: "Sign In",
     headingName: "SIGN IN",
     signedOutVisible: true,
-    isPrivate: false,
+    isPrivate: false
   },
   {
     path: "/contact-us",
     Component: ContactPage,
     breadcrumb: "Contact Us",
-    alwaysVisible: false,
-    isPrivate: false,
+    isPrivate: false
   },
   {
     path: "/api-catalogue",
@@ -72,28 +80,36 @@ const APP_PATHS = [
     breadcrumb: ApiCatalogueBreadcrumb,
     headingName: "API CATALOGUE",
     alwaysVisible: true,
-    isPrivate: true,
+    isPrivate: true
   },
   {
     path: "/api-catalogue/:apiId",
     Component: ApiInformationPage,
     breadcrumb: ApiNameBreadcrumb,
-    alwaysVisible: false,
-    isPrivate: true,
+    isPrivate: true
+  },
+  {
+    path: "/api-catalogue/:apiId/applications",
+    Component: NotFoundPage,
+    breadcrumb: null,
   },
   {
     path: "/api-catalogue/:apiId/applications/new",
     Component: AddEditApplicationPage,
-    breadcrumb: "",
-    alwaysVisible: false,
-    isPrivate: true,
+    breadcrumb: "Add a new application",
+    isPrivate: true
+  },
+  {
+    path: "/api-catalogue/:apiId/applications/:id",
+    Component: NotFoundPage,
+    breadcrumb: null,
+    isPrivate: true
   },
   {
     path: "/api-catalogue/:apiId/applications/:id/edit",
     Component: AddEditApplicationPage,
-    breadcrumb: "",
-    alwaysVisible: false,
-    isPrivate: true,
+    breadcrumb: editApplicationBreadcrumb,
+    isPrivate: true
   },
 ];
 

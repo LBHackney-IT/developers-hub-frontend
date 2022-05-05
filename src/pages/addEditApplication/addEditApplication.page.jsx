@@ -3,8 +3,11 @@ import { useHistory, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { NIL as NIL_UUID } from 'uuid';
+import { useForm } from "react-hook-form";
 
 import CancelDialog from "../../components/dialogs/cancelDialog.component";
+import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component";
+import Error from "../../components/error/error.component";
 
 const AddEditApplicationPage = () => {
 	let history = useHistory();
@@ -12,58 +15,73 @@ const AddEditApplicationPage = () => {
 	const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}/application/${id || NIL_UUID}`;
 
 	const passedParams = useLocation().state || { name: null, link: null };
-	const [inputs, setInputs] = useState({ name: passedParams.name, link: passedParams.link });
+	const [apiError, setApiError] = useState();
 
-	const handleChange = (event) => {
-		const name = event.target.name;
-		const value = event.target.value;
-		setInputs((values) => ({ ...values, [name]: value }));
-	};
+	const { register, handleSubmit, formState: { errors } } = useForm({
+		defaultValues: {
+			name: passedParams.name,
+			link: passedParams.link
+		}
+	});
 
-	const handleSubmit = (event) => {
-		axios.patch(apiUrl, inputs, { headers: { Authorization: Cookies.get("hackneyToken") }})
-		.then(() => {
-			history.push({
-				pathname: `/api-catalogue/${apiId}`,
-				state: inputs
+	const onSubmit = (data) => {
+		axios.patch(apiUrl, data, { headers: { Authorization: Cookies.get("hackneyToken") }})
+			.then(() => {
+				history.push({
+					pathname: `/api-catalogue/${apiId}`,
+					state: {
+						action: id ? "edited" : "added",
+						name: data.name
+					}
+				});
+			})
+			.catch((e) => {
+				setApiError(e);
 			});
-		})
-		.catch();
-
-		event.preventDefault();
 	};
 
 	return (
 		<main className="lbh-main-wrapper" id="add-edit-application-page" role="main">
 			<div className="lbh-container">
-				<h1> Add A New Application</h1>
+				<Breadcrumbs />
+        		<h1>{id ? "Edit" : "Add"} Application</h1>
 				<form
 					id="add-edit-application"
-					className="govuk-form-group lbh-form-group"
-					onSubmit={handleSubmit}
+					className={`govuk-form-group lbh-form-group ${(errors.name || errors.link) && "govuk-form-group--error"}`}
+					onSubmit={handleSubmit(onSubmit)}
 				>
 					<label className="govuk-label lbh-label" htmlFor="name">
 						Application Name
 					</label>
+					{errors.name && 
+						<span className="govuk-error-message lbh-error-message">
+							<span className="govuk-visually-hidden">Error:</span> This field is required.
+						</span>
+					}
 					<input
-						className="govuk-input lbh-input"
+						className={`govuk-input lbh-input ${errors.name && "govuk-input--error"}`}
 						id="name"
 						name="name"
 						type="text"
-						value={inputs.name}
-						onChange={handleChange}
+						aria-describedby={errors.name && "input-with-error-message-hint input-with-error-message-error"}
+						{...register("name", { required: true })}
 					/>
 
 					<label className="govuk-label lbh-label" htmlFor="link">
 						Application Link
 					</label>
+					{errors.link && 
+						<span className="govuk-error-message lbh-error-message">
+							<span className="govuk-visually-hidden">Error:</span> This field must be a link or empty.
+						</span>
+					}
 					<input
-						className="govuk-input lbh-input"
+						className={`govuk-input lbh-input${errors.link && " govuk-input--error"}`}
 						id="link"
 						name="link"
 						type="text"
-						value={inputs.link}
-						onChange={handleChange}
+						aria-describedby={errors.link && "input-with-error-message-hint input-with-error-message-error"}
+						{...register("link", { pattern: /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)?/gi })}
 					/>
 				</form>
 				<div className="button-panel">
@@ -77,6 +95,7 @@ const AddEditApplicationPage = () => {
 						Save and Continue
 					</button>
 				</div>
+				{apiError && <Error title="Oops! Something went wrong!" summary={apiError.message} />}
 			</div>
 		</main>
 	);
