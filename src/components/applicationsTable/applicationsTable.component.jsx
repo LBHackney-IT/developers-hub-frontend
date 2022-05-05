@@ -19,11 +19,14 @@ const ApplicationsTable = (props) => {
 
 
     const addApplicationOnClick = () => {
-        history.push(`/api-catalogue/${apiId}/applications/new`)
+        history.push(`/api-catalogue/${apiId}/applications/new`);
     }
 
-    const editApplicationOnClick = (applicationName) => {
-        history.push(`/api-catalogue/${apiId}/applications/${applicationName}/edit`)
+    const editApplicationOnClick = (application) => {
+        history.push({
+            pathname: `/api-catalogue/${apiId}/applications/${application.id}/edit`,
+            state: application 
+        });
     }
 
     return (
@@ -56,13 +59,13 @@ const ApplicationsTable = (props) => {
                                     <li className="govuk-summary-list__actions-list-item">
                                         <button 
                                             className="lbh-link lbh-link--no-visited-state edit-link"
-                                            onClick={() => editApplicationOnClick(application.name)}
+                                            onClick={() => editApplicationOnClick(application)}
                                         >
                                             Edit<span className="govuk-visually-hidden"> application</span>
                                         </button>
                                     </li>
                                     <li className="govuk-summary-list__actions-list-item">
-                                        <DeleteDialog {...props} applicationName={application.name}/>
+                                        <DeleteDialog {...props} {...application}/>
                                     </li>
                                 </ul>
                             </dt>}

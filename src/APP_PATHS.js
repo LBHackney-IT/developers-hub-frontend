@@ -5,7 +5,7 @@ import LoginPage from "./pages/login/login.page.jsx";
 import ApiCataloguePage from "./pages/apiCatalogue/apiCatalogue.page.jsx";
 import ApiInformationPage from "./pages/apiInformation/apiInformation.page.jsx";
 import ContactPage from "./pages/contact/contact.page.jsx";
-import AddApplicationPage from "./pages/addApplication/addApplication.page.jsx";
+import AddEditApplicationPage from "./pages/addEditApplication/addEditApplication.page.jsx";
 
 import Link from "./components/link/link.component.jsx";
 
@@ -83,14 +83,14 @@ const APP_PATHS = [
   },
   {
     path: "/api-catalogue/:apiId/applications/new",
-    Component: AddApplicationPage,
+    Component: AddEditApplicationPage,
     breadcrumb: "",
     alwaysVisible: false,
     isPrivate: true,
   },
   {
-    path: "/api-catalogue/:apiId/applications/:applicationName/edit",
-    Component: AddApplicationPage,
+    path: "/api-catalogue/:apiId/applications/:id/edit",
+    Component: AddEditApplicationPage,
     breadcrumb: "",
     alwaysVisible: false,
     isPrivate: true,

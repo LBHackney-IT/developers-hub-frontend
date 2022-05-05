@@ -15,7 +15,8 @@ import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
 import ApiInformationLink from "../../components/apiInformationLink/apiInformationLink.component.jsx";
 import NotFoundPage from "../error/NotFound.page.jsx";
-import Announcement from "../../components/announcement/announcement.component"
+import Announcement from "../../components/announcement/announcement.component";
+
 const ApiInformationPage = () => {
     const { apiId } = useParams();
     const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiId}`;
@@ -29,7 +30,7 @@ const ApiInformationPage = () => {
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
     const [apiData, setApiData] = useState({});
     const [swaggerData, setSwaggerData] = useState({});
-    const [announcements, setAnnouncements] = useState([
+    const [alerts, setAlerts] = useState([
         ...passedParams.name ? [ <Announcement title="Success"> You have successfully added an application to this API </Announcement> ] : []
     ]);
 
@@ -44,7 +45,7 @@ const ApiInformationPage = () => {
     }
 
     const addAnnouncement = (announcement) => {
-        setAnnouncements([...announcements, announcement]);
+        setAlerts([...alerts, announcement]);
     }
 
     // Get data from API
@@ -178,7 +179,7 @@ const ApiInformationPage = () => {
     
                         {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} deleteApplication={deleteApplication} addAnnouncement={addAnnouncement}/>}
                         
-                        {announcements}
+                        {alerts}
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
                         {apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}
                 </div>
