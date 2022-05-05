@@ -4,7 +4,7 @@ orbs:
     aws-s3: circleci/aws-s3@2.0.0
     aws-cli: circleci/aws-cli@2.0.0
     aws_assume_role: lbh-hackit/aws_assume_role@0.1.0
-    cypress: cypress-io/cypress@1
+    cypress: cypress-io/cypress@1.29.0
 
 references:
     workspace_root: &workspace_root '~'
@@ -134,7 +134,6 @@ jobs:
     assume-role-production:
         executor: docker-python
         steps:
-            - assume-role-and-persist-workspace:
                   aws-account: $AWS_ACCOUNT_PRODUCTION
 
     terraform-init-and-apply-to-development:
@@ -160,6 +159,8 @@ workflows:
                 yarn: true
                 start: yarn testStart
                 store_artifacts: true
+                parallel: true
+                parallelism: 4
             - assume-role-development:
                   context: api-assume-role-development-context
                   requires:
