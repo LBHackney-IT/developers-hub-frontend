@@ -4,7 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { NIL as NIL_UUID } from 'uuid';
 
-import Dialog from "../../components/dialogs/dialog.component";
+import CancelDialog from "../../components/dialogs/cancelDialog.component";
 
 const AddEditApplicationPage = () => {
 	let history = useHistory();
@@ -14,8 +14,6 @@ const AddEditApplicationPage = () => {
 	const passedParams = useLocation().state || { name: null, link: null };
 	const [inputs, setInputs] = useState({ name: passedParams.name, link: passedParams.link });
 
-	const [open, setOpen] = useState(false);
-
 	const handleChange = (event) => {
 		const name = event.target.name;
 		const value = event.target.value;
@@ -23,25 +21,24 @@ const AddEditApplicationPage = () => {
 	};
 
 	const handleSubmit = (event) => {
-		axios.patch(apiUrl, inputs, {
-		headers: { Authorization: Cookies.get("hackneyToken") }
+		axios.patch(apiUrl, inputs, { headers: { Authorization: Cookies.get("hackneyToken") }})
+		.then(() => {
+			history.push({
+				pathname: `/api-catalogue/${apiId}`,
+				state: inputs
+			});
 		})
-		.then(goBack())
+		.catch();
+
 		event.preventDefault();
 	};
 
-	const goBack = () => {
-		history.push({
-		pathname: `/api-catalogue/${apiId}`,
-		state: inputs 
-		});
-	}
-
 	return (
-		<main className="lbh-main-wrapper" id="apis-page" role="main">
+		<main className="lbh-main-wrapper" id="add-edit-application-page" role="main">
 			<div className="lbh-container">
 				<h1> Add A New Application</h1>
 				<form
+					id="add-edit-application"
 					className="govuk-form-group lbh-form-group"
 					onSubmit={handleSubmit}
 				>
@@ -68,49 +65,19 @@ const AddEditApplicationPage = () => {
 						value={inputs.link}
 						onChange={handleChange}
 					/>
-					
-					<div style={{ float: "right" }}>
-						<button
-						className="govuk-button govuk-secondary lbh-button lbh-button--secondary"
-						id="cancel"
-						data-module="govuk-button"
-						style={{ marginRight: "5px", width: "9rem", height: "3.1rem" }}
-						onClick={() => setOpen(!open)}
-						>
-							Cancel
-						</button>
-						<input
-						className="govuk-button lbh-button"
-						data-module="govuk-button"
-						type="submit"
-						value="Save and Continue"
-						/>
-					</div>
 				</form>
-			</div>
-
-			<Dialog
-				title="Are you sure?"
-				isOpen={open}
-				onDismiss={() => setOpen(false)}
-			>
-				<div className="lbh-dialog__actions">
-					<p className="lbh-body">You are about to revert the changes you have made</p>{" "}
-					<br />
+				<div className="button-panel">
+					<CancelDialog backLink={`/api-catalogue/${apiId}`}/>
 					<button
 						className="govuk-button lbh-button"
-						onClick={goBack}
+						data-module="govuk-button"
+						form="add-edit-application"
+						type="submit"
 					>
-						Continue
-					</button>
-					<button
-						onClick={() => setOpen(false)}
-						className="lbh-link lbh-link--no-visited-state"
-					>
-						Cancel
+						Save and Continue
 					</button>
 				</div>
-			</Dialog>
+			</div>
 		</main>
 	);
 };
