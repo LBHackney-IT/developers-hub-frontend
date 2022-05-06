@@ -91,7 +91,6 @@ describe("Add or edit an application that consumes an API", () => {
 			var applicationData = this.apiData.applications[0];
 			cy.intercept({ method: "GET", url: /api\/v\d\/[^\/]+\/[^\/]*\/application/gm }, applicationData).as("getApplicationDetails");
 			
-			cy.wait("@getApplicationDetails");
 			cy.get("#name").should("have.value", applicationData.name);
 			cy.get("#link").should("have.value", applicationData.link);
 		});
