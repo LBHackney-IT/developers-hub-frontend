@@ -4,7 +4,7 @@ orbs:
     aws-s3: circleci/aws-s3@2.0.0
     aws-cli: circleci/aws-cli@2.0.0
     aws_assume_role: lbh-hackit/aws_assume_role@0.1.0
-    cypress: cypress-io/cypress@1
+    cypress: cypress-io/cypress@1.29.0
 
 references:
     workspace_root: &workspace_root '~'
@@ -156,9 +156,11 @@ workflows:
             - run-lint:
                 requires:
                     - install-dependencies
+            - cypress/install
             - cypress/run:
-                yarn: true
-                start: yarn testStart
+                requires:
+                    - cypress/install
+                start: npm run testStart
                 store_artifacts: true
             - assume-role-development:
                   context: api-assume-role-development-context

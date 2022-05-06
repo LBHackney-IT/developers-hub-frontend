@@ -15,13 +15,13 @@ import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
 import ApiInformationLink from "../../components/apiInformationLink/apiInformationLink.component.jsx";
 import NotFoundPage from "../error/NotFound.page.jsx";
+import Announcement from "../../components/announcement/announcement.component";
 
 const ApiInformationPage = () => {
     const { apiId } = useParams();
     const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiId}`;
     const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}`;
-    const passedParams = useLocation().state || { versions: null, currentVersion: null };
-
+    const passedParams = useLocation().state || { versions: null, currentVersion: null, action: null, name: null };
     const [swaggerStatus, setSwaggerStatus] = useState({isLoaded: false, error: null });
     const [apiStatus, setApiStatus] = useState(
       {isLoaded: false, error: null });
@@ -30,7 +30,9 @@ const ApiInformationPage = () => {
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
     const [apiData, setApiData] = useState({});
     const [swaggerData, setSwaggerData] = useState({});
-    const [announcements, setAnnouncements] = useState([]);
+    const [alerts, setAlerts] = useState([
+        ...passedParams.action ? [ <Announcement title={`Successfully ${passedParams.action}!`}> You have successfully {passedParams.action} <b className='lbh-body lbh-!-font-weight-bold'>{passedParams.name}</b>{passedParams.action === "added" && " to this API"}.</Announcement> ] : []
+    ]);
 
     const resetState = () => {
         window.scrollTo(0, 0);
@@ -43,7 +45,7 @@ const ApiInformationPage = () => {
     }
 
     const addAnnouncement = (announcement) => {
-        setAnnouncements([...announcements, announcement]);
+        setAlerts([...alerts, announcement]);
     }
 
     // Get data from API
@@ -174,13 +176,10 @@ const ApiInformationPage = () => {
                         <span className="govuk-caption-xl lbh-caption">API Information</span>
                         <hr/>
                         <Table tableData={TableData} />
-
-                        <span className="govuk-caption-xl lbh-caption">Applications that utilise this API</span>
-                        <hr/>
-                        <div className="column-2">
-                            {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} deleteApplication={deleteApplication} addAnnouncement={addAnnouncement}/>}
-                        </div>
-                        {announcements}
+    
+                        {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} deleteApplication={deleteApplication} addAnnouncement={addAnnouncement}/>}
+                        
+                        {alerts}
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
                         {apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}
                 </div>

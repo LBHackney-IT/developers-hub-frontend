@@ -10,10 +10,10 @@ describe('Delete an application from an API', () => {
         });
         cy.fixture("testApi").then((apiData) => {
             this.apiData = apiData;
-            cy.intercept({method: 'GET', url: /api\/v1/gm}, apiData).as("getApiInfo");
+            cy.intercept({method: 'GET', url: /api\/v\d/gm}, apiData).as("getApiInfo");
         });
 
-        cy.intercept({method: 'DELETE', url: /api\/v1/gm}, {statusCode: 200}).as("deleteApplication");
+        cy.intercept({method: 'DELETE', url: /api\/v\d/gm}, {statusCode: 200}).as("deleteApplication");
 
         cy.visit("/api-catalogue/testApi");
         cy.wait(["@getApiVersions","@getSwaggerInfo", "@getApiInfo"]);
@@ -51,7 +51,7 @@ describe('Delete an application from an API', () => {
     it('Displays an error message if the DELETE endpoint fails', function() {
         var applicationName = this.apiData.applications[0].name;
         cy.contains(applicationName).parent().parent().find(".delete-link").click();
-        cy.intercept({method: 'DELETE', url: /api\/v1/gm}, {statusCode: 500}).as("failedDeleteApplication");
+        cy.intercept({method: 'DELETE', url: /api\/v\d/gm}, {statusCode: 500}).as("failedDeleteApplication");
         cy.contains("Yes, remove").click();
         cy.get('.lbh-dialog__close').click();
         cy.get('.govuk-error-summary').should('exist');

@@ -12,7 +12,7 @@ describe("View API Information page", () => {
         });
         cy.fixture("testApi").then((apiData) => {
             this.apiData = apiData;
-            cy.intercept({method: 'GET', url: /api\/v1/gm}, apiData).as("getApiInfo");
+            cy.intercept({method: 'GET', url: /api\/v\d/gm}, apiData).as("getApiInfo");
         });
 
         cy.visit("/api-catalogue/testApi");
@@ -122,7 +122,7 @@ describe("Edge Cases", () => {
 	});
 
 	it("Shows error response if Swagger API error occurs, but swagger link is still visible", function () {
-		cy.intercept({ method: "GET", url: /api\/v1/gm }, { fixture: "testApi.json" }).as("getApiInfo");
+		cy.intercept({ method: "GET", url: /api\/v\d/gm }, { fixture: "testApi.json" }).as("getApiInfo");
 		cy.intercept({ method: "GET", url: /apis/gm }, { statusCode: 500 }).as("getSwaggerInfo");
 		// arrange
 		cy.visit("/api-catalogue");
@@ -140,7 +140,7 @@ describe("Edge Cases", () => {
 
 	it("Shows error response if API error occurs", function () {
 		cy.intercept({ method: "GET", url: /apis/gm }, { fixture: "testApiSwagger.json" }).as("getSwaggerInfo");
-		cy.intercept({ method: "GET", url: /api\/v1/gm }, { statusCode: 500 }).as("getApiInfo");
+		cy.intercept({ method: "GET", url: /api\/v\d/gm }, { statusCode: 500 }).as("getApiInfo");
 		// arrange
 		cy.visit("/api-catalogue");
 		cy.get(".apiPreview").find("a").first().click();
@@ -159,7 +159,7 @@ describe("Edge Cases", () => {
 	});
 
 	it("Shows error response if both APIs have errors", function () {
-		cy.intercept({ method: "GET", url: /api\/v1/gm }, { statusCode: 500 }).as("getApiInfo");
+		cy.intercept({ method: "GET", url: /api\/v\d/gm }, { statusCode: 500 }).as("getApiInfo");
 		cy.intercept({ method: "GET", url: /apis/gm }, { statusCode: 500 }).as("getSwaggerInfo");
 		// arrange
 		cy.visit("/api-catalogue");
@@ -180,7 +180,7 @@ describe("Edge Cases", () => {
 		};
 		cy.intercept("GET", /apis/gm, apiSwagger).as("getSwaggerInfo");
 		});
-		cy.intercept({ method: "GET", url: /api\/v1/gm }, { fixture: "testApi.json" }).as("getApiInfo");
+		cy.intercept({ method: "GET", url: /api\/v\d/gm }, { fixture: "testApi.json" }).as("getApiInfo");
         // arrange
 		cy.visit("/api-catalogue");
         cy.get(".apiPreview").find("a").first().click();
@@ -190,7 +190,7 @@ describe("Edge Cases", () => {
 	});
 
     it("View not found page if both APIs return 404", function(){
-        cy.intercept({method: 'GET', url: /api\/v1/gm}, { statusCode: 404}).as("getApiInfo");
+        cy.intercept({method: 'GET', url: /api\/v\d/gm}, { statusCode: 404}).as("getApiInfo");
         cy.intercept({method: 'GET', url: /apis/gm}, { statusCode: 404 }).as("getSwaggerInfo");
         // arrange
         cy.visit("/api-catalogue");
@@ -205,7 +205,7 @@ describe("Edge Cases", () => {
     it("View applications not found response if no applications utilise an API", function(){
         cy.fixture("testApi").then((apiData) => {
             apiData.applications = [];
-            cy.intercept({method: 'GET', url: /api\/v1/gm}, apiData).as("getApiInfo");
+            cy.intercept({method: 'GET', url: /api\/v\d/gm}, apiData).as("getApiInfo");
         });
         cy.intercept({method: 'GET', url: /apis/gm}, { fixture: "testApiSwagger.json"}).as("getSwaggerInfo");
 
@@ -217,7 +217,7 @@ describe("Edge Cases", () => {
 
     it("Hide Add, Edit & Delete application buttons if user is not in the allowed groups", function() {
         cy.intercept({method: 'GET', url: /apis/gm}, { fixture: "testApiSwagger.json"}).as("getSwaggerInfo");
-        cy.intercept({method: 'GET', url: /api\/v1/gm}, { fixture: "testApi.json"}).as("getApiInfo");
+        cy.intercept({method: 'GET', url: /api\/v\d/gm}, { fixture: "testApi.json"}).as("getApiInfo");
        
         cy.removeGroup();
         cy.visit("/api-catalogue");
