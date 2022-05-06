@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -14,15 +14,24 @@ const AddEditApplicationPage = () => {
 	let { apiId, id } = useParams();
 	const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}/application/${id || NIL_UUID}`;
 
-	const passedParams = useLocation().state || { name: null, link: null };
-	const [apiError, setApiError] = useState();
+	let applicationData = useLocation().state;
+	const [apiStatus, setApiStatus] = useState({isLoaded: Boolean(!id || applicationData)});
 
-	const { register, handleSubmit, formState: { errors, isDirty, isValid, dirtyFields } } = useForm({
-		defaultValues: {
-			name: passedParams.name,
-			link: passedParams.link
-		}
+	const { register, handleSubmit, reset, formState: { errors, isDirty, isValid, dirtyFields } } = useForm({
+		defaultValues: applicationData
 	});
+
+	useEffect(() => {
+		if(id && !applicationData)
+			axios.get(apiUrl, {headers: { 'Authorization': Cookies.get('hackneyToken') }})
+				.then((res) =>{
+					reset(res.data, { dirtyFields: true });
+					setApiStatus({isLoaded: true});
+				})
+				.catch((err) => {
+					setApiStatus({isLoaded: true, error: err});
+				});
+	}, [id, applicationData, apiUrl, reset])
 
 	const filterDirtyFields = (data) => {
 		return Object.keys(data)
@@ -46,7 +55,7 @@ const AddEditApplicationPage = () => {
 				});
 			})
 			.catch((err) => {
-				setApiError(err);
+				setApiStatus({isLoaded: true, error: err});
 			});
 	};
 
@@ -55,7 +64,8 @@ const AddEditApplicationPage = () => {
 			<div className="lbh-container">
 				<Breadcrumbs />
         		<h1>{id ? "Edit" : "Add"} Application</h1>
-				<form
+        		{ !apiStatus.isLoaded && <h3>Loading..</h3> }
+				{apiStatus.isLoaded && <form
 					id="add-edit-application"
 					className={`govuk-form-group lbh-form-group ${(errors.name || errors.link) && "govuk-form-group--error"}`}
 					onSubmit={handleSubmit(onSubmit)}
@@ -93,7 +103,7 @@ const AddEditApplicationPage = () => {
 						aria-describedby={errors.link && "input-with-error-message-hint input-with-error-message-error"}
 						{...register("link", { pattern: /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)?/gi })}
 					/>
-				</form>
+				</form>}
 				<div className="button-panel">
 					<CancelDialog backLink={`/api-catalogue/${apiId}`}/>
 					<button
@@ -107,7 +117,7 @@ const AddEditApplicationPage = () => {
 						Save and Continue
 					</button>
 				</div>
-				{apiError && <Error title="Oops! Something went wrong!" summary={apiError.message} />}
+				{apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}
 			</div>
 		</main>
 	);
