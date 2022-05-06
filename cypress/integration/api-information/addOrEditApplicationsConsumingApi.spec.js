@@ -86,7 +86,7 @@ describe("Add or edit an application that consumes an API", () => {
 			cy.get("#link").should("have.value", this.apiData.applications[0].link);
 		});
 
-		it("Prepopulates the name & link of the application in the form if visited directly", function() {
+		it.skip("Prepopulates the name & link of the application in the form if visited directly", function() {
 			cy.visit(`/api-catalogue/testApi/applications/${this.apiData.applications[0].id}/edit`);
 			var applicationData = this.apiData.applications[0];
 			cy.intercept({ method: "GET", url: /api\/v\d/gm }, applicationData).as("getApplicationDetails");
