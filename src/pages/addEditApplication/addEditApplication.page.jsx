@@ -17,9 +17,10 @@ const AddEditApplicationPage = () => {
 	let applicationData = useLocation().state;
 	const [apiStatus, setApiStatus] = useState({isLoaded: Boolean(!id || applicationData)});
 
-	const { register, handleSubmit, reset, formState: { errors, isDirty, isValid, dirtyFields } } = useForm({
+	const { register, handleSubmit, reset, formState: { errors, isDirty, dirtyFields } } = useForm({
 		defaultValues: applicationData
 	});
+	const isValid = Object.keys(errors).length === 0;
 
 	useEffect(() => {
 		if(id && !applicationData)
@@ -67,7 +68,7 @@ const AddEditApplicationPage = () => {
         		{ !apiStatus.isLoaded && <h3>Loading..</h3> }
 				{apiStatus.isLoaded && <form
 					id="add-edit-application"
-					className={`govuk-form-group lbh-form-group ${(errors.name || errors.link) && "govuk-form-group--error"}`}
+					className={`govuk-form-group lbh-form-group ${errors.name && "govuk-form-group--error"}`}
 					onSubmit={handleSubmit(onSubmit)}
 				>
 					<label className="govuk-label lbh-label" htmlFor="name">
@@ -90,24 +91,18 @@ const AddEditApplicationPage = () => {
 					<label className="govuk-label lbh-label" htmlFor="link">
 						Application Link
 					</label>
-					{errors.link && 
-						<span className="govuk-error-message lbh-error-message">
-							<span className="govuk-visually-hidden">Error:</span> This field must be a link or empty.
-						</span>
-					}
 					<input
-						className={`govuk-input lbh-input${errors.link && " govuk-input--error"}`}
+						className={`govuk-input lbh-input`}
 						id="link"
 						name="link"
 						type="text"
-						aria-describedby={errors.link && "input-with-error-message-hint input-with-error-message-error"}
-						{...register("link", { pattern: /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)?/gi })}
+						{...register("link")}
 					/>
 				</form>}
 				<div className="button-panel">
 					<CancelDialog backLink={`/api-catalogue/${apiId}`}/>
 					<button
-						disabled={!isValid || !isDirty}
+						disabled={!(isValid && isDirty)}
 						aria-disabled={!isValid || !isDirty}
 						className={`govuk-button lbh-button ${(!isValid || !isDirty) && "lbh-button--disabled govuk-button--disabled"}`}
 						data-module="govuk-button"
@@ -122,5 +117,11 @@ const AddEditApplicationPage = () => {
 		</main>
 	);
 };
+
+// v | d | o
+// 0 | 0 | 1
+// 1 | 0 | 1
+// 0 | 1 | 1
+// 1 | 1 | 0
 
 export default AddEditApplicationPage;
