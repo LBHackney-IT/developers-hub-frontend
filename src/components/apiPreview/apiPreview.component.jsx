@@ -25,7 +25,9 @@ const ApiPreview = ({name, description, properties}) => {
             <p className="lbh-body-xs"><span className="version">v{selectedVersion}</span> &#183; <span className="edited">Edited {lastModified}</span></p>
           </div>
         </div>
-        <span className={`govuk-tag lbh-tag${isPublished ? "" : "--red"}`}>{ isPublished ? "Active" : "Inactive" }</span>
+        <span className={`govuk-tag lbh-tag${isPublished ? "--green" : "--yellow"} published-status-tag`}>
+          { isPublished ? "Live" : "In Development" }
+        </span>
       </div>
       <p className="description">{description}</p>
     </li>

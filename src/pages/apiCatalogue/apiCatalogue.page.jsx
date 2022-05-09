@@ -42,8 +42,8 @@ const ApiCataloguePage = () => {
     // From SwaggerHub Registry API Documentation
     state: {
       "All APIs": "ALL",
-      "Active APIs": "PUBLISHED",
-      "Inactive APIs": "UNPUBLISHED",
+      "Live APIs": "PUBLISHED",
+      "APIs in development": "UNPUBLISHED",
     },
     sort: {
       "Last Modified": { sort: "UPDATED", order: "DESC" },
