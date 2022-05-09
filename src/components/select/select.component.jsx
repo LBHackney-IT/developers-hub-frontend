@@ -19,11 +19,16 @@ const Select = ({ name, label, options, onChange, selectedOption}) => {
                     className="govuk-select lbh-select" 
                     id={name} name={name} 
                     onChange={(e) => updateSelection(e.target.value)}
-                    defaultValue={ options.length > 1 && options.filter(option => option === selectedOption)[0]}
                 >
-                    {options.map( option => (
-                        <option key={option} value={option}>{option}</option>
-                    ))}
+                    {options.map(option =>
+                        <option 
+                        key={option} 
+                        value={option}
+                        selected={option === selectedOption}
+                        >
+                            {option}
+                        </option>
+                    )}
                 </select>
             </div>
         );

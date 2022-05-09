@@ -65,21 +65,35 @@ const ApiInformationPage = () => {
 
     // Get SwaggerHub data
     useEffect(() => {
+
         const handleSwaggerData = (result) => {
             setSwaggerData(result);
             setSwaggerStatus({ isLoaded: true, error: null });
         };
+
         const handleApiVersioning = (result) => {
-            const apiVersions = result.apis.map( api =>
-                filterSwaggerPropertiesByType(api.properties, "X-Version").value
-            );
+            var publishedVersionIndex;
+            const apiVersions = [];
+
+            result.apis.forEach((api, index) => {
+                const versionData = {
+                    version: filterSwaggerPropertiesByType(api.properties, "X-Version").value, 
+                    isPublished: filterSwaggerPropertiesByType(api.properties, "X-Published").value === "true"
+                };
+
+                if(versionData.isPublished) publishedVersionIndex = index;
+
+                apiVersions.push(versionData);
+            });
+
             setVersions(apiVersions);
-            setCurrentVersion(apiVersions[0]);
+            setCurrentVersion(apiVersions[publishedVersionIndex || 0]);
+            // default to first version if no versions of the API are published
         };
 
         resetState();
 
-        axios.get(`${swaggerHubUrl}/${currentVersion || ''}`)
+        axios.get(`${swaggerHubUrl}/${currentVersion?.version || ''}`)
             .then( result => {
                 currentVersion ? handleSwaggerData(result.data) : handleApiVersioning(result.data)
             })
@@ -91,17 +105,19 @@ const ApiInformationPage = () => {
 
     const formatApiData = () => {
 
-        const changeVersion = (versionFormatted) => {
-            const version = versionFormatted.replace(/^((\d\.?)*) \[PUBLISHED]/gm, "$1")
-            setCurrentVersion(version);
+        const changeVersion = (versionString) => {
+            setCurrentVersion({
+                version: versionString,
+                isPublished: versions.find(x => x.version === versionString)?.isPublished
+            });
         }
-        const SelectVersion = <Select name={"VersionNo"} options={versions.map(v => v.replace(/^\*(.*)/gm, '$1 [PUBLISHED]'))} selectedOption={currentVersion} onChange={changeVersion} />;
+        const SelectVersion = <Select name={"VersionNo"} options={versions.map(x => x.version)} selectedOption={currentVersion?.version} onChange={changeVersion} />;
 
         var swaggerLink;
         const isLoaded = apiStatus.error ? swaggerStatus.isLoaded : apiStatus.isLoaded;
         if(isLoaded){
             const apiName = apiStatus.error ? swaggerData.info.title : apiData.apiName;
-            swaggerLink = <ApiInformationLink linkText={`${apiName} on SwaggerHub`} url={`${swaggerHubUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs")} />;
+            swaggerLink = <ApiInformationLink linkText={`${apiName} v${currentVersion?.version} on SwaggerHub`} url={`${swaggerHubUrl}/${currentVersion?.version}`.replace("api", "app").replace("/apis", "/apis-docs")} />;
         } else {
             swaggerLink = <Skeleton/>
         }
@@ -158,6 +174,12 @@ const ApiInformationPage = () => {
             <div id="api-info-page" className="lbh-container">
                 <div className="sidePanel">
                     <Breadcrumbs />
+                    {!currentVersion && <Skeleton/>}
+                    {(currentVersion && !swaggerStatus.error) && 
+                        <span className={`govuk-tag lbh-tag${currentVersion.isPublished ? "--green" : "--yellow"} published-status-tag`}>
+                            { currentVersion.isPublished ? "Live" : "In Development" }
+                        </span>
+                    }
                     <h1>
                         {!apiStatus.error && (apiData.apiName || <Skeleton/>)}
                         {(apiStatus.error && (swaggerStatus.isLoaded ? swaggerData.info.title : <Skeleton/>))}
