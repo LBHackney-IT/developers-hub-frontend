@@ -57,14 +57,15 @@ describe("Preview an API", () => {
                 .should("have.text", this.apiData.description);
         });
 
-        it(`View active status tag on ${screenSize} screen`, function () {
+        it(`View live status tag on ${screenSize} screen`, function () {
             cy.viewport(screenSize);
             const isPublished = filterSwaggerPropertiesByType(this.apiData.properties, "X-Published").value.toLowerCase() == "true";
-            const expectedClass = isPublished ? "lbh-tag" : "lbh-tag--red";
-            cy.get(".apiPreview").find(".top > span.govuk-tag").first().should(($tag) => {
-                const tagText = $tag.text();
-                const expectedTagText = isPublished ? "Active" : "Inactive";
-                expect(tagText).to.equal(expectedTagText);
+            const expectedClass = isPublished ? "lbh-tag--green" : "lbh-tag--yellow";
+            cy.get(".apiPreview").find(".top > span.govuk-tag").first()
+                .should(($tag) => {
+                    const tagText = $tag.text();
+                    const expectedTagText = isPublished ? "Live" : "In Development";
+                    expect(tagText).to.equal(expectedTagText);
             }).should('have.class', expectedClass);
         });
     });

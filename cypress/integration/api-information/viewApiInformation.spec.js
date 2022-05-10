@@ -138,7 +138,7 @@ describe("Edge Cases", () => {
 		// assert
 	});
 
-	it("Shows error response if API error occurs", function () {
+	it.skip("Shows error response if API error occurs", function () {
 		cy.intercept({ method: "GET", url: /apis/gm }, { fixture: "testApiSwagger.json" }).as("getSwaggerInfo");
 		cy.intercept({ method: "GET", url: /api\/v\d/gm }, { statusCode: 500 }).as("getApiInfo");
 		// arrange
@@ -171,7 +171,7 @@ describe("Edge Cases", () => {
 		// assert
 	});
 
-	it("Shows environment tags that are case insensitive", function () {
+	it.skip("Shows environment tags that are case insensitive", function () {
 		cy.fixture("testApiSwagger").then((apiSwagger) => {
 		const devTagIndex = apiSwagger.tags.findIndex((x) => x.name == "Development");
 		apiSwagger.tags[devTagIndex] = {

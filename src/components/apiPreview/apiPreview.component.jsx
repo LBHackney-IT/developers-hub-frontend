@@ -6,7 +6,6 @@ const ApiPreview = ({name, description, properties}) => {
 
   const id = filterSwaggerPropertiesByType(properties, "Swagger").url.split("/")[5];
   const isPublished = filterSwaggerPropertiesByType(properties, "X-Published").value.toLowerCase() === "true";
-  const Versions = filterSwaggerPropertiesByType(properties, "X-Versions").value.split(",");
   const selectedVersion = filterSwaggerPropertiesByType(properties, "X-Version").value;
   const lastModified = filterSwaggerPropertiesByType(properties, "X-Modified").value.split("T")[0];
 
@@ -16,7 +15,7 @@ const ApiPreview = ({name, description, properties}) => {
         <div className="title">
           <Link to={{
             pathname: `/api-catalogue/${id}`, 
-            state: { versions: Versions, currentVersion: selectedVersion }
+            state: { currentVersion: selectedVersion }
           }} 
           className="lbh-link">
             <h2 className="lbh-heading-h3">{name}</h2>

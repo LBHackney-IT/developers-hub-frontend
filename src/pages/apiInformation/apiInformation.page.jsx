@@ -21,12 +21,12 @@ const ApiInformationPage = () => {
     const { apiId } = useParams();
     const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiId}`;
     const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}`;
-    const passedParams = useLocation().state || { versions: null, currentVersion: null, action: null, name: null };
+    const passedParams = useLocation().state || { currentVersion: null, action: null, name: null };
     const [swaggerStatus, setSwaggerStatus] = useState({isLoaded: false, error: null });
     const [apiStatus, setApiStatus] = useState(
       {isLoaded: false, error: null });
 
-    const [versions, setVersions] = useState(passedParams.versions || []);
+    const [versions, setVersions] = useState([]);
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
     const [apiData, setApiData] = useState({});
     const [swaggerData, setSwaggerData] = useState({});
@@ -63,13 +63,9 @@ const ApiInformationPage = () => {
             });
     }, [apiUrl]);
 
-    // Get SwaggerHub data
-    useEffect(() => {
 
-        const handleSwaggerData = (result) => {
-            setSwaggerData(result);
-            setSwaggerStatus({ isLoaded: true, error: null });
-        };
+    // Get API Versions from SwaggerHub
+    useEffect(() => {
 
         const handleApiVersioning = (result) => {
             var publishedVersionIndex;
@@ -92,16 +88,28 @@ const ApiInformationPage = () => {
         };
 
         resetState();
-
-        axios.get(`${swaggerHubUrl}/${currentVersion?.version || ''}`)
-            .then( result => {
-                currentVersion ? handleSwaggerData(result.data) : handleApiVersioning(result.data)
+        axios.get(swaggerHubUrl)
+            .then(result => {
+                handleApiVersioning(result.data)
             })
             .catch((error) => {
                 setSwaggerStatus({ isLoaded: true, error: error });
             });
-    }, [swaggerHubUrl, currentVersion]);
 
+    }, [swaggerHubUrl]);
+    
+    // Get current version API data from SwaggerHub
+    useEffect(() => {
+        if(currentVersion?.version)
+            axios.get(`${swaggerHubUrl}/${currentVersion.version}`)
+                .then( result => {
+                    setSwaggerData(result.data);
+                    setSwaggerStatus({ isLoaded: true, error: null });
+                })
+                .catch((error) => {
+                    setSwaggerStatus({ isLoaded: true, error: error });
+                });
+    }, [currentVersion, swaggerHubUrl])
 
     const formatApiData = () => {
 

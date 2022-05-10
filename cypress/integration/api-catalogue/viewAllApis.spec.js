@@ -32,36 +32,77 @@ describe("View API Catalogue page", () => {
     })
 });
 
-describe('All APIs Pagination', () => {
+describe('Paginate API Catalogue results', () => {
 
-    beforeEach(function () {
+    beforeEach(() => {
         cy.login();
-        cy.visit("/api-catalogue");
         cy.intercept('/specs*').as('getApiDefinitions');
+        cy.visit("/api-catalogue");
+        cy.wait("@getApiDefinitions");
     })
 
     const visitLastPageIfPossible = () => {
         // iterate recursively until the "Next" link is disabled
         cy.get(".lbh-simple-pagination__link--next").then(($next) => {
-        if ($next.hasClass('disabled')) { return } // we are on the last page
+            if ($next.hasClass('disabled')) { return } // we are on the last page
 
-        cy.wait(250); // just for clarity
-        cy.get(".lbh-simple-pagination__link--next").click();
+            cy.wait(250); // just for clarity
+            cy.get(".lbh-simple-pagination__link--next").click();
 
-        cy.wait("@getApiDefinitions");
-        visitLastPageIfPossible();
+            cy.wait("@getApiDefinitions");
+            visitLastPageIfPossible();
         })
     }
 
     it('View the first page', () => {
-        cy.visit("/api-catalogue");
-        cy.wait("@getApiDefinitions");
         cy.get(".lbh-simple-pagination__link--previous").should('have.class', 'disabled');
     });
 
     it('View the last page', () => {
         visitLastPageIfPossible();
         cy.get(".lbh-simple-pagination__link--next").should('have.class', 'disabled');
+    });
+
+    describe("Resetting Pagination", () => {
+
+        beforeEach(function () {
+            cy.login();
+            cy.visit("/api-catalogue");
+        });
+    
+        const scenarios = [
+            { name: "switching filters", function: () => { cy.get("#filterApis-2").check() } },
+            { name: "changing sort by", function: () => { cy.get('select#SortBy').select("A-Z") } }
+        ];
+    
+        scenarios.forEach((scenario) => {
+            it(`When ${scenario.name}, pagination is reset`, () => {
+                cy.intercept('/specs*').as('getApiDefinitions');
+                cy.visit("/api-catalogue");
+                cy.wait("@getApiDefinitions");
+    
+                cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
+                    expect($nextPage.text()).to.contain("2"); // on page 1
+                });
+                cy.get(".lbh-simple-pagination__link--next").click();
+                cy.wait("@getApiDefinitions");
+                cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
+                    expect($nextPage.text()).to.contain("3"); // on page 2
+                });
+                // Arrange
+    
+                cy.get(".govuk-details__summary-text").click();
+                scenario.function();
+                cy.wait("@getApiDefinitions");
+                // Act
+    
+                cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
+                    expect($nextPage.text()).to.contain("2");
+                    expect($nextPage.text()).to.not.contain("3");
+                });
+                // Assert
+            });
+        });
     });
 });
 
@@ -75,29 +116,27 @@ describe("Filter APIs", () => {
             cy.intercept('GET', '/specs*', allApis).as("getApis");
         });
         cy.visit("/api-catalogue");
+        cy.wait('@getApis');
     });
 
     it("View all APIs by default", () => {
-        cy.wait('@getApis').its('request.url').should('include', 'state=ALL');
+        cy.get('@getApis').its('request.url').should('include', 'state=ALL');
         cy.get("#filterApis-0").should("be.checked");
     });
 
-    it("View active APIs", () => {
-        cy.wait('@getApis');
+    it("View published APIs", () => {
         cy.get("#filterApis-1").check();
         cy.wait('@getApis').its('request.url').should('include', 'state=PUBLISHED');
     });
 
-    it("View inactive APIs", () => {
-        cy.wait('@getApis');
+    it("View unpublished APIs", () => {
         cy.get("#filterApis-2").check();
         cy.wait('@getApis').its('request.url').should('include', 'state=UNPUBLISHED');
     });
 
     it("Click on radio labels to select an API filter", () => {
-        cy.wait('@getApis');
-        cy.get(".govuk-radios__label").contains("Active APIs").click();
-       cy.wait('@getApis').its('request.url').should('include', 'state=PUBLISHED');
+        cy.get(".govuk-radios__label").contains("Live APIs").click();
+        cy.wait('@getApis').its('request.url').should('include', 'state=PUBLISHED');
     });
 });
 
@@ -142,45 +181,3 @@ describe("Advanced Query Fields", () => {
           });
     });
 })
-
-describe("Resetting Pagination", () => {
-
-    beforeEach(function () {
-        cy.login();
-        cy.visit("/api-catalogue");
-    });
-
-    const scenarios = [
-        { name: "switching filters", function: () => { cy.get("#filterApis-2").check() } },
-        { name: "changing sort by", function: () => { cy.get('select#SortBy').select("A-Z") } }
-    ];
-
-    scenarios.forEach((scenario) => {
-        it(`When ${scenario.name}, pagination is reset`, () => {
-            cy.intercept('/specs*').as('getApiDefinitions');
-            cy.visit("/api-catalogue");
-            cy.wait("@getApiDefinitions");
-
-            cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
-                expect($nextPage.text()).to.contain("2"); // on page 1
-            });
-            cy.get(".lbh-simple-pagination__link--next").click();
-            cy.wait("@getApiDefinitions");
-            cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
-                expect($nextPage.text()).to.contain("3"); // on page 2
-            });
-            // Arrange
-
-            cy.get(".govuk-details__summary-text").click();
-            scenario.function();
-            cy.wait("@getApiDefinitions");
-            // Act
-
-            cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
-                expect($nextPage.text()).to.contain("2");
-                expect($nextPage.text()).to.not.contain("3");
-            });
-            // Assert
-        });
-    });
-});
