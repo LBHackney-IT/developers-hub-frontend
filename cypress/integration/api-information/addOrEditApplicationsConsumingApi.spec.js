@@ -3,7 +3,7 @@ describe("Add or edit an application that consumes an API", () => {
 		cy.login();
 
 		// Stub API responses
-		cy.intercept("GET", /apis\/Hackney\/\D+\/?$/gm, { fixture: "testApiVersions" }).as("getApiVersions");
+        cy.intercept({ method: "GET", url: "apis/Hackney/testApi" }, { fixture: "testApiVersions" }).as("getApiVersions");
 
 		cy.fixture("testApiSwagger").then((swaggerData) => {
 			this.swaggerData = swaggerData;

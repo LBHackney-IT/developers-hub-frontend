@@ -3,14 +3,14 @@ describe('Delete an application from an API', () => {
         cy.login()
 
         // Stub API responses
-        cy.intercept('GET', /apis\/Hackney\/\D+\/?$/gm, {fixture: "testApiVersions"}).as("getApiVersions");
+        cy.intercept({ method: "GET", url: "apis/Hackney/testApi" }, { fixture: "testApiVersions" }).as("getApiVersions");
         cy.fixture("testApiSwagger").then((swaggerData) => {
             this.swaggerData = swaggerData;
             cy.intercept({method: 'GET', url: /apis\/Hackney\/\D+\/(\d|.)+/gm}, swaggerData).as("getSwaggerInfo");
         });
         cy.fixture("testApi").then((apiData) => {
             this.apiData = apiData;
-            cy.intercept({method: 'GET', url: /api\/v\d/gm}, apiData).as("getApiInfo");
+            cy.intercept({ method: 'GET', url: /api\/v\d/gm }, apiData).as("getApiInfo");
         });
 
         cy.intercept({method: 'DELETE', url: /api\/v\d/gm}, {statusCode: 200}).as("deleteApplication");

@@ -71,7 +71,7 @@ const ApiInformationPage = () => {
             var publishedVersionIndex;
             const apiVersions = [];
 
-            result.apis.forEach((api, index) => {
+            result.apis?.forEach((api, index) => {
                 const versionData = {
                     version: filterSwaggerPropertiesByType(api.properties, "X-Version").value, 
                     isPublished: filterSwaggerPropertiesByType(api.properties, "X-Published").value === "true"
@@ -161,7 +161,7 @@ const ApiInformationPage = () => {
     }
 
     if(swaggerStatus.error && apiStatus.error){
-        if(swaggerStatus.error.response.status === 404 && apiStatus.error.response.status === 404)
+        if(swaggerStatus.error.response?.status === 404 && apiStatus.error.response?.status === 404)
             return <NotFoundPage/>;
 
         return(

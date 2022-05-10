@@ -19,12 +19,12 @@ const Select = ({ name, label, options, onChange, selectedOption}) => {
                     className="govuk-select lbh-select" 
                     id={name} name={name} 
                     onChange={(e) => updateSelection(e.target.value)}
+                    value={selectedOption}
                 >
                     {options.map(option =>
                         <option 
                         key={option} 
                         value={option}
-                        selected={option === selectedOption}
                         >
                             {option}
                         </option>
