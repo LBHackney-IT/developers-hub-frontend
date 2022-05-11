@@ -5,10 +5,10 @@ describe("View API Information page", () => {
         cy.login()
 
         // Stub API responses
-        cy.intercept('GET', /apis\/Hackney\/\D+\/?$/gm, {fixture: "testApiVersions"}).as("getApiVersions");
+        cy.intercept("apis/Hackney/testApi", { fixture: "testApiVersions" }).as("getApiVersions");
         cy.fixture("testApiSwagger").then((swaggerData) => {
             this.swaggerData = swaggerData;
-            cy.intercept({method: 'GET', url: /apis\/Hackney\/\D+\/(\d|.)+/gm}, swaggerData).as("getSwaggerInfo");
+            cy.intercept("apis/Hackney/testApi/**", swaggerData).as("getSwaggerInfo");
         });
         cy.fixture("testApi").then((apiData) => {
             this.apiData = apiData;
@@ -117,17 +117,18 @@ describe("View API Information page", () => {
 
 describe("Edge Cases", () => {
   	beforeEach(function () {
-		cy.login();
-		cy.intercept("GET", "/specs*", { fixture: "allApis" }).as("getAllApis");
+		cy.login()
+        cy.intercept("apis/Hackney/testApi", {fixture: "testApiVersions"}).as("getApiVersions");
 	});
 
 	it("Shows error response if Swagger API error occurs, but swagger link is still visible", function () {
-		cy.intercept({ method: "GET", url: /api\/v\d/gm }, { fixture: "testApi.json" }).as("getApiInfo");
-		cy.intercept({ method: "GET", url: /apis/gm }, { statusCode: 500 }).as("getSwaggerInfo");
 		// arrange
-		cy.visit("/api-catalogue");
-		cy.get(".apiPreview").find("a").first().click();
+		cy.intercept({ method: "GET", url: /api\/v\d/gm }, { fixture: "testApi.json" }).as("getApiInfo");
+        cy.intercept({ method: "GET", url: "apis/Hackney/testApi/**" }, {statusCode: 500}).as("getSwaggerInfo");
 		// act
+		cy.visit("/api-catalogue/testApi");
+		cy.wait(["@getApiVersions", "@getSwaggerInfo", "@getApiInfo"]);
+		// assert
 		cy.get(".lbh-error-summary").should("be.visible");
 		cy.get(".govuk-error-summary__body").should("contain", "Request failed with status code 500");
 		cy.get(".env-tags").should("contain", "Sorry, we're having difficulty loading this data");
@@ -135,16 +136,16 @@ describe("Edge Cases", () => {
 		cy.contains("SwaggerHub Specification")
 		.next(".govuk-table__cell")
 		.should("contain", "on SwaggerHub");
-		// assert
 	});
 
 	it("Shows error response if API error occurs", function () {
-		cy.intercept({ method: "GET", url: /apis/gm }, { fixture: "testApiSwagger.json" }).as("getSwaggerInfo");
-		cy.intercept({ method: "GET", url: /api\/v\d/gm }, { statusCode: 500 }).as("getApiInfo");
 		// arrange
-		cy.visit("/api-catalogue");
-		cy.get(".apiPreview").find("a").first().click();
+        cy.intercept("apis/Hackney/testApi/**", {fixture: "testApiSwagger"}).as("getSwaggerInfo");
+		cy.intercept({ method: "GET", url: /api\/v\d/gm }, { statusCode: 500 }).as("getApiInfo");
 		// act
+		cy.visit("/api-catalogue/testApi");
+		cy.wait(["@getApiVersions", "@getSwaggerInfo", "@getApiInfo"]);
+		// assert
 		cy.get(".lbh-error-summary").should("be.visible");
 		cy.get(".govuk-error-summary__body").should("contain", "Request failed with status code 500");
 		
@@ -155,48 +156,46 @@ describe("Edge Cases", () => {
 		});
 		cy.contains("SwaggerHub Specification").next(".govuk-table__cell")
 			.should("contain", "on SwaggerHub");
-		// assert
 	});
 
 	it("Shows error response if both APIs have errors", function () {
-		cy.intercept({ method: "GET", url: /api\/v\d/gm }, { statusCode: 500 }).as("getApiInfo");
-		cy.intercept({ method: "GET", url: /apis/gm }, { statusCode: 500 }).as("getSwaggerInfo");
 		// arrange
-		cy.visit("/api-catalogue");
-		cy.get(".apiPreview").find("a").first().click();
-		cy.wait(["@getSwaggerInfo", "@getApiInfo"]);
+        cy.intercept({ method: "GET", url: "apis/Hackney/testApi/**" }, { statusCode: 500 }).as("getSwaggerInfo");
+		cy.intercept({ method: "GET", url: /api\/v\d/gm }, { statusCode: 500 }).as("getApiInfo");
 		// act
+		cy.visit("/api-catalogue/testApi");
+		cy.wait(["@getApiVersions", "@getSwaggerInfo", "@getApiInfo"]);
+		// assert
 		cy.get(".lbh-error-summary").should("be.visible");
 		cy.get(".govuk-error-summary__body").should("contain", "Error: Request failed with status code 500 | Error: Request failed with status code 500");
-		// assert
 	});
 
 	it("Shows environment tags that are case insensitive", function () {
+		// arrange
 		cy.fixture("testApiSwagger").then((apiSwagger) => {
-		const devTagIndex = apiSwagger.tags.findIndex((x) => x.name == "Development");
-		apiSwagger.tags[devTagIndex] = {
-			name: "dEveLOPmenT",
-			description: "Marks this API as available in its development enviroment.",
-		};
-		cy.intercept("GET", /apis/gm, apiSwagger).as("getSwaggerInfo");
+			const devTagIndex = apiSwagger.tags.findIndex((x) => x.name == "Development");
+			apiSwagger.tags[devTagIndex] = {
+				name: "dEveLOPmenT",
+				description: "Marks this API as available in its development enviroment.",
+			};
+        	cy.intercept({ method: "GET", url: "apis/Hackney/testApi/**" }, apiSwagger).as("getSwaggerInfo");
 		});
+
 		cy.intercept({ method: "GET", url: /api\/v\d/gm }, { fixture: "testApi.json" }).as("getApiInfo");
-        // arrange
-		cy.visit("/api-catalogue");
-        cy.get(".apiPreview").find("a").first().click();
         // act
-        cy.get(".lbh-tag").contains("Development").should("have.class", "lbh-tag--yellow");
+		cy.visit("/api-catalogue/testApi");
+		cy.wait(["@getApiVersions", "@getSwaggerInfo", "@getApiInfo"]);
         // assert
+        cy.get(".lbh-tag").contains("Development").should("have.class", "lbh-tag--yellow");
 	});
 
     it("View not found page if both APIs return 404", function(){
+        cy.intercept("apis/Hackney/testApi/**", { statusCode: 404 }).as("getSwaggerInfo");
         cy.intercept({method: 'GET', url: /api\/v\d/gm}, { statusCode: 404}).as("getApiInfo");
-        cy.intercept({method: 'GET', url: /apis/gm}, { statusCode: 404 }).as("getSwaggerInfo");
         // arrange
-        cy.visit("/api-catalogue");
-        cy.get(".apiPreview").find("a").first().click();
+		cy.visit("/api-catalogue/testApi");
+		cy.wait(["@getApiVersions", "@getSwaggerInfo", "@getApiInfo"]);
         // act
-        cy.wait(["@getSwaggerInfo", "@getApiInfo"]);
         cy.get(".lbh-error-summary.secondary").should('be.visible');
         cy.get(".govuk-error-summary__body").should("contain", "404: Page not Found");
         // assert
@@ -207,25 +206,26 @@ describe("Edge Cases", () => {
             apiData.applications = [];
             cy.intercept({method: 'GET', url: /api\/v\d/gm}, apiData).as("getApiInfo");
         });
-        cy.intercept({method: 'GET', url: /apis/gm}, { fixture: "testApiSwagger.json"}).as("getSwaggerInfo");
+        cy.intercept("apis/Hackney/testApi/**", { fixture: "testApiSwagger.json"}).as("getSwaggerInfo");
+        // arrange
 
-        cy.visit("/api-catalogue");
-        cy.get(".apiPreview").find("a").first().click();
-        // navigate from API Catalogue
+		cy.visit("/api-catalogue/testApi");
+		cy.wait(["@getApiVersions", "@getSwaggerInfo", "@getApiInfo"]);
+        // act
         cy.contains("No applications found.");
+        // assert
     });
 
     it("Hide Add, Edit & Delete application buttons if user is not in the allowed groups", function() {
-        cy.intercept({method: 'GET', url: /apis/gm}, { fixture: "testApiSwagger.json"}).as("getSwaggerInfo");
+        cy.intercept("apis/Hackney/testApi/**", {fixture: "testApiSwagger"}).as("getSwaggerInfo");
         cy.intercept({method: 'GET', url: /api\/v\d/gm}, { fixture: "testApi.json"}).as("getApiInfo");
-       
         cy.removeGroup();
-        cy.visit("/api-catalogue");
-        cy.get(".apiPreview").find("a").first().click();
-        // navigate from API Catalogue
-        
-        cy.wait("@getApiInfo");
+		// arrange
+		cy.visit("/api-catalogue/testApi");
+		cy.wait(["@getApiVersions", "@getSwaggerInfo", "@getApiInfo"]);
+        // act
         cy.get('.govuk-summary-list__actions').should("not.exist");
         cy.get('.lbh-button--add').should("not.exist");
+        // assert
     });
 });

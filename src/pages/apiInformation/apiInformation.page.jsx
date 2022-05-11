@@ -21,12 +21,12 @@ const ApiInformationPage = () => {
     const { apiId } = useParams();
     const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiId}`;
     const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}`;
-    const passedParams = useLocation().state || { versions: null, currentVersion: null, action: null, name: null };
+    const passedParams = useLocation().state || { currentVersion: null, action: null, name: null };
     const [swaggerStatus, setSwaggerStatus] = useState({isLoaded: false, error: null });
     const [apiStatus, setApiStatus] = useState(
       {isLoaded: false, error: null });
 
-    const [versions, setVersions] = useState(passedParams.versions || []);
+    const [versions, setVersions] = useState([]);
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
     const [apiData, setApiData] = useState({});
     const [swaggerData, setSwaggerData] = useState({});
@@ -63,45 +63,69 @@ const ApiInformationPage = () => {
             });
     }, [apiUrl]);
 
-    // Get SwaggerHub data
+
+    // Get API Versions from SwaggerHub
     useEffect(() => {
-        const handleSwaggerData = (result) => {
-            setSwaggerData(result);
-            setSwaggerStatus({ isLoaded: true, error: null });
-        };
+
         const handleApiVersioning = (result) => {
-            const apiVersions = result.apis.map( api =>
-                filterSwaggerPropertiesByType(api.properties, "X-Version").value
-            );
+            var publishedVersionIndex;
+            const apiVersions = [];
+
+            result.apis?.forEach((api, index) => {
+                const versionData = {
+                    version: filterSwaggerPropertiesByType(api.properties, "X-Version").value, 
+                    isPublished: filterSwaggerPropertiesByType(api.properties, "X-Published").value === "true"
+                };
+
+                if(versionData.isPublished) publishedVersionIndex = index;
+
+                apiVersions.push(versionData);
+            });
+
             setVersions(apiVersions);
-            setCurrentVersion(apiVersions[0]);
+            setCurrentVersion(apiVersions[publishedVersionIndex || 0]);
+            // default to first version if no versions of the API are published
         };
 
         resetState();
-
-        axios.get(`${swaggerHubUrl}/${currentVersion || ''}`)
-            .then( result => {
-                currentVersion ? handleSwaggerData(result.data) : handleApiVersioning(result.data)
+        axios.get(swaggerHubUrl)
+            .then(result => {
+                handleApiVersioning(result.data)
             })
             .catch((error) => {
                 setSwaggerStatus({ isLoaded: true, error: error });
             });
-    }, [swaggerHubUrl, currentVersion]);
 
+    }, [swaggerHubUrl]);
+    
+    // Get current version API data from SwaggerHub
+    useEffect(() => {
+        if(currentVersion?.version)
+            axios.get(`${swaggerHubUrl}/${currentVersion.version}`)
+                .then( result => {
+                    setSwaggerData(result.data);
+                    setSwaggerStatus({ isLoaded: true, error: null });
+                })
+                .catch((error) => {
+                    setSwaggerStatus({ isLoaded: true, error: error });
+                });
+    }, [currentVersion, swaggerHubUrl])
 
     const formatApiData = () => {
 
-        const changeVersion = (versionFormatted) => {
-            const version = versionFormatted.replace(/^((\d\.?)*) \[PUBLISHED]/gm, "$1")
-            setCurrentVersion(version);
+        const changeVersion = (versionString) => {
+            setCurrentVersion({
+                version: versionString,
+                isPublished: versions.find(x => x.version === versionString)?.isPublished
+            });
         }
-        const SelectVersion = <Select name={"VersionNo"} options={versions.map(v => v.replace(/^\*(.*)/gm, '$1 [PUBLISHED]'))} selectedOption={currentVersion} onChange={changeVersion} />;
+        const SelectVersion = <Select name={"VersionNo"} options={versions.map(x => x.version)} selectedOption={currentVersion?.version} onChange={changeVersion} />;
 
         var swaggerLink;
         const isLoaded = apiStatus.error ? swaggerStatus.isLoaded : apiStatus.isLoaded;
         if(isLoaded){
             const apiName = apiStatus.error ? swaggerData.info.title : apiData.apiName;
-            swaggerLink = <ApiInformationLink linkText={`${apiName} on SwaggerHub`} url={`${swaggerHubUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs")} />;
+            swaggerLink = <ApiInformationLink linkText={`${apiName} v${currentVersion?.version} on SwaggerHub`} url={`${swaggerHubUrl}/${currentVersion?.version}`.replace("api", "app").replace("/apis", "/apis-docs")} />;
         } else {
             swaggerLink = <Skeleton/>
         }
@@ -137,7 +161,7 @@ const ApiInformationPage = () => {
     }
 
     if(swaggerStatus.error && apiStatus.error){
-        if(swaggerStatus.error.response.status === 404 && apiStatus.error.response.status === 404)
+        if(swaggerStatus.error.response?.status === 404 && apiStatus.error.response?.status === 404)
             return <NotFoundPage/>;
 
         return(
@@ -158,6 +182,12 @@ const ApiInformationPage = () => {
             <div id="api-info-page" className="lbh-container">
                 <div className="sidePanel">
                     <Breadcrumbs />
+                    {!currentVersion && <Skeleton/>}
+                    {(currentVersion && !swaggerStatus.error) && 
+                        <span className={`govuk-tag lbh-tag${currentVersion.isPublished ? "--green" : "--yellow"} published-status-tag`}>
+                            { currentVersion.isPublished ? "Live" : "In Development" }
+                        </span>
+                    }
                     <h1>
                         {!apiStatus.error && (apiData.apiName || <Skeleton/>)}
                         {(apiStatus.error && (swaggerStatus.isLoaded ? swaggerData.info.title : <Skeleton/>))}
