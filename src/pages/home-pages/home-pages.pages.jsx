@@ -205,7 +205,7 @@ export const HomePage6 = () => {
       <h2>How the API Authentication process works </h2>
       <div>
         <Zoom>
-        <img src={apiflow} alt="" className="center"></img>
+        <img src={apiflow} alt="" className="center" width="500"></img>
         </Zoom>
         <p>
           When a consumer makes a request to an API, the consumer provide their
