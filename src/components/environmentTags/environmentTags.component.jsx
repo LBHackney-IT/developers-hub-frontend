@@ -12,7 +12,7 @@ const EnvironmentTags = ({tags, error}) => {
   return(
     <div className="env-tags">
       <span className={`govuk-tag lbh-tag lbh-tag${includesCaseInsensitive(tags, "Development") ? "--yellow" : "--grey"}`}>Development</span>
-      <span className={`govuk-tag lbh-tag lbh-tag${includesCaseInsensitive(tags, "Staging") ? "--yellow" : "--grey"}`}>Staging</span>
+      <span className={`govuk-tag lbh-tag lbh-tag${includesCaseInsensitive(tags, "Staging") ? "--orange" : "--grey"}`}>Staging</span>
       <span className={`govuk-tag lbh-tag lbh-tag${includesCaseInsensitive(tags, "Production") ? "--green" : "--grey"}`}>Production</span>
       <span className={`govuk-tag lbh-tag lbh-tag${includesCaseInsensitive(tags, "Deprecated") ? "--red" : "--hidden"}`}>Deprecated</span>
     </div>
