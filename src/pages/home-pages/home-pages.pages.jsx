@@ -3,6 +3,8 @@ import arn from "../../assets/arn.png";
 import apiflow from "../../assets/apiflow.png";
 import ssogroups from "../../assets/ssogroups.png";
 import MyCollapsible from "../../components/accordion/accordion.jsx";
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
 export const HomePage1 = () => {
   return (
@@ -202,7 +204,9 @@ export const HomePage6 = () => {
     <div id="how-the-authentication-works" className="main-container">
       <h2>How the API Authentication process works </h2>
       <div>
+        <Zoom>
         <img src={apiflow} alt="" className="center"></img>
+        </Zoom>
         <p>
           When a consumer makes a request to an API, the consumer provide their
           JWT access token in the authorization header of the request. Our
