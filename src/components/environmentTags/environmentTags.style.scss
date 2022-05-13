@@ -7,4 +7,11 @@
         margin: 0;
     }
     .lbh-tag--hidden { display: none; }
+    .lbh-tag--amber{  
+        align-items: center;
+        display: inline-flex;
+        flex-flow: wrap;
+        gap: 10px;
+        fill: darkorange;
+    }
 }
