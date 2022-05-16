@@ -10,7 +10,7 @@
   ul{
     padding-left: 2em;
   }
-  
+
   .info-wrapper {
     display: flex;
     flex-flow: row wrap;
@@ -45,5 +45,10 @@
     .info-wrapper {
       flex-flow: column wrap;
     }
+  }
+
+  .content{
+    object-fit: cover !important;
+
   }
 }
