@@ -49,7 +49,7 @@ describe("View API Information page", () => {
 					tagColour = "yellow";
 					break;
 					case "Staging":
-					tagColour = "yellow";
+					tagColour = "amber";
 					break;
 					case "Production":
 					tagColour = "green";
