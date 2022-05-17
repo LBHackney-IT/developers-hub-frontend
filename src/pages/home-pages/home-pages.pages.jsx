@@ -3,6 +3,8 @@ import arn from "../../assets/arn.png";
 import apiflow from "../../assets/apiflow.png";
 import ssogroups from "../../assets/ssogroups.png";
 import MyCollapsible from "../../components/accordion/accordion.jsx";
+import PinchZoomPan from "react-responsive-pinch-zoom-pan";
+
 
 export const HomePage1 = () => {
   return (
@@ -201,8 +203,17 @@ export const HomePage6 = () => {
   return (
     <div id="how-the-authentication-works" className="main-container">
       <h2>How the API Authentication process works </h2>
-      <div>
-        <img src={apiflow} alt="" className="center"></img>
+      <h3>Zoom</h3>
+      <PinchZoomPan  maxScale={4} containerRatio={((400 / 600) * 100)}>
+        <img src={apiflow} alt="" className="center"
+          style={{
+        margin: 'auto',
+        width: '100%',
+        height: 'auto'
+      }}
+          ></img>
+      </PinchZoomPan>
+
         <p>
           When a consumer makes a request to an API, the consumer provide their
           JWT access token in the authorization header of the request. Our
@@ -219,7 +230,6 @@ export const HomePage6 = () => {
           deployed. This is so the API ID received as part of the request can be
           mapped to the actual API name.
         </p>
-      </div>
 
       <p>
         We would like to reuse the auth token set by the frontend authentication
@@ -255,6 +265,7 @@ export const HomePage6 = () => {
         and determine who has access to them which gives them more flexibility.
       </p>
     </div>
+
   );
 };
 
