@@ -11,15 +11,16 @@
         justify-content: space-between;
         align-items: center;
         flex-flow: wrap;
-        .govuk-tag {
-            margin: 0px;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
         .title .metadata{
             margin-top: 0;
             text-align: left;
             p { margin-top: 0; }
         }
     }
+}
+
+.govuk-tag.published-status-tag{
+    margin: 0px;
+    text-transform: uppercase;
+    font-weight: 700;
 }

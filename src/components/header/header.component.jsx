@@ -9,10 +9,6 @@ const Header = () => {
   const alwaysVisibleLinks = APP_PATHS.filter(appPath => appPath.alwaysVisible);
   const signedOutLinks = APP_PATHS.filter(appPath => appPath.signedOutVisible);
   const signedInLinks = APP_PATHS.filter(appPath => appPath.signedInVisible);
-
-  const WelcomeMessage = () => {
-    return <p>Welcome {currentUser.name}</p>;
-  }
   
   return (
     <header id="header" className="lbh-header ">
@@ -71,7 +67,7 @@ const Header = () => {
           </div>
           <div className="lbh-header__links">
           <div className="welcome">
-            <p>{currentUser ? <WelcomeMessage/> : ""}</p>
+            <p>{currentUser ? `Welcome ${currentUser.name}` : ""}</p>
           </div>
             {
               alwaysVisibleLinks.map(appPath => (

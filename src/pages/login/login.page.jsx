@@ -1,24 +1,23 @@
 import withUser from "../../HOCs/with-user.hoc.js";
 import { useLocation } from "react-router";
-import Announcement from "../../components/announcement/announcment.component.jsx";
+import Announcement from "../../components/announcement/announcement.component.jsx";
 
 const LoginPage = () => {
   const state = useLocation().state;
   const redirectUri = state ? `${state.referrer.pathname}${state.referrer.search}${state.referrer.hash}` : "";
 
-  const privatePageMessage = <>
-    The page you tried to access is private. Please sign in below to gain access.<br/>
-    <a href="/" className="lbh-link lbh-link--no-visited-state">Back to homepage</a><br/>
-  </>
-
   return (
     <main className="lbh-main-wrapper" id="login-page" role="main">
       <div className="lbh-container">
-        { redirectUri && < Announcement
-                          category={"warning"}
-                          title={"You cannot access this page"}
-                          content={privatePageMessage}
-                        /> }
+        { redirectUri && 
+          <Announcement
+            category={"warning"}
+            title={"You cannot access this page"}
+          >
+            The page you tried to access is private. Please sign in below to gain access.<br/>
+            <a href="/" className="lbh-link lbh-link--no-visited-state">Back to homepage</a><br/>
+          </Announcement> 
+        }
         <section className="sign-in">
           <h1 className="lbh-heading-h1">Sign in</h1>
           <a

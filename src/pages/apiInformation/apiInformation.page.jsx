@@ -1,44 +1,51 @@
 import { React, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import axios from "axios";
-import Cookies from 'js-cookie';
-import Skeleton from 'react-loading-skeleton';
+import Cookies from "js-cookie";
+import Skeleton from "react-loading-skeleton";
 
 import withUser from "../../HOCs/with-user.hoc.js";
 import { filterSwaggerPropertiesByType } from "../../utility/utility";
-import { useUser } from "../../context/user.context.js";
-import { useHistory } from "react-router-dom";
 
 import Table from "../../components/table/table.component.jsx";
-import ApplicationsTable from "../../components/table/applicationsTable.component.jsx";
+import ApplicationsTable from "../../components/applicationsTable/applicationsTable.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
 import Select from "../../components/select/select.component.jsx";
 import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
 import ApiInformationLink from "../../components/apiInformationLink/apiInformationLink.component.jsx";
 import NotFoundPage from "../error/NotFound.page.jsx";
+import Announcement from "../../components/announcement/announcement.component";
 
 const ApiInformationPage = () => {
-    const currentuser = useUser();
-    const history = useHistory();
-    if (!currentuser) history.push("/");
-
     const { apiId } = useParams();
     const swaggerHubUrl = `https://api.swaggerhub.com/apis/Hackney/${apiId}`;
     const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}`;
-    const passedParams = useLocation().state || { versions: null, currentVersion: null };
-
+    const passedParams = useLocation().state || { currentVersion: null, action: null, name: null };
     const [swaggerStatus, setSwaggerStatus] = useState({isLoaded: false, error: null });
-    const [apiStatus, setApiStatus] = useState({isLoaded: false, error: null });
+    const [apiStatus, setApiStatus] = useState(
+      {isLoaded: false, error: null });
 
-    const [versions, setVersions] = useState(passedParams.versions || []);
+    const [versions, setVersions] = useState([]);
     const [currentVersion, setCurrentVersion] = useState(passedParams.currentVersion);
     const [apiData, setApiData] = useState({});
     const [swaggerData, setSwaggerData] = useState({});
+    const [alerts, setAlerts] = useState([
+        ...passedParams.action ? [ <Announcement title={`Successfully ${passedParams.action}!`}> You have successfully {passedParams.action} <b className='lbh-body lbh-!-font-weight-bold'>{passedParams.name}</b>{passedParams.action === "added" && " to this API"}.</Announcement> ] : []
+    ]);
 
     const resetState = () => {
         window.scrollTo(0, 0);
         setSwaggerStatus({isLoaded: false, error: null });
+    }
+
+    const deleteApplication = (applicationName) => {
+        let updatedApplications = apiData.applications.filter(x => x.name !== applicationName);
+        setApiData({...apiData, applications: updatedApplications}); // visually removing application
+    }
+
+    const addAnnouncement = (announcement) => {
+        setAlerts([...alerts, announcement]);
     }
 
     // Get data from API
@@ -56,51 +63,74 @@ const ApiInformationPage = () => {
             });
     }, [apiUrl]);
 
-    // Get SwaggerHub data
+
+    // Get API Versions from SwaggerHub
     useEffect(() => {
-        const handleSwaggerData = (result) => {
-            setSwaggerData(result);
-            setSwaggerStatus({ isLoaded: true, error: null });
-        };
+
         const handleApiVersioning = (result) => {
-            const apiVersions = result.apis.map( api =>
-                filterSwaggerPropertiesByType(api.properties, "X-Version").value
-            );
+            var publishedVersionIndex;
+            const apiVersions = [];
+
+            result.apis?.forEach((api, index) => {
+                const versionData = {
+                    version: filterSwaggerPropertiesByType(api.properties, "X-Version").value, 
+                    isPublished: filterSwaggerPropertiesByType(api.properties, "X-Published").value === "true"
+                };
+
+                if(versionData.isPublished) publishedVersionIndex = index;
+
+                apiVersions.push(versionData);
+            });
+
             setVersions(apiVersions);
-            setCurrentVersion(apiVersions[0]);
+            setCurrentVersion(apiVersions[publishedVersionIndex || 0]);
+            // default to first version if no versions of the API are published
         };
 
         resetState();
-
-        axios.get(`${swaggerHubUrl}/${currentVersion || ''}`)
-            .then( result => {
-                currentVersion ? handleSwaggerData(result.data) : handleApiVersioning(result.data)
+        axios.get(swaggerHubUrl)
+            .then(result => {
+                handleApiVersioning(result.data)
             })
             .catch((error) => {
                 setSwaggerStatus({ isLoaded: true, error: error });
             });
-    }, [swaggerHubUrl, currentVersion]);
 
+    }, [swaggerHubUrl]);
+    
+    // Get current version API data from SwaggerHub
+    useEffect(() => {
+        if(currentVersion?.version)
+            axios.get(`${swaggerHubUrl}/${currentVersion.version}`)
+                .then( result => {
+                    setSwaggerData(result.data);
+                    setSwaggerStatus({ isLoaded: true, error: null });
+                })
+                .catch((error) => {
+                    setSwaggerStatus({ isLoaded: true, error: error });
+                });
+    }, [currentVersion, swaggerHubUrl])
 
     const formatApiData = () => {
 
-        const changeVersion = (versionFormatted) => {
-            const version = versionFormatted.replace(/^((\d\.?)*) \[PUBLISHED]/gm, "$1")
-            setCurrentVersion(version);
+        const changeVersion = (versionString) => {
+            setCurrentVersion({
+                version: versionString,
+                isPublished: versions.find(x => x.version === versionString)?.isPublished
+            });
         }
-        const SelectVersion = <Select name={"VersionNo"} options={versions.map(v => v.replace(/^\*(.*)/gm, '$1 [PUBLISHED]'))} selectedOption={currentVersion} onChange={changeVersion} />;
+        const SelectVersion = <Select name={"VersionNo"} options={versions.map(x => x.version)} selectedOption={currentVersion?.version} onChange={changeVersion} />;
 
         var swaggerLink;
         const isLoaded = apiStatus.error ? swaggerStatus.isLoaded : apiStatus.isLoaded;
         if(isLoaded){
             const apiName = apiStatus.error ? swaggerData.info.title : apiData.apiName;
-            swaggerLink = <ApiInformationLink linkText={`${apiName} on SwaggerHub`} url={`${swaggerHubUrl}/${currentVersion}`.replace("api", "app").replace("/apis", "/apis-docs")} />;
+            swaggerLink = <ApiInformationLink linkText={`${apiName} v${currentVersion?.version} on SwaggerHub`} url={`${swaggerHubUrl}/${currentVersion?.version}`.replace("api", "app").replace("/apis", "/apis-docs")} />;
         } else {
             swaggerLink = <Skeleton/>
         }
 
         var links; var devUrl; var stagingUrl;
-        var actionLink;
         if(apiStatus.error){
             devUrl = stagingUrl = links =  <p>We're having difficulty loading this data.</p>
         } else {
@@ -112,30 +142,12 @@ const ApiInformationPage = () => {
                 devUrl = <ApiInformationLink linkText={apiData.developmentBaseURL} url={apiData.developmentBaseURL}/>
                 stagingUrl = <ApiInformationLink linkText={apiData.stagingBaseURL} url={apiData.stagingBaseURL}/>
 
-                // TODO: add functionality to:
-                // edit (PATCH endpoint functionality
-                // delete (DELETE endpoint functionality)
-                actionLink = <ul>
-                                <li class="govuk-summary-list__actions-list-item">
-                                  <a class="govuk-link" href="/" target="_blank">
-                                    Edit<span class="govuk-visually-hidden"> application</span>
-                                  </a>
-                                </li>
-                                <li class="govuk-summary-list__actions-list-item">
-                                  <a class="govuk-link" href="/" target="_blank">
-                                    Delete<span class="govuk-visually-hidden"> application</span>
-                                  </a>
-                                </li>
-                                </ul>
-
             } else {
                 links = <ul>
                             <li><Skeleton/></li>
                             <li><Skeleton/></li>
-                            <li><Skeleton/></li>
                         </ul>
                 devUrl = stagingUrl = <Skeleton/>
-                actionLink = <Skeleton/>
             }
         }
 
@@ -146,19 +158,10 @@ const ApiInformationPage = () => {
             ["Staging Base URL", stagingUrl],
             ["Relevant Links", links]
         );
-
-            // This is temporary to display the table
-            // TODO: replace with implementation from GET endpoint
-        ApplicationTableData.push(
-            ["Manage My Home", actionLink],
-            ["Social Care", actionLink],
-            ["Finance", actionLink],
-            ["Repairs Hub", actionLink]
-        )
     }
 
     if(swaggerStatus.error && apiStatus.error){
-        if(swaggerStatus.error.response.status === 404 && apiStatus.error.response.status === 404)
+        if(swaggerStatus.error.response?.status === 404 && apiStatus.error.response?.status === 404)
             return <NotFoundPage/>;
 
         return(
@@ -171,7 +174,6 @@ const ApiInformationPage = () => {
     }
 
     const TableData = [];
-    const ApplicationTableData = [];
     if(!(apiStatus.error && swaggerStatus.error))
         formatApiData();
 
@@ -180,6 +182,12 @@ const ApiInformationPage = () => {
             <div id="api-info-page" className="lbh-container">
                 <div className="sidePanel">
                     <Breadcrumbs />
+                    {!currentVersion && <Skeleton/>}
+                    {(currentVersion && !swaggerStatus.error) && 
+                        <span className={`govuk-tag lbh-tag${currentVersion.isPublished ? "--green" : "--yellow"} published-status-tag`}>
+                            { currentVersion.isPublished ? "Live" : "In Development" }
+                        </span>
+                    }
                     <h1>
                         {!apiStatus.error && (apiData.apiName || <Skeleton/>)}
                         {(apiStatus.error && (swaggerStatus.isLoaded ? swaggerData.info.title : <Skeleton/>))}
@@ -198,11 +206,10 @@ const ApiInformationPage = () => {
                         <span className="govuk-caption-xl lbh-caption">API Information</span>
                         <hr/>
                         <Table tableData={TableData} />
-                        <span className="govuk-caption-xl lbh-caption">Applications consumed by</span>
-                        <hr/>
-                        <div className="column-2">
-                        <ApplicationsTable tableData={ApplicationTableData} />
-                        </div>
+    
+                        {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} deleteApplication={deleteApplication} addAnnouncement={addAnnouncement}/>}
+                        
+                        {alerts}
                         {swaggerStatus.error && <Error title="Oops! Something went wrong!" summary={swaggerStatus.error.message} />}
                         {apiStatus.error && <Error title="Oops! Something went wrong!" summary={apiStatus.error.message} />}
                 </div>

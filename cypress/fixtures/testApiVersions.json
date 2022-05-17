@@ -1,0 +1,119 @@
+{
+    "name": "Default listing",
+    "description": "Default registry listing",
+    "url": "apis/Hackney/testApi/",
+    "offset": 0,
+    "totalCount": 2,
+    "apis": [
+        {
+            "name": "Test API",
+            "description": "This is a specification for the Test API that allows us to test that the site is working as expected.",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "Swagger",
+                    "url": "https://api.swaggerhub.com/apis/Hackney/testApi/1.0.0"
+                },
+                {
+                    "type": "X-Version",
+                    "value": "1.0.0"
+                },
+                {
+                    "type": "X-Created",
+                    "value": "2021-03-10T11:07:53Z"
+                },
+                {
+                    "type": "X-Modified",
+                    "value": "2021-09-22T10:27:24Z"
+                },
+                {
+                    "type": "X-Published",
+                    "value": "false"
+                },
+                {
+                    "type": "X-Private",
+                    "value": "false"
+                },
+                {
+                    "type": "X-OASVersion",
+                    "value": "2.0"
+                },
+                {
+                    "type": "X-Specification",
+                    "value": "openapi-2.0"
+                },
+                {
+                    "type": "X-Notifications",
+                    "value": "false"
+                },
+                {
+                    "type": "X-CreatedBy",
+                    "value": "humulla"
+                },
+                {
+                    "type": "X-SCMLastPush",
+                    "value": ""
+                },
+                {
+                    "type": "X-SCMLastPull",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "name": "Test API",
+            "description": "This is a specification for the Test API that allows us to test that the site is working as expected",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "Swagger",
+                    "url": "https://api.swaggerhub.com/apis/Hackney/testApi/2.0.0"
+                },
+                {
+                    "type": "X-Version",
+                    "value": "2.0.0"
+                },
+                {
+                    "type": "X-Created",
+                    "value": "2021-08-31T10:13:20Z"
+                },
+                {
+                    "type": "X-Modified",
+                    "value": "2022-04-12T17:43:29Z"
+                },
+                {
+                    "type": "X-Published",
+                    "value": "false"
+                },
+                {
+                    "type": "X-Private",
+                    "value": "false"
+                },
+                {
+                    "type": "X-OASVersion",
+                    "value": "2.0"
+                },
+                {
+                    "type": "X-Specification",
+                    "value": "openapi-2.0"
+                },
+                {
+                    "type": "X-Notifications",
+                    "value": "false"
+                },
+                {
+                    "type": "X-CreatedBy",
+                    "value": "atiyyah.rawat"
+                },
+                {
+                    "type": "X-SCMLastPush",
+                    "value": ""
+                },
+                {
+                    "type": "X-SCMLastPull",
+                    "value": ""
+                }
+            ]
+        }
+    ]
+}

@@ -4,7 +4,7 @@ orbs:
     aws-s3: circleci/aws-s3@2.0.0
     aws-cli: circleci/aws-cli@2.0.0
     aws_assume_role: lbh-hackit/aws_assume_role@0.1.0
-    cypress: cypress-io/cypress@1
+    cypress: cypress-io/cypress@1.29.0
 
 references:
     workspace_root: &workspace_root '~'
@@ -66,12 +66,12 @@ jobs:
             - *attach_workspace
             - checkout
             - restore_cache:
-                  key: dependency-cache-{{ checksum "yarn.lock" }}
+                  key: dependency-cache-{{ checksum "package-lock.json" }}
             - run:
                   name: Install dependencies
-                  command: yarn
+                  command: npm install
             - save_cache:
-                  key: dependency-cache-{{ checksum "yarn.lock" }}
+                  key: dependency-cache-{{ checksum "package-lock.json" }}
                   paths:
                       - ~/.cache
             - persist_to_workspace:
@@ -83,7 +83,7 @@ jobs:
             - *attach_workspace
             - run:
                 name: Run linter
-                command: yarn lint
+                command: npm run lint
         
     build-deploy-development:
         executor: node-executor
@@ -99,7 +99,8 @@ jobs:
                   name: Build
                   command: |
                     export REACT_APP_API_URL=$(aws ssm get-parameter --name /developer-hub/development/developer-hub-api-url --query Parameter.Value --output text)
-                    yarn build
+                    export REACT_APP_AUTH_ALLOWED_GROUPS=$(aws ssm get-parameter --name /developer-hub/development/allowed-google-groups --query Parameter.Value --output text)
+                    npm run build
             - run:
                   name: Deploy to S3
                   command: aws s3 sync build s3://lbh-developer-hub-development.hackney.gov.uk
@@ -118,7 +119,8 @@ jobs:
                   name: Build
                   command: |
                     export REACT_APP_API_URL=$(aws ssm get-parameter --name /developer-hub/production/developer-hub-api-url --query Parameter.Value --output text)
-                    yarn build
+                    export REACT_APP_AUTH_ALLOWED_GROUPS=$(aws ssm get-parameter --name /developer-hub/production/allowed-google-groups --query Parameter.Value --output text)
+                    npm run build
             - run:
                   name: Deploy to S3
                   command: aws s3 sync build s3://lbh-developer-hub-production.hackney.gov.uk
@@ -154,9 +156,11 @@ workflows:
             - run-lint:
                 requires:
                     - install-dependencies
+            - cypress/install
             - cypress/run:
-                yarn: true
-                start: yarn testStart
+                requires:
+                    - cypress/install
+                start: npm run testStart
                 store_artifacts: true
             - assume-role-development:
                   context: api-assume-role-development-context

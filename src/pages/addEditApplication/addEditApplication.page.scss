@@ -1,0 +1,9 @@
+#add-edit-application-page {
+    .button-panel {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1em;
+        gap: 1em;
+        > * { margin-top: 0; }
+    }
+}

@@ -20,6 +20,7 @@
 @import "./components/environmentTags/environmentTags.style.scss";
 @import "./components/error/error.style.scss";
 @import "./components/announcement/announcement.style.scss";
+@import "./components/applicationsTable/applicationsTable.style.scss";
 
 // Page Styling
 @import "./pages/login/login.style.scss";
@@ -28,6 +29,7 @@
 @import "./pages/apiInformation/apiInformation.style.scss";
 @import "./pages/home/home.style.scss";
 @import "./pages/contact/contact.style.scss";
+@import "./pages/addEditApplication/addEditApplication.page.scss";
 
 * {
   font-family: 'Open Sans', sans-serif !important;
@@ -43,17 +45,14 @@ body {
   color: white !important;
 }
 
-.iconButton:active {
-  transform: translate(0px, 5px) !important;
-  -webkit-transform: translate(0px, 5px) !important;
-  box-shadow: 0px 1px 0px 0px !important;
-  transform: scale(2) !important;
-}
-
 #root {
   margin-top: 0;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
   justify-content: space-between;
+}
+
+[data-reach-dialog-overlay] {
+  z-index: 1000;
 }

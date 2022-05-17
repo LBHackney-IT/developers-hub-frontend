@@ -3,7 +3,7 @@ import { React } from "react";
 const ApiInformationLink = ({linkText, url}) => {
     if(!url){
         return(
-            <p>{linkText} (TBC)</p>
+            <p>{linkText} (Link to be confirmed)</p>
         );
     } else {
         return(
