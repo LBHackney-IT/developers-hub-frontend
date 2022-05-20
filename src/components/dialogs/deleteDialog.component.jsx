@@ -1,31 +1,13 @@
 import React, { useState } from "react"
-import { useParams } from "react-router";
-import axios from "axios";
-import Cookies from "js-cookie";
-import Error from "../../components/error/error.component";
-
 import Dialog from "./dialog.component"
-import Announcement from '../announcement/announcement.component';
 
-const DeleteDialog = ({addAnnouncement, deleteApplication, id, name}) => {
+const DeleteDialog = ({ deleteApplication, id, name }) => {
     const [open, setOpen] = useState(false)
-    const { apiId } = useParams();
-    const apiUrl = `${process.env.REACT_APP_API_URL || `http://${window.location.hostname}:8000/api/v1`}/${apiId}`
 
-    const onConfirmDelete = () => {
-        axios.delete(`${apiUrl}/application/${id}`, { headers: { 'Authorization': Cookies.get('hackneyToken') }})
+    async function onConfirmDelete() {
+        deleteApplication(id, name)
         .then(() => {
-            const announcement = <Announcement title="Deletion successful!">
-                You have successfully removed <b className='lbh-body lbh-!-font-weight-bold'>{name}</b> from this API.
-            </Announcement>
-
-            addAnnouncement(announcement);
-            deleteApplication(name);
             setOpen(false);
-        })
-        .catch((error) => {
-            const deleteError = <Error title="Oops! Something went wrong when deleting this application!" summary={error.message} />
-            addAnnouncement(deleteError);
         });
     }
 
@@ -44,7 +26,7 @@ const DeleteDialog = ({addAnnouncement, deleteApplication, id, name}) => {
                 onDismiss={() => setOpen(false)}
             >
                 <p className="lbh-body">
-                    You are about to permanently remove <b className='lbh-body lbh-!-font-weight-bold'>{name}</b> from this API.<br/>
+                    You are about to permanently remove <b className='lbh-body lbh-!-font-weight-bold'>{name}</b> from this API.<br />
                 </p>
                 <div className="lbh-dialog__actions">
                     <button

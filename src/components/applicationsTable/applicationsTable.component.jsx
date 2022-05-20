@@ -16,8 +16,6 @@ const ApplicationsTable = (props) => {
     let authAllowedGroups = process.env.REACT_APP_AUTH_ALLOWED_GROUPS || "Development Team,TEST_GROUP";
     const isAuthorised = user.groups.some((group) => authAllowedGroups.split(",").includes(group));
 
-
-
     const addApplicationOnClick = () => {
         history.push(`/api-catalogue/${apiId}/applications/new`);
     }
