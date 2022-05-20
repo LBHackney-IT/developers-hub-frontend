@@ -67,7 +67,7 @@ export const HomePage2 = () => {
           <li>Easily find APIs so that I can use these APIs effectively as well as stay up to date with any changes that may occur.</li>
           <li>Ensure that access to the APIs is secure so that only authorised users can make requests to Hackney APIs.</li>
           <li>View what APIs are available at HackIT so that I can choose the ones I need for the service development.</li>
-          <li>Build and reuse the Platform APIs so that development efforts can focus on other requirements</li>
+          <li>Build and reuse the Platform APIs so that development efforts can focus on other requirements.</li>
           <li>Log in with my google account associated with Hackney so that my identity can easily be verified and my permissions can be managed effectively and efficiently.</li>
         </ul>
       </MyCollapsible>
@@ -88,14 +88,14 @@ export const HomePage2 = () => {
         <ul>
           <li>Connect to the API so that data is easy to interpret and available for further reporting purposes and analysis.</li>
           <li>View data in a format that's structured e.g. CSV or JSON, so that I can easily manipulate the data.</li>
-          <li>Have data in a format that can be linked to programs such as Tableau or Qlik sense so that I can create reports and data visualisation</li>
+          <li>Have data in a format that can be linked to programs such as Tableau or Qlik sense so that I can create reports and data visualisation.</li>
         </ul>
       </MyCollapsible>
       <MyCollapsible title='As a Solution Architect, I would like to'>
         <ul>
           <li>Connect to the API so that data is easy to interpret and available for further reporting purposes and analysis.</li>
           <li>View data in a format that's structured e.g. CSV or JSON, so that I can easily manipulate the data.</li>
-          <li>Have data in a format that can be linked to programs such as Tableau or Qlik sense so that I can create reports and data visualisation</li>
+          <li>Have data in a format that can be linked to programs such as Tableau or Qlik sense so that I can create reports and data visualisation.</li>
         </ul>
       </MyCollapsible>
       <MyCollapsible title='As a Quality Assurance Analyst, I would like to'>
