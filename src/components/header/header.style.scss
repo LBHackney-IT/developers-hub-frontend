@@ -3,13 +3,16 @@
 .lbh-header__title-link{
   text-align: center;
 }
-
+.lbh-header__service-name {
+  padding-left: 30px !important;
+  font-weight: bold !important;
+}
 .lbh-header__links {
   margin-top: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1em;
+  gap: 4em;
   > p {
     margin: 0;
     padding: 0;
@@ -67,5 +70,23 @@
 @media (max-width: 640px) {
   .name-tag{
     padding-bottom: 40px !important;
+  }
+}
+
+@media (max-width: 945px) {
+  .lbh-header__links{
+    gap: 2em;
+  }
+}
+
+@media (max-width: 882px) {
+  .lbh-header__links{
+    gap: 1em;
+  }
+}
+
+@media (max-width: 818px) {
+  .lbh-header__links{
+    gap: 0;
   }
 }

@@ -9,7 +9,7 @@ const Header = () => {
   const alwaysVisibleLinks = APP_PATHS.filter(appPath => appPath.alwaysVisible);
   const signedOutLinks = APP_PATHS.filter(appPath => appPath.signedOutVisible);
   const signedInLinks = APP_PATHS.filter(appPath => appPath.signedInVisible);
-  
+
   return (
     <header id="header" className="lbh-header ">
       <div className="lbh-header__main">
@@ -60,7 +60,7 @@ const Header = () => {
                   height="37"
                 ></image>
               </svg>
-              <span className="lbh-header__logo-text"> HackIT Developer Hub </span>
+              <span className="lbh-header__logo-text"> HackIT DEVELOPER HUB </span>
               <span className="lbh-header__service-name lbh-header__service-name"
                 >Developer Hub</span>
             </a>

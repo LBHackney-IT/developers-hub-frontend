@@ -17,37 +17,37 @@
     text-align: left;
     border-right: 2px solid #bfc1c3;
     min-width: fit-content;
-    
+
     @media (max-width: $mobile-width){
       text-align: center;
       border-right: none;
       border-bottom: 2px solid #bfc1c3;
     }
 
-    > * { 
-      display: block; 
+    > * {
+      display: block;
       width: 100%;
       margin: 0;
       padding-left: 2em;
       &.indented {
         padding-left: 3em;
       }
-      padding-right: 5em;
+      padding-right: 1em;
       @media (max-width: $mobile-width) {
-        margin-bottom: 0.5em; 
+        margin-bottom: 0.5em;
         padding: 0;
         &.indented {
           padding-left: 0;
         }
       }
     }
-    
+
     p {
       margin-top: 100px;
       margin-bottom: 10px;
       @media (max-width: $mobile-width) { margin-top: 20px; }
     }
-  
+
     a {
       word-wrap: break-word;
       font-size: 18px;
