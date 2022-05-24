@@ -69,13 +69,14 @@ export const HomePage2 = () => {
           <li>View what APIs are available at HackIT so that I can choose the ones I need for the service development.</li>
           <li>Build and reuse the Platform APIs so that development efforts can focus on other requirements.</li>
           <li>Log in with my google account associated with Hackney so that my identity can easily be verified and my permissions can be managed effectively and efficiently.</li>
+          <li>Know who the consumers of an API are so I can inform them of potential changes.</li>
         </ul>
       </MyCollapsible>
       <MyCollapsible title='As a Service Designer, I would like to'>
         <ul>
-          <li> View the details of the results returned in a search so that I can easily look through the different results and make the correct selection.</li>
-          <li>Log in to the application by providing my Hackney email address so that I can feel my account is secure.</li>
-          <li>View the list of APIs available in the API catalogue so that I can make an informed decision for product development.</li>
+          <li> View the details of the results returned in a search so that I can easily look through the different results and make the correct selection. </li>
+          <li> Log in to the application by providing my Hackney email address so that I can feel my account is secure. </li>
+          <li> View the list of APIs available in the API catalogue so that I can make an informed decision for product development.</li>
         </ul>
       </MyCollapsible>
       <MyCollapsible title='As an Application Support Analyst, I would like to'>
@@ -84,30 +85,16 @@ export const HomePage2 = () => {
           <li>Understand the queries being used by the Developers Hub so that I can deal with support requests accordingly and resolve the potential issues in the underlying data.</li>
         </ul>
       </MyCollapsible>
-      <MyCollapsible title='As a Data Analyst, I would like to'>
-        <ul>
-          <li>Connect to the API so that data is easy to interpret and available for further reporting purposes and analysis.</li>
-          <li>View data in a format that's structured e.g. CSV or JSON, so that I can easily manipulate the data.</li>
-          <li>Have data in a format that can be linked to programs such as Tableau or Qlik sense so that I can create reports and data visualisation.</li>
-        </ul>
-      </MyCollapsible>
       <MyCollapsible title='As a Solution Architect, I would like to'>
         <ul>
-          <li>Connect to the API so that data is easy to interpret and available for further reporting purposes and analysis.</li>
-          <li>View data in a format that's structured e.g. CSV or JSON, so that I can easily manipulate the data.</li>
-          <li>Have data in a format that can be linked to programs such as Tableau or Qlik sense so that I can create reports and data visualisation.</li>
+          <li>Have awareness of what APIs already exist so I can try to reuse existing APIs in the solutions I design.</li>
+          <li>Have an easy way to locate technical documentation, such as API specifications, so I can make informed decisions about the implementations I am working on.</li>
         </ul>
       </MyCollapsible>
       <MyCollapsible title='As a Quality Assurance Analyst, I would like to'>
         <ul>
-          <li>View use cases so that I can test the required functionality.</li>
           <li>View all API Endpoints so that I can complete thorough End-to-End testing.</li>
-          <li>View all existing APIs and endpoints to ensure the final product of the API I am testing meets the organisation standards.</li>
-        </ul>
-      </MyCollapsible>
-      <MyCollapsible title='As a Technical Design Authority member, I would like to'>
-        <ul>
-          <li>Ensure nobody can access live data through the APIs without being registered and logged in so that cybersecurity is not compromised.</li>
+          <li>View all existing APIs and endpoints to ensure the final product of the API I am testing meets the organisation’s standards.</li>
         </ul>
       </MyCollapsible>
       <MyCollapsible title='As a Product Owner, I would like to'>
