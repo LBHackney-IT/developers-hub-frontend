@@ -3,6 +3,15 @@
 .lbh-header__title-link{
   text-align: center;
 }
+.header {
+  position: sticky !important;
+  top: 0;
+}
+.lbh-header{
+  position: sticky !important;
+  top: 0 !important;
+
+}
 .lbh-header__service-name {
   padding-left: 30px !important;
   font-weight: bold !important;
