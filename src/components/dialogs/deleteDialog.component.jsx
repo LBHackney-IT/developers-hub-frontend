@@ -20,7 +20,7 @@ const DeleteDialog = ({addAnnouncement, deleteApplication, id, name}) => {
             </Announcement>
 
             addAnnouncement(announcement);
-            deleteApplication(name);
+            deleteApplication(id);
             setOpen(false);
         })
         .catch((error) => {
