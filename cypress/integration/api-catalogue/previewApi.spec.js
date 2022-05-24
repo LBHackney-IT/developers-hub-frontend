@@ -6,14 +6,14 @@ describe("Click on API Name to go to API Info page", () => {
         cy.login();
         cy.intercept('GET', '/specs*').as("getAllApis");
         cy.visit("/api-catalogue");
-        
+
         cy.wait("@getAllApis").then((interception) => {
             const api = interception.response.body.apis[0];
             const apiId = filterSwaggerPropertiesByType(api.properties, "Swagger").url.split("/")[5];
-            cy.get(".title").contains(api.name).click();
+            cy.get(".title").contains(api.name).click({force:true});
             cy.url().should('include', `/api-catalogue/${apiId}`);
         })
-        
+
     });
 });
 

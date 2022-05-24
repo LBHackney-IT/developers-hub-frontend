@@ -22,7 +22,7 @@ describe("View API Information page", () => {
     it("Navigate to page through API Catalogue", function() {
         cy.intercept('GET', '/specs*', {fixture: "allApis"}).as("getAllApis");
         cy.visit("/api-catalogue");
-        cy.get(".apiPreview").find("a").first().click();
+        cy.get(".apiPreview").find("a").first().click({force: true});
         const expectedUrl = this.swaggerData.basePath.split("/")[2];
         cy.url().should('include', expectedUrl);
     });
@@ -64,23 +64,23 @@ describe("View API Information page", () => {
 				}
 			});
       	});
-		
+
 		it(`View API Base URLs on ${screenSize} screen`, function () {
         	cy.viewport(screenSize);
         	cy.contains(this.apiData.developmentBaseURL).should("be.visible");
         	cy.contains(this.apiData.stagingBaseURL).should("be.visible");
       	});
-	  
+
 	  	it(`View relevant links on ${screenSize} screen`, function () {
 			cy.viewport(screenSize);
-		  
+
 		  	var links = [
 			  { text: `${this.apiData.apiName} Specification`, url: this.apiData.apiSpecificationLink },
 			  { text: "GitHub Repository", url: this.apiData.githubLink }
 			];
-		
+
 			links.forEach(link => {
-				cy.contains(link.text).click();
+				cy.contains(link.text).click({force: true});
 				cy.url().should("eq", link.url);
 				cy.go("back");
 			})
@@ -89,7 +89,7 @@ describe("View API Information page", () => {
 		it(`View applications that utilise an API on ${screenSize} screen`, function() {
 			cy.viewport(screenSize);
 			cy.contains("Applications that utilise this API")
-			
+
 			this.apiData.applications.forEach((applicationData) => {
 				cy.contains(applicationData.name).click();
 				if(applicationData.link){
@@ -102,14 +102,14 @@ describe("View API Information page", () => {
 
 	it("Should automatically have API version selected", function() {
 		cy.get('select#VersionNo option:selected').should('have.text', this.swaggerData.info.version);
-		cy.get("a").contains("SwaggerHub").click();
+		cy.get("a").contains("SwaggerHub").click({force: true});
 		const expectedUrl = this.swaggerData.basePath;
 		cy.url().should('include', expectedUrl);
 	});
 
 	it("Can choose API version", function() {
         const selectedVersion = "2.0.0";
-        cy.get('select').select(selectedVersion);
+        cy.get('select').select(selectedVersion, {force: true});
         cy.get('select#VersionNo option:selected').should('have.text', selectedVersion);
     });
 });
@@ -148,7 +148,7 @@ describe("Edge Cases", () => {
 		// assert
 		cy.get(".lbh-error-summary").should("be.visible");
 		cy.get(".govuk-error-summary__body").should("contain", "Request failed with status code 500");
-		
+
 		const tableHeaders = ["Development Base URL","Staging Base URL","Relevant Links",];
 		tableHeaders.forEach((header) => {
 			cy.contains(header).next(".govuk-table__cell")
