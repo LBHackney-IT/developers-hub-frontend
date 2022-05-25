@@ -39,8 +39,8 @@ const ApiInformationPage = () => {
         setSwaggerStatus({isLoaded: false, error: null });
     }
 
-    const deleteApplication = (applicationName) => {
-        let updatedApplications = apiData.applications.filter(x => x.name !== applicationName);
+    const deleteApplication = (applicationId) => {
+        let updatedApplications = apiData.applications.filter(x => x.id !== applicationId);
         setApiData({...apiData, applications: updatedApplications}); // visually removing application
     }
 
