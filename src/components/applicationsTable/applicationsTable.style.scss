@@ -13,11 +13,23 @@
         display: flex;
         justify-content: space-between;
         gap: 1em;
+        border: none;
 
         .application-cell {
             width: 50%;
             border-bottom: 1px solid #b1b4b6;
-            .govuk-summary-list__actions, .govuk-summary-list__key { border: none; }
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            > * { border: none; }
+            .govuk-summary-list__key {
+                flex-basis: max-content;
+            }
+
+            .govuk-summary-list__actions {
+                flex-shrink: 0;
+                width: auto;
+            }
         }
     }
     
