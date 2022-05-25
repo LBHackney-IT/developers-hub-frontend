@@ -47,7 +47,7 @@ describe('Paginate API Catalogue results', () => {
             if ($next.hasClass('disabled')) { return } // we are on the last page
 
             cy.wait(250); // just for clarity
-            cy.get(".lbh-simple-pagination__link--next").click();
+            cy.get(".lbh-simple-pagination__link--next").click({force:true});
 
             cy.wait("@getApiDefinitions");
             visitLastPageIfPossible();
@@ -69,33 +69,33 @@ describe('Paginate API Catalogue results', () => {
             cy.login();
             cy.visit("/api-catalogue");
         });
-    
+
         const scenarios = [
-            { name: "switching filters", function: () => { cy.get("#filterApis-2").check() } },
-            { name: "changing sort by", function: () => { cy.get('select#SortBy').select("A-Z") } }
+            { name: "switching filters", function: () => { cy.get("#filterApis-2").check({force:true}) } },
+            { name: "changing sort by", function: () => { cy.get('select#SortBy').select("A-Z", {force: true}) } }
         ];
-    
+
         scenarios.forEach((scenario) => {
             it(`When ${scenario.name}, pagination is reset`, () => {
                 cy.intercept('/specs*').as('getApiDefinitions');
                 cy.visit("/api-catalogue");
                 cy.wait("@getApiDefinitions");
-    
+
                 cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
                     expect($nextPage.text()).to.contain("2"); // on page 1
                 });
-                cy.get(".lbh-simple-pagination__link--next").click();
+                cy.get(".lbh-simple-pagination__link--next").click({force:true});
                 cy.wait("@getApiDefinitions");
                 cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
                     expect($nextPage.text()).to.contain("3"); // on page 2
                 });
                 // Arrange
-    
-                cy.get(".govuk-details__summary-text").click();
+
+                cy.get(".govuk-details__summary-text").click({force:true});
                 scenario.function();
                 cy.wait("@getApiDefinitions");
                 // Act
-    
+
                 cy.get('.lbh-simple-pagination__title.next').should($nextPage => {
                     expect($nextPage.text()).to.contain("2");
                     expect($nextPage.text()).to.not.contain("3");
@@ -125,17 +125,17 @@ describe("Filter APIs", () => {
     });
 
     it("View published APIs", () => {
-        cy.get("#filterApis-1").check();
+        cy.get("#filterApis-1").check({force:true});
         cy.wait('@getApis').its('request.url').should('include', 'state=PUBLISHED');
     });
 
     it("View unpublished APIs", () => {
-        cy.get("#filterApis-2").check();
+        cy.get("#filterApis-2").check({force: true});
         cy.wait('@getApis').its('request.url').should('include', 'state=UNPUBLISHED');
     });
 
     it("Click on radio labels to select an API filter", () => {
-        cy.get(".govuk-radios__label").contains("Live APIs").click();
+        cy.get(".govuk-radios__label").contains("Live APIs").click({force: true});
         cy.wait('@getApis').its('request.url').should('include', 'state=PUBLISHED');
     });
 });
@@ -158,8 +158,8 @@ describe("Advanced Query Fields", () => {
     });
 
     it("View APIs in alphabetical order", () => {
-        cy.get(".govuk-details__summary-text").click();
-        cy.get('select#SortBy').select("A-Z");
+        cy.get(".govuk-details__summary-text").click({force:true});
+        cy.get('select#SortBy').select("A-Z", {force: true});
         cy.wait("@getApis");
 
         cy.get("h2").then(apis => {
@@ -170,8 +170,8 @@ describe("Advanced Query Fields", () => {
     });
 
     it("View APIs in reverse alphabetical order", () => {
-        cy.get(".govuk-details__summary-text").click();
-        cy.get('select#SortBy').select("Z-A");
+        cy.get(".govuk-details__summary-text").click({force:true});
+        cy.get('select#SortBy').select("Z-A", {force: true});
         cy.wait("@getApis");
 
         cy.get("h2").then(apis => {
