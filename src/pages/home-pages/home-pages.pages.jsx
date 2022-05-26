@@ -102,6 +102,11 @@ export const HomePage2 = () => {
           <li>Confirm that the data from an API is correct, based on the business area understanding of the wider team and any prior discovery work completed.</li>
         </ul>
       </MyCollapsible>
+      <MyCollapsible title='As a member from the Security governance team, I would like to'>
+        <ul>
+          <li>Ensure that the Developer Hub does not disclose any live data so that cyber security is not compromised</li>
+        </ul>
+      </MyCollapsible>
     </div>
   );
 };
