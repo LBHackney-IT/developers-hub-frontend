@@ -6,9 +6,7 @@ const DeleteDialog = ({ deleteApplication, id, name }) => {
 
     async function onConfirmDelete() {
         deleteApplication(id, name)
-        .then(() => {
-            setOpen(false);
-        });
+        setOpen(false);
     }
 
     return (

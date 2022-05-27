@@ -62,7 +62,7 @@ function useSwaggerHubApi(params, addAlert) {
     }, [currentVersion, requestUrl, addAlert])
 
     function getSwaggerHubSpecification() {
-        return requestUrl.replace("api", "app").replace("/apis", "/apis-docs");
+        return `${requestUrl.replace("api", "app").replace("/apis", "/apis-docs")}/${currentVersion.version}`;
     }
 
     function changeVersion(versionString) {

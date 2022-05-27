@@ -33,7 +33,7 @@ const ApiInformationPage = () => {
     }, []);
 
     // SwaggerHub API
-    const [swaggerStatus, swaggerData, versions, currentVersion, swaggerUtils, swaggerFunctions] = useSwaggerHubApi({ id: apiId, currentVersion: passedParams.currentVersion });
+    const [swaggerStatus, swaggerData, versions, currentVersion, swaggerUtils, swaggerFunctions] = useSwaggerHubApi({ id: apiId, currentVersion: passedParams.currentVersion }, addAlert);
     const [getSwaggerHubSpecification] = swaggerUtils;
     const [changeVersion] = swaggerFunctions;
     // Developer Hub API

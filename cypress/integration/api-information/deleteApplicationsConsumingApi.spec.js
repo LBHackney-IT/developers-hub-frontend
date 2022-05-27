@@ -53,7 +53,6 @@ describe('Delete an application from an API', () => {
         cy.contains(applicationName).parent().parent().find(".delete-link").click();
         cy.intercept({method: 'DELETE', url: /api\/v\d/gm}, {statusCode: 500}).as("failedDeleteApplication");
         cy.contains("Yes, remove").click();
-        cy.get('.lbh-dialog__close').click();
         cy.get('.govuk-error-summary').should('exist');
     })
 })
