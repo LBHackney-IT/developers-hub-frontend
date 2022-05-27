@@ -125,7 +125,7 @@ const ApiInformationPage = () => {
                     </p>
                 </div>
 
-                <div className="table-container">
+                <div className="main-container">
                     <span className="govuk-caption-xl lbh-caption">API Information</span>
                     <hr />
                     <Table tableData={TableData} />
