@@ -3,6 +3,8 @@ import arn from "../../assets/arn.png";
 import apiflow from "../../assets/apiflow.png";
 import ssogroups from "../../assets/ssogroups.png";
 import MyCollapsible from "../../components/accordion/accordion.jsx";
+import PinchZoomPan from "react-responsive-pinch-zoom-pan";
+
 
 export const HomePage1 = () => {
   return (
@@ -59,62 +61,45 @@ export const HomePage2 = () => {
   return (
     <div className="main-container" id='user-needs'>
       <h2>The Need of a Developer Hub</h2>
-      <MyCollapsible title='As a Developer'>
+      <MyCollapsible title='As a Developer, I would like to'>
         <ul>
-          <li>As a developer I would like consistency between the developer hub and swagger so that any changes to the APIs can be reflected straight away. </li>
-          <li>As a developer I want a way to easily find APIs so that I can use these APIs effectively as well as stay up to date with any changes that might come up .</li>
-          <li>As a developer I need to make sure that access to the APIs  is secure so that only authorised users can make requests to Hackney APIs.</li>
-          <li>As a developer I would like to see what APIs are available at HackIT to be used so that I can choose the ones I need for the service development.</li>
-          <li>As a developer I would like to build and reuse the Organisations APIs so that development efforts can focus on other requirements </li>
-          <li>As a user I can log in with my google account associated with Hackney, so that my identity can easily be verified and my permissions can be managed effectively and efficiently. </li>
+          <li>Have consistency between the Developer hub and swagger hub so that any changes to the APIs can be reflected straight away. </li>
+          <li>Easily find APIs so that I can use these APIs effectively as well as stay up to date with any changes that may occur.</li>
+          <li>Ensure that access to the APIs is secure so that only authorised users can make requests to Hackney APIs.</li>
+          <li>View what APIs are available at HackIT so that I can choose the ones I need for the service development.</li>
+          <li>Build and reuse the Platform APIs so that development efforts can focus on other requirements.</li>
+          <li>Log in with my google account associated with Hackney so that my identity can easily be verified and my permissions can be managed effectively and efficiently.</li>
+          <li>Know who the consumers of an API are so I can inform them of potential changes.</li>
         </ul>
       </MyCollapsible>
-      <MyCollapsible title='As a Service User'>
+      <MyCollapsible title='As a Service Designer, I would like to'>
         <ul>
-          <li> I want the ability to view the details of the results returned in a search so that I can easily look through the different results and make the correct selection.</li>
-          <li>I want to be able to register for the application by entering my name, email address, my password and confirming my password so that I can feel secure. </li>
-          <li>As a user I can log in into the application by entering my email and chosen password  so that I can feel my account is being secure </li>
-          <li>As a user I can reset my password if i have forgotten my password </li>
-          <li>As a user I can see my personal information and the APIs used on my profile </li>
-          <li>I can edit my details such as the email address so that I can continue using the same account </li>
-          <li>As a service user I would like to see the list of APIs available in the catalogue so that I can make an informed decision for the product development.</li>
+          <li> View the details of the results returned in a search so that I can easily look through the different results and make the correct selection. </li>
+          <li> Log in to the application by providing my Hackney email address so that I can feel my account is secure. </li>
+          <li> View the list of APIs available in the API catalogue so that I can make an informed decision for product development.</li>
         </ul>
       </MyCollapsible>
-      <MyCollapsible title='As an Application Support Analyst'>
+      <MyCollapsible title='As an Application Support Analyst, I would like to'>
         <ul>
-          <li>As an application support analyst, I would like to know what endpoints and functionality an API has, so that I can familiarise myself with the types of support requests I may get.</li>
-          <li> I need to understand the queries being used by the Developers Hub  so that I can deal with support requests accordingly and resolve the potential issues in the underlying data.</li>
+          <li>Have a service where I can view what endpoints and functionality an API has so that I can familiarise myself with the types of support requests I may get.</li>
+          <li>Understand the queries being used by the Developers Hub so that I can deal with support requests accordingly and resolve the potential issues in the underlying data.</li>
         </ul>
       </MyCollapsible>
-      <MyCollapsible title='As a Data Analyst'>
+      <MyCollapsible title='As a Solution Architect, I would like to'>
         <ul>
-          <li>I need to connect to the API so that data is easy to interpret and available for further reporting purposes and analysis.</li>
-          <li>As a user, I would like to see Data in a format that's structured e.g. csv or JSON, so that I can easily manipulate the data.</li>
-          <li>I would like to have data in a format that can be linked into programmes such as Tableau or Qlik sense so that I can create reports and data visualisation</li>
+          <li>Have awareness of what APIs already exist so I can try to reuse existing APIs in the solutions I design.</li>
+          <li>Have an easy way to locate technical documentation, such as API specifications, so I can make informed decisions about the implementations I am working on.</li>
         </ul>
       </MyCollapsible>
-      <MyCollapsible title='As a Solution Architect'>
+      <MyCollapsible title='As a Quality Assurance Analyst, I would like to'>
         <ul>
-          <li>I need to connect to the API so that data is easy to interpret and available for further reporting purposes and analysis.</li>
-          <li>As a user, I would like to see Data in a format that's structured e.g. csv or JSON, so that I can easily manipulate the data.</li>
-          <li>I would like to have data in a format that can be linked into programmes such as Tableau or Qlik sense so that I can create reports and data visualisation</li>
+          <li>View all API Endpoints so that I can complete thorough End-to-End testing.</li>
+          <li>View all existing APIs and endpoints to ensure the final product of the API I am testing meets the organisation’s standards.</li>
         </ul>
       </MyCollapsible>
-      <MyCollapsible title='As a QA Analyst'>
+      <MyCollapsible title='As a Product Owner, I would like to'>
         <ul>
-          <li>As a tester I would like to view use cases so that I can test the required functionality. </li>
-          <li>As at tester I would like to view all API Endpoints so that I can complete thorough E2E testing. </li>
-          <li>I would like to be able to view all existing APIs and endpoints to ensure the final product of the API I am testing meets the organisation standards. </li>
-        </ul>
-      </MyCollapsible>
-      <MyCollapsible title='As a Cyber Silver Member'>
-        <ul>
-          <li>As a member of Cyber Silver, I would like to ensure nobody can access live data through the APIs without being registered and logged in, so that cybersecurity is not compromised. </li>
-        </ul>
-      </MyCollapsible>
-      <MyCollapsible title='As a Product Owner'>
-        <ul>
-          <li>As a product owner, I want to confirm that the data from an API is correct, based on the business area understanding of the wider team and any prior discovery work completed.</li>
+          <li>Confirm that the data from an API is correct, based on the business area understanding of the wider team and any prior discovery work completed.</li>
         </ul>
       </MyCollapsible>
     </div>
@@ -201,8 +186,17 @@ export const HomePage6 = () => {
   return (
     <div id="how-the-authentication-works" className="main-container">
       <h2>How the API Authentication process works </h2>
-      <div>
-        <img src={apiflow} alt="" className="center"></img>
+      <h3>Zoom</h3>
+      <PinchZoomPan  maxScale={4} containerRatio={((400 / 600) * 100)}>
+        <img src={apiflow} alt="" className="center"
+          style={{
+        margin: 'auto',
+        width: '100%',
+        height: 'auto'
+      }}
+          ></img>
+      </PinchZoomPan>
+
         <p>
           When a consumer makes a request to an API, the consumer provide their
           JWT access token in the authorization header of the request. Our
@@ -219,7 +213,6 @@ export const HomePage6 = () => {
           deployed. This is so the API ID received as part of the request can be
           mapped to the actual API name.
         </p>
-      </div>
 
       <p>
         We would like to reuse the auth token set by the frontend authentication
@@ -255,6 +248,7 @@ export const HomePage6 = () => {
         and determine who has access to them which gives them more flexibility.
       </p>
     </div>
+
   );
 };
 

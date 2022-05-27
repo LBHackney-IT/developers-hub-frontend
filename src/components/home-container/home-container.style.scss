@@ -1,7 +1,7 @@
 #home-page{
   .main-container {
     padding: 2em;
-    width: 70%;
+    width: 90%;
     @media (max-width: $mobile-width) { width: 100%; }
     flex-flow: column wrap;
     margin: auto;
@@ -10,7 +10,7 @@
   ul{
     padding-left: 2em;
   }
-  
+
   .info-wrapper {
     display: flex;
     flex-flow: row wrap;

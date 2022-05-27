@@ -6,9 +6,9 @@ import { useUser } from "../../context/user.context";
 
 import ApiInformationLink from "../apiInformationLink/apiInformationLink.component";
 import DeleteDialog from "../dialogs/deleteDialog.component";
-    
+
 const ApplicationsTable = (props) => {
-    const {apiStatus, apiData} = props;
+    const { apiStatus, apiData } = props;
     const history = useHistory();
     const { apiId } = useParams();
 
@@ -23,17 +23,26 @@ const ApplicationsTable = (props) => {
     const editApplicationOnClick = (application) => {
         history.push({
             pathname: `/api-catalogue/${apiId}/applications/${application.id}/edit`,
-            state: application 
+            state: application
         });
+    }
+    const rows = [];
+
+    if (apiStatus.isLoaded) {
+        const applications = apiData.applications;
+        for (let i = 0; i < applications.length; i += 2) {
+            const row = applications.slice(i, i + 2);
+            rows.push(row);
+        }
     }
 
     return (
         <div id="applications-table">
-            <div className="table-header">   
+            <div className="table-header">
                 <span className="govuk-caption-xl lbh-caption">
                     Applications that utilise this API
                 </span>
-                {isAuthorised && <button 
+                {isAuthorised && <button
                     className="govuk-button lbh-button lbh-button--add"
                     onClick={addApplicationOnClick}
                 >
@@ -44,36 +53,38 @@ const ApplicationsTable = (props) => {
                     Add a new application
                 </button>}
             </div>
-            <hr/>
-            <div className="column-2">
-                <dl className="govuk-summary-list lbh-summary-list">
-                    {apiStatus.isLoaded && apiData.applications.map((application, key) => (
-                        <div key={key} className="govuk-summary-list__row">
-                            <dd className="govuk-summary-list__key">
-                                <ApiInformationLink linkText={application.name} url={application.link}/>
-                            </dd>
-                            {isAuthorised && <dt className="govuk-summary-list__actions">
-                                <ul>
-                                    <li className="govuk-summary-list__actions-list-item">
-                                        <button 
-                                            className="lbh-link lbh-link--no-visited-state edit-link"
-                                            onClick={() => editApplicationOnClick(application)}
-                                        >
-                                            Edit<span className="govuk-visually-hidden"> application</span>
-                                        </button>
-                                    </li>
-                                    <li className="govuk-summary-list__actions-list-item">
-                                        <DeleteDialog {...props} {...application}/>
-                                    </li>
-                                </ul>
-                            </dt>}
-                        </div>
-                    ))}
+            <hr />
+            <dl className="govuk-summary-list lbh-summary-list">
+                {rows.map((applications, index) => (
+                    <div key={index} className="govuk-summary-list__row">
+                        {applications.map((application, key) => (
+                            <div className="application-cell" key={key}>
+                                <dd className="govuk-summary-list__key">
+                                    <ApiInformationLink linkText={application.name} url={application.link} />
+                                </dd>
+                                {isAuthorised && <dt className="govuk-summary-list__actions">
+                                    <ul>
+                                        <li className="govuk-summary-list__actions-list-item">
+                                            <button
+                                                className="lbh-link lbh-link--no-visited-state edit-link"
+                                                onClick={() => editApplicationOnClick(application)}
+                                            >
+                                                Edit<span className="govuk-visually-hidden"> application</span>
+                                            </button>
+                                        </li>
+                                        <li className="govuk-summary-list__actions-list-item">
+                                            <DeleteDialog {...props} {...application} />
+                                        </li>
+                                    </ul>
+                                </dt>}
+                            </div>
+                        ))}
+                    </div>
+                ))}
 
-                    {apiStatus.isLoaded && apiData.applications.length === 0 && <p className="lbh-body-m">No applications found.</p>}
-                    {!apiStatus.isLoaded && <Skeleton />}
-                </dl>
-            </div>
+                {apiStatus.isLoaded && apiData.applications.length === 0 && <p className="lbh-body-m">No applications found.</p>}
+                {!apiStatus.isLoaded && <Skeleton />}
+            </dl>
         </div>
     );
 };
