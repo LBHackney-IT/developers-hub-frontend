@@ -1,5 +1,5 @@
 import React from "react";
-import CONTACT_DATA from "./contact-data.html";
+import CONTACT_DATA from "./contact-data.js";
 
 const ContactContainer = () => {
   return (
@@ -12,12 +12,11 @@ const ContactContainer = () => {
           <h2>For any enquiries please speak to:</h2>
           <ul className="enquiries-list">
             {
-              CONTACT_DATA
-              // CONTACT_DATA.map(dataItem => (
-              //   <li style={{wordWrap: "break-word"}}>
-              //     {dataItem}
-              //   </li>
-              // ))
+              CONTACT_DATA.map(dataItem => (
+                <li style={{wordWrap: "break-word"}}>
+                  {dataItem}
+                </li>
+              ))
             }
           </ul>
         </div>
