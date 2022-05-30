@@ -35,7 +35,8 @@ const ApiInformationTable = ({ apiStatus, apiData, swaggerStatus, swaggerData, s
         if(!swaggerStatus.error){
             tableData["SwaggerHub Specification"] = <ApiInformationLink linkText={`${apiStatus.error ? swaggerData.info.title : apiData.apiName} v${swaggerData.currentVersion?.version} on SwaggerHub`} url={getSwaggerHubSpecification()} />;
         } else {
-            tableData["SwaggerHub Specification"] = "We are having difficulty loading this data."
+            tableData["SwaggerHub Specification"] = "We are having difficulty loading this data.";
+            tableData["Version"] = "We are having difficulty loading this data.";
         }
 
         if(apiStatus.error){

@@ -6,7 +6,7 @@ const EnvironmentTags = ({tags, error}) => {
   if(error){
     return( 
       <div className="env-tags">
-        <p>Sorry, we're having difficulty loading this data</p>                    
+        <p>We are having difficulty loading this data.</p>                    
       </div>);
   }
   return(
