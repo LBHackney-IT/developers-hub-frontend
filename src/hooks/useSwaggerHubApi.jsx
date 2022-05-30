@@ -66,13 +66,17 @@ function useSwaggerHubApi(params, addAlert) {
     }
 
     function changeVersion(versionString) {
+        setStatus({
+            isLoaded: false,
+            error: null
+        })
         setCurrentVersion({
             version: versionString,
             isPublished: versions.find(x => x.version === versionString)?.isPublished
         });
     }
 
-    return [status, data, versions, currentVersion, [getSwaggerHubSpecification], [changeVersion]];
+    return [status, {...data, versions: versions, currentVersion: currentVersion}, [getSwaggerHubSpecification, changeVersion]];
 }
 
 export default useSwaggerHubApi;

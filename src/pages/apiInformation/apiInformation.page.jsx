@@ -7,15 +7,13 @@ import useSwaggerHubApi from "../../hooks/useSwaggerHubApi.jsx";
 import useDeveloperHubApi from "../../hooks/useDeveloperHubApi.jsx";
 import withUser from "../../HOCs/with-user.hoc.js";
 
-import Table from "../../components/table/table.component.jsx";
 import ApplicationsTable from "../../components/applicationsTable/applicationsTable.component.jsx";
 import Breadcrumbs from "../../components/breadcrumbs/breadcrumbs.component.jsx";
-import Select from "../../components/select/select.component.jsx";
 import Error from "../../components/error/error.component";
 import EnvironmentTags from "../../components/environmentTags/environmentTags.component.jsx";
-import ApiInformationLink from "../../components/apiInformationLink/apiInformationLink.component.jsx";
 import NotFoundPage from "../error/NotFound.page.jsx";
 import Announcement from "../../components/announcement/announcement.component";
+import ApiInformationTable from "../../components/apiInformationTable/apiInformationTable.component.jsx";
 
 const ApiInformationPage = () => {
     const { apiId } = useParams();
@@ -33,54 +31,10 @@ const ApiInformationPage = () => {
     }, []);
 
     // SwaggerHub API
-    const [swaggerStatus, swaggerData, versions, currentVersion, swaggerUtils, swaggerFunctions] = useSwaggerHubApi({ id: apiId, currentVersion: passedParams.currentVersion }, addAlert);
-    const [getSwaggerHubSpecification] = swaggerUtils;
-    const [changeVersion] = swaggerFunctions;
+    const [swaggerStatus, swaggerData, swaggerUtils] = useSwaggerHubApi({ id: apiId, currentVersion: passedParams.currentVersion }, addAlert);
     // Developer Hub API
-    const [apiStatus, apiData, developerHubFunctions] = useDeveloperHubApi(apiId, addAlert);
-    const [deleteApplication] = developerHubFunctions;
-
-    const formatApiData = () => {
-        const SelectVersion = <Select name={"VersionNo"} options={versions?.map(x => x.version)} selectedOption={currentVersion?.version} onChange={changeVersion} />;
-
-        var swaggerLink;
-        const isLoaded = apiStatus.error ? swaggerStatus.isLoaded : apiStatus.isLoaded;
-        if (isLoaded) {
-            const apiName = apiStatus.error ? swaggerData.info.title : apiData.apiName;
-            swaggerLink = <ApiInformationLink linkText={`${apiName} v${currentVersion?.version} on SwaggerHub`} url={getSwaggerHubSpecification()} />;
-        } else {
-            swaggerLink = <Skeleton />
-        }
-
-        var links; var devUrl; var stagingUrl;
-        if (apiStatus.error) {
-            devUrl = stagingUrl = links = <p>We're having difficulty loading this data.</p>
-        } else {
-            if (apiStatus.isLoaded) {
-                links = <ul>
-                    <li><ApiInformationLink linkText={`${apiData.apiName} Specification`} url={apiData.apiSpecificationLink} /></li>
-                    <li><ApiInformationLink linkText={`${apiData.apiName} GitHub Repository`} url={apiData.githubLink} /></li>
-                </ul>
-                devUrl = <ApiInformationLink linkText={apiData.developmentBaseURL} url={apiData.developmentBaseURL} />
-                stagingUrl = <ApiInformationLink linkText={apiData.stagingBaseURL} url={apiData.stagingBaseURL} />
-
-            } else {
-                links = <ul>
-                    <li><Skeleton /></li>
-                    <li><Skeleton /></li>
-                </ul>
-                devUrl = stagingUrl = <Skeleton />
-            }
-        }
-
-        TableData.push(
-            ["Version", SelectVersion],
-            ["SwaggerHub Specification", swaggerLink],
-            ["Development Base URL", devUrl],
-            ["Staging Base URL", stagingUrl],
-            ["Relevant Links", links]
-        );
-    }
+    const [apiStatus, apiData, developerHubUtils] = useDeveloperHubApi(apiId, addAlert);
+    const [deleteApplication] = developerHubUtils;
 
     if (swaggerStatus.error && apiStatus.error) {
         if (swaggerStatus.error.response?.status === 404 && apiStatus.error.response?.status === 404)
@@ -95,19 +49,15 @@ const ApiInformationPage = () => {
         );
     }
 
-    const TableData = [];
-    if (!(apiStatus.error && swaggerStatus.error))
-        formatApiData();
-
     return (
         <main className="lbh-main-wrapper" id="main-content" role="main">
             <div id="api-info-page" className="lbh-container">
                 <div className="sidePanel">
                     <Breadcrumbs />
-                    {!currentVersion && <Skeleton />}
-                    {(currentVersion && !swaggerStatus.error) &&
-                        <span className={`govuk-tag lbh-tag${currentVersion.isPublished ? "--green" : "--yellow"} published-status-tag`}>
-                            {currentVersion.isPublished ? "Live" : "In Development"}
+                    {!swaggerStatus.isLoaded && <Skeleton />}
+                    {(swaggerStatus.isLoaded && !swaggerStatus.error) &&
+                        <span className={`govuk-tag lbh-tag${swaggerData.currentVersion.isPublished ? "--green" : "--yellow"} published-status-tag`}>
+                            {swaggerData.currentVersion.isPublished ? "Live" : "In Development"}
                         </span>
                     }
                     <h1>
@@ -116,8 +66,7 @@ const ApiInformationPage = () => {
                     </h1>
 
                     {!swaggerStatus.isLoaded && <Skeleton />}
-                    {(swaggerStatus.isLoaded && !swaggerStatus.error) && <EnvironmentTags tags={swaggerData.tags && swaggerData.tags.map(tag => (tag.name))} />}
-                    {swaggerStatus.error && <EnvironmentTags error={true} />}
+                    {swaggerStatus.isLoaded && <EnvironmentTags tags={swaggerData?.tags && swaggerData?.tags.map(tag => (tag.name))} error={swaggerStatus.error !== null}/>}
 
                     <p className="lbh-body-m">
                         {!apiStatus.error && (apiData.description || <Skeleton />)}
@@ -128,11 +77,10 @@ const ApiInformationPage = () => {
                 <div className="main-container">
                     <span className="govuk-caption-xl lbh-caption">API Information</span>
                     <hr />
-                    <Table tableData={TableData} />
-
-                    {!apiStatus.error && <ApplicationsTable apiStatus={apiStatus} apiData={apiData} deleteApplication={deleteApplication} addAnnouncement={addAlert} />}
+                    <ApiInformationTable apiStatus={apiStatus} apiData={apiData} swaggerStatus={swaggerStatus} swaggerData={swaggerData} swaggerUtils={swaggerUtils} />
+                    <ApplicationsTable apiStatus={apiStatus} apiData={apiData} deleteApplication={deleteApplication} addAnnouncement={addAlert} />
+                    {alerts}
                 </div>
-                {alerts}
             </div>
         </main>
     );

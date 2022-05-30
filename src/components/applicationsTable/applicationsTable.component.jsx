@@ -28,7 +28,7 @@ const ApplicationsTable = (props) => {
     }
     const rows = [];
 
-    if (apiStatus.isLoaded) {
+    if (apiStatus.isLoaded && !apiStatus.error) {
         const applications = apiData.applications;
         for (let i = 0; i < applications.length; i += 2) {
             const row = applications.slice(i, i + 2);
@@ -82,7 +82,7 @@ const ApplicationsTable = (props) => {
                     </div>
                 ))}
 
-                {apiStatus.isLoaded && apiData.applications.length === 0 && <p className="lbh-body-m">No applications found.</p>}
+                {apiStatus.isLoaded && !apiStatus.error && apiData.applications.length === 0 && <p className="lbh-body-m">No applications found.</p>}
                 {!apiStatus.isLoaded && <Skeleton />}
             </dl>
         </div>
